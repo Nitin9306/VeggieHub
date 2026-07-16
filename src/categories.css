@@ -72,7 +72,17 @@
     font-size: 14px;
 }
 
-/* responsive design */
+.lefr img{
+    width: 200px;
+    height: 90px;
+    margin-left: -10px;
+    margin-top: 10px;
+   
+}
+.leg{
+
+    margin-top: 30px !important;
+}
 
 
 @media (max-width:768px){

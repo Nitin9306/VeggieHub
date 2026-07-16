@@ -3,22 +3,22 @@ import { Link,NavLink } from "react-router-dom";
 import logo from "../pages/images/logos.png";
 import products from "../productsData";
 import { FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes,FaHome, 
-         FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart } from "react-icons/fa";
+         FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart, } from "react-icons/fa";
 import { useState,useEffect } from "react";
 
 function Navbar({search,setsearch}) {
-  const [user,setuser]=useState(null);
+ const [user,setuser]=useState(null);
+ useEffect (()=>{
+  const saveduser= localStorage.getItem("user");
+  if(saveduser){
+    setuser(JSON.parse(saveduser));
+  }
+ },[]);
   const [menuopen,setmenuopen]=useState(false);
   const [showsearch,setshowsearch]=useState(false);
   const cartcount = 
   JSON.parse(localStorage.getItem("cart"))?.length ||0;
-  useEffect (()=> {
-    const storedUser =
-    JSON.parse(localStorage.getItem("user"));
-    if(storedUser){
-      setuser(storedUser);
-    }
-  }, []);
+
 
   const filteredProducts=products.filter((item) =>
   item.name.toLowerCase().includes(search.toLowerCase()));
@@ -27,7 +27,7 @@ function Navbar({search,setsearch}) {
     <nav className="navbar">
 
       <div className="logo">
-        <img src={logo} alt="logo" />
+        <Link to="/"><img src={logo} alt="logo" /></Link>
       </div>
 
 
@@ -82,17 +82,19 @@ function Navbar({search,setsearch}) {
 
       <div className= "homes">
         <ul className="paged">
-          <li><Link className="home" to="/">
-          Home</Link></li>
+          <li><NavLink className="home" to="/">
+          Home</NavLink></li>
+          <li><NavLink className="home" to="/allproduct">Shop</NavLink></li>
 
-          <li><Link className="home" to="/about">
-          About</Link></li>
+          <li><NavLink className="home" to="/about">
+          About</NavLink></li>
 
-          <li><Link className="home" to="/service">
-           Services</Link></li>
+          <li><NavLink className="home" to="/service">
+           Categories</NavLink></li>
 
-          <li><Link className="home" to="/contact">
-          Contact</Link></li>
+          <li><NavLink className="home" to="/contact">
+          Contact</NavLink></li>
+          
         </ul>
       </div>
 
@@ -185,10 +187,15 @@ function Navbar({search,setsearch}) {
           <FaInfoCircle />About
           </Link>
         </li>
+         <li>
+          <Link className="home" to="/allproduct" onClick={()=>setmenuopen(false)}>
+          <FaShoppingCart/>Shop
+          </Link>
+        </li>
 
         <li>
           <Link className="home" to="/service" onClick={()=>setmenuopen(false)}>
-          <FaConciergeBell/>Service
+          <FaShoppingCart/>category
           </Link>
         </li>
 

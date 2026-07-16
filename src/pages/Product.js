@@ -1,22 +1,22 @@
 import "./Product.css";
 import { useParams } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import { FaExclamationCircle, FaHeart, FaTruck } from "react-icons/fa";
 import { FaChevronDown, FaChevronUp , FaStar } from "react-icons/fa";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import products from "../productsData";
-import { FaTimes,FaShoppingCart,FaBolt, FaLock,} from "react-icons/fa";
+import { FaTimes,FaShoppingCart,FaBolt, FaLock, FaBiking, FaClock ,FaBoxOpen,
+  FaWeightHanging,FaLeaf,FaWarehouse,FaUndoAlt,FaExclamation,FaCircle,FaPlus,FaMinus} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios, { Axios } from "axios";
+import Review from "../components/Review";
 
 
 function Product() {
   const { id } = useParams();
 
   const product = products.find((item) => item.id == id);
-
- 
-
+  const [opendiv,setopendiv]=useState("");
   const [liked, setliked] = useState(false);
-  // const [open, setopen] = useState(true);
   const [showPopup,setShowPopup]=useState(false);
   const [showCheckout,setshowCheckout]=useState(false);
   const [showSuccess,setshowSuccess]=useState(false);
@@ -27,12 +27,35 @@ function Product() {
   const [address,setaddress]=useState("");
   const[payment,setpayment]=useState("");
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(()=>{
+    if(user){
+      setname(user.name || "");
+      setmail(user.email || "");
+      setmobile(user.phone || "");
+    }
+  }, []);
   const[submitted,setsubmitted]=useState(false);
+  const [showbuy,setshowbuy] =useState(false);
 
    if (!product) {
 
     return <h2>Product Not Found</h2>;
   }
+
+
+  const addtocart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const exists = cart.find((item) => item.id === product.id);
+    if(exists){
+      exists.qty += qty;
+    } else{
+      cart.push({
+        ...product,qty,
+      });
+    }
+    localStorage.setItem("cart",JSON.stringify(cart));
+  };
 
 const relatedproducts = products.filter((item)=> item.id !==product.id)
 .slice(0,4);
@@ -63,19 +86,15 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 
   <div className="names">
 
-    <h2>{product.name}</h2>
-
-    <div className="rating-box">
-      <FaStar className="star" />
-      <span>{product.rating}</span>
-    </div>
+    <h2>{product.name} 1kg <FaStar className="stare" />
+      <span>{product.rating}</span></h2>
 
     <p className="pack">{product.pack}</p>
 
     <div className="price-box">
 
   <h1 className="price">
-   ₹{product.price*qty}
+   ₹{product.price*qty} kg
   </h1>
 
   <span className="old-price">
@@ -88,19 +107,19 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 
 </div>
 
-    <p className="delivery">
-      🚚 Delivery in 20–30 mins
+    <p className="delivery del">
+      <FaBiking className="frees"/>Delivery in 20–30 mins
     </p>
 
     <p className="stock">
-      🟢 Fresh & In Stock
+      <FaCircle className="frees cire"/> Fresh & In Stock
     </p>
 
     <div className="feature-list">
   <div className="feature-item"> 100% Fresh Product</div>
-  <div className="feature-item">Free Delivery Above ₹499</div>
-  <div className="feature-item"><FaLock/> Secure Checkout</div>
-  <div className="feature-item">🕒 Easy Return Policy</div>
+  <div className="feature-item"><FaTruck className="frees"/>Free Delivery Above ₹499</div>
+  <div className="feature-item"><FaLock className="frees"/>Secure Checkout</div>
+  <div className="feature-item"><FaClock className="frees"/>No Return Policy</div>
 </div>
 
   </div>
@@ -113,30 +132,39 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 </div>
 
 <div className="quantity-section">
-  <p>Quantity <span>{qty}</span></p>
+  <p>Quantity: <span>{qty}</span></p>
 
   <div className="product-qty">
-    <button onClick={() => setqty(qty > 1 ? qty - 1 : 1)}>-</button>
+    <button onClick={() => setqty(qty > 1 ? qty - 1 : 1)}><FaMinus className="equal"/></button>
 
     <span>{qty}</span>
 
-    <button onClick={() => setqty(qty + 1)}>+</button>
+    <button onClick={() => setqty(qty + 1)}><FaPlus className="equal"/></button>
   </div>
 </div>
 
         <div className="cart-buttons">
 
   <button
-    className="cart-btn"
-    onClick={() => setShowPopup(true)}
+    className="cart-btn" 
+   onClick={()=> {addtocart(); setShowPopup(true);
+    setTimeout(()=>{
+      setShowPopup(false);
+    },2000);
+
+   }}
   >
     <FaShoppingCart className="shoping"/> Add to Cart
   </button>
 
   <button
-    className="buy-btn"
+    className="buy"
     onClick={() => {
-      setshowCheckout(true);
+      if(!user){
+        alert("Please Login First to place Order");
+        navigate("/login");
+      }
+    setshowbuy(true);
     }}
   >
     <FaBolt/> Buy Now
@@ -144,24 +172,102 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
   
 
 </div>
-        <div className="info-icons">
-          <h3>
-            Product Information
-          </h3>
-          <p className="info-subtitle">
-  Fresh  •Organic  •Premium Quality
-</p>
+       <div className="product-infos">
+        <div className="section-header" onClick={() => 
+          setopendiv(opendiv === "details" ? "" : "details")}>
+           <h4>Product Details</h4>
+           {opendiv === "details" ? (
+            <FaChevronUp />
+           ) : (
+            <FaChevronDown/>
+           )}
+        </div>
+       
+       {opendiv === "details" && (
+       <div className="section-content">
+        <div className="detail-box">
+          <FaBoxOpen className="detail-icon"/>
+          <span><strong>Product:</strong> {product.name}</span>
         </div>
 
-        
+        <div className="detail-box">
+          <FaLeaf className="detail-icon"/>
+          <span><strong>Category:</strong> {product.category}</span>
+        </div>
+
+        <div className="detail-box">
+          <FaWeightHanging className="detail-icon"/>
+          <span><strong>Weight:</strong> {product.pack}</span>
+        </div>
+
+        <div className="detail-box">
+          <FaLeaf className="detail-icon"/>
+          <span><strong>Quality:</strong> Premium Farm fresh</span>
+        </div>
+
+        <div className="detail-box">
+          <FaWarehouse className="detail-icon"/>
+          <span><strong>Storage:</strong> Store in a cool & dry place</span>
+        </div>
+        </div>
+        )}
+     </div>
+
+
+
+
+
+        <div className="cancel-box">
+
+          <div className="section-header" onClick={() => setopendiv(
+            opendiv === "policy" ? "" : "policy"
+          )}>
+             <h4>Cancellation & Return Policy</h4>
+             {opendiv === "policy" ? (
+              <FaChevronUp />
+             ) : (
+              <FaChevronDown/>
+             )}
+
+          </div>
+         
+           {opendiv === "policy" && (
+            <div className="section-content">
+          <div className="policy-item">
+            <FaUndoAlt  className="policy-icon"/>
+            <span>Orders can be cancelled before dispatch.</span>
+          </div>
+
+          <div className="policy-item">
+            <FaExclamationCircle className="policy-icon"/>
+            <span>Fresh fruits  & vegetables are non-returnable because they are perishable products.</span>
+          </div>
+
+          <div className="policy-item">
+            <FaUndoAlt className="policy-icon"/>
+            <span>If you recieve a damaged or wrong products,report it within 24 hours for a replacement or refund.</span>
+          </div>
+          </div>
+          )}
+      </div>
       
     
 
 
       </div>
     </div>
-    {/* pop up */}
+
+
     {showPopup && (
+      <div className="cart-popup">
+        <div className="pop-txts">
+          <h4>Added to Cart</h4>
+          <p>{product.name} added successfully!</p>
+        </div>
+        <button onClick={()=>navigate("/cart")}>Go to Cart</button>
+      </div>
+    )}
+    {showbuy && (
      <div className="popup-overlay">
         <div className="popup">
           <div className="popup-product">
@@ -193,8 +299,14 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
           <hr/>
           <p className="popup=delivery"> delivery in 20-30 mins</p>
           <p className="popup-secure"> 100% Secure Checkout</p>
-          <button  className="place-order" onClick={()=>{setShowPopup(false); setshowCheckout(true);}}>Proceed to Checkout</button>
-          <button className="close-btn" onClick={()=>setShowPopup(false)}><FaTimes/></button>
+          <button  className="place-order" onClick={()=>{
+            if(!user){
+              alert("Please Login first to Place Order");
+              navigate("/login");
+              return;
+            }
+            setshowbuy(false); setshowCheckout(true);}}>Proceed to Checkout</button>
+          <button className="close-btn" onClick={()=>setshowbuy(false)}><FaTimes/></button>
 
         </div>
      </div>
@@ -203,13 +315,13 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 {showCheckout && (
  <div className="checkout-overlay">
   <div className="checkout-box">
-   
+   <button className="close-btnedd" onClick={()=> setshowCheckout(false)}> <FaTimes /></button>
     <h2>Checkout</h2>
-    <input type="text" placeholder="Enter Full Name*" value={name} onChange={(e)=>setname(e.target.value)}/>
+    <input type="text" readOnly placeholder="Enter Full Name*" value={name} onChange={(e)=>setname(e.target.value)}/>
     {submitted && !name.trim() && (<p className="errors">Please enter full name</p>)}
-    <input type="email" placeholder="Enter Your mail address*" value={mail} onChange={(e)=>setmail(e.target.value)} />
+    <input type="email" readOnly placeholder="Enter Your mail address*" value={mail} onChange={(e)=>setmail(e.target.value)} />
     {submitted && !mail.trim() && (<p className="errors">Please enter full mail address</p>)}
-    <input type="tel" maxLength="10" placeholder="Enter Your Mobile number*" value={mobile} onChange={(e)=>setmobile(e.target.value)}/>
+    <input type="tel" readOnly maxLength="10" placeholder="Enter Your Mobile number*" value={mobile} onChange={(e)=>setmobile(e.target.value)}/>
     {submitted && mobile.length !==10 && (<p className="errors">Please enter 10 digit Mobile number</p>)}
     <textarea placeholder="Enter Delivery Address*" value={address} onChange={(e) =>setaddress(e.target.value)} />
       {submitted && !address.trim() && (<p className="errors">Please enter full delivery address</p>)}
@@ -228,7 +340,7 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
    
     <h3>Total: ₹{product.price*qty}</h3>
     <button className="confirms" 
-    onClick={()=>{
+    onClick={async ()=>{
       setsubmitted(true);
   
 
@@ -243,6 +355,21 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
         
         return;
       }
+      await 
+      axios.post("http://localhost:5000/api/orders", {
+        userId:user._id,
+        name,
+        image:product.image,
+        email:mail,
+        phone:mobile,
+        productName:product.name,
+        productPrice:product.price,
+        quantity:qty,
+        total:product.price*qty,
+        address,
+        payment,
+      });
+
       if(payment === "COD"){
         setshowCheckout(false);
         setshowSuccess(true);
@@ -305,7 +432,7 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
   </div>
 
 </div>
-
+  <Review productId={product.id}/>
      </>
   );
 }

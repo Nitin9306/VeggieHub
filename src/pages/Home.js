@@ -10,6 +10,7 @@ import Categories from "../categories";
 import VeggieHub from "../veggieHub";
 import Footer from "../footer";
 import products from "../productsData";
+import ProductCard from "../components/ProductCard";
 import { FaShoppingCart, FaChevronLeft, FaChevronRight, FaLeaf, FaTruck, FaShieldAlt , FaHeart} from "react-icons/fa";
 import { useRef ,useState} from "react";
 
@@ -49,7 +50,7 @@ setTimeout(() =>
 };
 
 const addtocart = (product) => {
-  // console.log("add to cart clicked");
+ 
   const cart=
   JSON.parse(localStorage.getItem("cart")) ||
   [];
@@ -132,7 +133,7 @@ const addtocart = (product) => {
 
 
       <div className="btnes">
-      <button className="btn1">Browse Products</button>
+      <button className="btn1" onClick={()=> navigate("/allproduct")}>Browse Products</button>
       <button className="btn2">Explore More</button>
 
       </div>
@@ -191,24 +192,13 @@ const addtocart = (product) => {
 
         <div className="product" ref={vegRef}>
 
-           {
-          vegetables.map((item)=> (
-            <div className="card" key={item.id}>
-              <div className="wishlist-btn"
-              onClick={()=>addToWishList(item)}>
-                <FaHeart className="wishlist-icon" />
-              </div>
-              
-             <img src= {item.image} alt= {item.name} />
-            <h3>{item.name}</h3>
-              <h2>{item.price}/kg</h2>
-              <Link to={`/product/${item.id}`}>
-               <button>Buy Now</button>
-                </Link>
-
-                </div>
-              ))
-               }
+          {vegetables.map((item)=> (
+            <ProductCard key ={item.id}
+            item ={item}
+            addtoCart={addtocart}
+            addToWishlist = {addToWishList}
+            page="home" />
+          ))}
 
          
 
@@ -242,22 +232,12 @@ const addtocart = (product) => {
         </button>
 
         <div className="product" ref={fruitRef}>
-         {fruits.map((item) => (
-          <div className="card" key={item.id}>
-            <div className="wishlist-btn"
-            onClick={()=>addToWishList(item)}>
-              
-                <FaHeart className="wishlist-icon" />
-              </div>
-              
-            
-            <img src={item.image}/>
-            <h3>{item.name}</h3>
-            <h2>{item.price}/kg</h2>
-            <Link to={`/product/${item.id}`}>
-            <button>Buy Now</button>
-            </Link>
-          </div>
+         {fruits.map((item)=> (
+          <ProductCard key={item.id}
+          item ={item}
+          addtoCart={addtocart}
+          addToWishList ={addToWishList}
+          page="home" />
          ))}
         
 
@@ -291,7 +271,7 @@ const addtocart = (product) => {
       Use Code : <span>VEGGI120</span>
     </h4>
 
-    <button className="shop-btn">
+    <button className="shop-btn" onClick={()=> navigate("/allproduct")}>
       Shop Now →
     </button>
 

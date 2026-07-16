@@ -1,5 +1,6 @@
 import logo from "./pages/images/logos.png";
 import "./footer.css";
+import { Link } from "react-router-dom";
 import { FaFacebookF,FaInstagram,FaTwitter,FaYoutube, FaPhone,FaEnvelope,FaMapMarkedAlt} from "react-icons/fa";
 function footer(){
     return(
@@ -7,7 +8,7 @@ function footer(){
         <div className="footer">
                
                     <div className="foot-img veggie">
-                        <img src={logo}></img>
+                        <Link to="/"><img src={logo}></img></Link>
                          <div className="shope">
                               <p>Your one stop shop for farm fresh vegetables and fruits. We deliver freshness at your doorstep.</p>
                          </div>
@@ -23,11 +24,11 @@ function footer(){
                 <div className="links">
                     <ul className="quick">
                         <h2>Quick Links</h2>
-                        <li>Home</li>
-                         <li>Shop</li>
-                          <li>Categories</li>
-                           <li>About Us</li>
-                            <li>Contact Us</li>
+                        <Link to="/" className="alld"><li>Home</li></Link>
+                         <Link to= "/allproduct" className="alld"><li>Shop</li></Link>
+                          <Link to="/service" className="alld"><li>Categories</li></Link>
+                           <Link to="/about" className="alld"><li>About Us</li></Link>
+                            <Link to="/contact" className="alld"><li>Contact Us</li></Link>
                     </ul>
                 </div>
 
@@ -48,7 +49,7 @@ function footer(){
                 <div className="links">
                     <ul className="quick number">
                         <h2>Contact Us</h2>
-                        <li> <FaPhone  className="support"/>91+9306593030</li>
+                        <li> <FaPhone  className="support ph"/>91+9306593030</li>
                          <li> <FaEnvelope className="support" />support@veggiehub.com</li>
                           <li> <FaMapMarkedAlt  className="support"/>yamuna nagar Haryana india (135001)</li>
                            

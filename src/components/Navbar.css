@@ -169,7 +169,9 @@ html,body{
 
 
 
-
+.active{
+    color: rgb(238, 172, 48);
+}
 
 
 .search-results
