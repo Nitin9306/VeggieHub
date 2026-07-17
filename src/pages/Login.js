@@ -2,6 +2,7 @@ import axios from "axios";
 import "./login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
 
@@ -22,7 +23,7 @@ function Login() {
     const handleSubmit = async () => {
 
         if (!email || !phone || !password) {
-            alert("Please fill all fields");
+           toast.warning("Please fill all fields");
             return;
         }
 
@@ -30,13 +31,13 @@ function Login() {
         if (isRegister) {
 
             if (!name) {
-                alert("Please enter your name");
+                toast.warning("Please enter your name");
                 return;
             }
 
 
             if (password !== confirmPassword) {
-                alert("Password not matched");
+            toast.warning("Password not matched");
                 return;
             }
         }
@@ -69,7 +70,7 @@ function Login() {
 
             if (isRegister) {
 
-                alert("Account Created Successfully");
+                toast.success("Account Created Successfully");
 
                 setIsRegister(false);
 

@@ -4,6 +4,7 @@ import "./cart.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaTimes,FaTruck } from "react-icons/fa";
+import { toast } from "react-toastify";
 function Cart()
 {
      const [showCheckout,setshowCheckout]=useState(false);
@@ -169,7 +170,7 @@ localStorage.setItem(
                     setshowSuccess(true);
                   } catch (err){
                     console.log(err);
-                    alert("Order Failed");
+                   toast.warning("Order Failed");
                   }
                   
                  

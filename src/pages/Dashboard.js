@@ -1,9 +1,9 @@
 import "./dashboard.css";
 import { FaUser, FaShoppingBag, FaHeart,FaSignOutAlt,FaTimes, FaArrowLeft, FaMapMarkerAlt, FaLock, FaEdit,FaPhone,FaBox,FaTruck,FaShippingFast,FaCheckCircle } from "react-icons/fa";
 import { useState,useEffect} from "react";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 
 
 function Dashboard(){
@@ -12,12 +12,13 @@ function Dashboard(){
     const user = userData ? JSON.parse(userData) : null;
     const [order,setorder]=useState([]);
     const [activetab,setactivetab]=useState("profile");
-
+    const [wishlist,setwishlist]=useState([]);
     const [showEdit,setShowEdit] = useState(false);
     const [showprofile,setshowprofile]=useState(false);
     const [name,setName] = useState(user?.name || "");
     const [email,setEmail] = useState(user?.email || "");
     const [phone,setPhone] = useState(user?.phone || "");
+    const navigate =useNavigate();
 
        useEffect(()=>{
         const fetchOrders = async()=>{
@@ -33,8 +34,51 @@ function Dashboard(){
         };
         if(user){
             fetchOrders();
+            fetchWishlist();
         }
     },[]);
+
+    const fetchWishlist = async () =>{
+        try{
+            const res = await axios.get(`https://veggiehub-1037.onrender.com/api/wishlist/${user._id}`);
+            setwishlist(res.data);
+        }
+        catch (err){
+            console.log(err);
+        }
+    };
+
+    const removewish  = async (id)=>{
+        try{
+            await axios.delete(`https://veggiehub-1037.onrender.com/api/Wishlist/${id}`);
+            setwishlist(wishlist.filter((item)=>
+                item._id !== id)
+            );
+            
+        } catch(err){
+            console.log(err);
+        }
+    };
+    const addtocart  = async(item) =>{
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const exist =cart.find((p) => p.id === item.productId);
+        if(exist){
+            exist.qty +=1;
+        } else{
+            cart.push({
+                id:item.productId,
+                name:item.name,
+                price:item.price,
+                image:item.image,
+                category:item.category,
+                qty:1,
+            });
+        }
+        localStorage.setItem("cart",JSON.stringify(cart));
+        await removewish(item._id);
+       toast.success("Product Added to Cart");
+        navigate("/cart");
+    }
 
     if(!user){
         return <h2>Please Login Again</h2>;
@@ -287,9 +331,30 @@ function Dashboard(){
  {activetab ==="wishlist" && (
 
     <div className="wishlist-sec">
-        <button className="back-btn wish" onClick={()=>setactivetab("profile")}><FaArrowLeft/>Back to Profile</button>
+        <button className="back-btn wish" onClick={()=>setactivetab("profile")}><FaArrowLeft/>Back</button>
         <h2 className="ore">My Wishlist</h2>
         <p>Your wishlist products will appear here.</p>
+        {wishlist.length ===0 ? (
+            <p>No Wishlist Products</p>
+
+        ) : (
+
+            <div className="wish-grid">
+            
+                {wishlist.map((item)=>(
+                    <div className="wishlist-care" key={item.id}>
+                        <img src={item.image} alt={item.name} className="wishl-img"/>
+                        <h3>{item.name}</h3>
+                        <p>₹{item.price}</p>
+                        <div className="wish-bten">
+                            <button className="wish-bt" onClick={()=>addtocart(item)}>Add to Cart</button>
+                            <button className="remove-bt" onClick={()=>removewish(item._id)}>Remove</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )}
+        
     </div>
  )}
 

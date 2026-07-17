@@ -9,6 +9,7 @@ import { FaTimes,FaShoppingCart,FaBolt, FaLock, FaBiking, FaClock ,FaBoxOpen,
 import { useNavigate } from "react-router-dom";
 import axios, { Axios } from "axios";
 import Review from "../components/Review";
+import { toast } from "react-toastify";
 
 
 function Product() {
@@ -16,7 +17,7 @@ function Product() {
     try{
       const user = JSON.parse(localStorage.getItem("user"));
       if(!user){
-        alert("Please Login First");
+       toast("Please Login First");
         return;
       }
       await axios.post("https://veggiehub-1037.onrender.com/api/wishlist",{
@@ -28,7 +29,7 @@ function Product() {
         category:product.category,
       });
       setliked(true);
-      alert("Added to Wishlist");
+     toast.success("Added to Wishlist");
     } catch (error){
       console.log(error);
       console.log(error.response);
@@ -83,7 +84,60 @@ function Product() {
 const relatedproducts = products.filter((item)=> item.id !==product.id)
 .slice(0,4);
 
+const handlepayment  =async () =>{
+  try{
+    const {data} = await
+    axios.post(
+      "https://veggiehub-1037.onrender.com/api/payment/order",
+      {
+        amount:product.price * qty,
+      }
+    );
+    const options = {
+      key:"rzp_test_TEYsTguo7KsPG3",
+      amount:data.amount,
+      currency:data.currency,
+      name:"VeggieHub",
+      description:"Order Payment",
+      order_id:data.id,
+     handler: async function (response) {
+  try {
+    await axios.post(
+      "https://veggiehub-1037.onrender.com/api/orders",
+      {
+        userId: user._id,
+        name,
+        image: product.image,
+        email: mail,
+        phone: mobile,
+        productName: product.name,
+        productPrice: product.price,
+        quantity: qty,
+        total: product.price * qty,
+        address,
+        payment: "ONLINE",
+      }
+    );
 
+    setshowCheckout(false);
+    setshowSuccess(true);
+
+    toast.success("🎉 Payment Successful!");
+
+    console.log(response);
+
+  } catch (err) {
+    console.log(err);
+    toast.error("Order save failed");
+  }
+}
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  } catch(err){
+    console.log(err);
+  }
+};
 
   return (
     <>
@@ -183,7 +237,7 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
     className="buy"
     onClick={() => {
       if(!user){
-        alert("Please Login First to place Order");
+       toast.error("Please Login to first place order");
         navigate("/login");
       }
     setshowbuy(true);
@@ -323,7 +377,7 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
           <p className="popup-secure"> 100% Secure Checkout</p>
           <button  className="place-order" onClick={()=>{
             if(!user){
-              alert("Please Login first to Place Order");
+              toast.error("Please Login First to Place Order");
               navigate("/login");
               return;
             }
@@ -395,7 +449,7 @@ console.log("order response:",res.data);
     }
     catch(err){
       console.log("order error",err.response?.data || err.message);
-      alert("order save failed");
+      toast.error("Order save failed");
       return;
     }
       if(payment === "COD"){
@@ -403,7 +457,8 @@ console.log("order response:",res.data);
         setshowSuccess(true);
       }
       if(payment ==="ONLINE"){
-        alert("Online Payment Coming Soon!");
+       handlepayment();
+       return;
       }
     
 

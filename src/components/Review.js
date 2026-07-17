@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import {FaStar} from "react-icons/fa";
 import "./review.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 function Review({productId}){
     const [Comment,setComment]=useState("");
     const [rating,setrating]=useState(5);
@@ -18,7 +19,7 @@ function Review({productId}){
     const addreview = ()=>{
         const user = JSON.parse(localStorage.getItem("user"));
         if(!user){
-            alert("Please Login to submit a Review.");
+            toast.info("Please Login to submit your review.");
             return;
         }
         
@@ -30,7 +31,7 @@ function Review({productId}){
             Comment:Comment
         })
         .then((res)=>{
-            alert("Review Added");
+           toast.success("Review Added");
             setComment("");
             setrating(5);
             setreviews((prev)=>[...prev,res.data.review]);

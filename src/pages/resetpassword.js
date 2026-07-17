@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./resetpassword.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
@@ -14,7 +15,7 @@ function Resetpassword(){
 
     const handleReset = async()=>{
         if(passwords !== confirmpass){
-            alert("Password not matched");
+            toast.warning("Password not matched");
             return;
         }
         try{
@@ -25,7 +26,7 @@ function Resetpassword(){
                 }
             );
             if(res.data.success){
-            alert("Password reset successfully! Please login");
+            toast.success("Password reset successfully! Please login");
             Navigate("/login");
           }
         }
