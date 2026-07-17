@@ -18,7 +18,7 @@
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-top: 40px;
+    margin-top: 65px;
 }
 .login-box h1
 {
@@ -299,5 +299,108 @@
     .forgot-box button{
         font-size:16px;
     }
+
+}
+
+
+@media (max-width:768px){
+
+.login-cont{
+    min-height:100vh;
+    padding:20px;
+  margin: 0;
+    align-items:center;
+   
+}
+
+.login-box{
+    width:100%;
+    max-width:380px;
+    padding:30px 20px;
+    margin:25px auto;
+    border-radius:18px;
+}
+
+.login-box h1{
+    font-size:28px;
+}
+
+.login-box p{
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.login-box input{
+    padding:13px;
+    font-size:15px;
+}
+
+.login-box button{
+    padding:13px;
+    font-size:15px;
+}
+
+.forgot-password,
+.switch-account{
+    font-size:14px;
+}
+
+.welcome-boxer{
+    width:92%;
+    padding:25px 20px;
+}
+
+.success-cir{
+    width:75px;
+    height:75px;
+}
+
+.success-checker{
+    font-size:35px;
+}
+
+.welcome-boxer h2{
+    font-size:22px;
+}
+
+.welcome-boxer p{
+    font-size:15px;
+}
+
+.loading-bar{
+    margin:18px 0 12px;
+}
+
+.forgot-box{
+    width:100%;
+    max-width:360px;
+    padding:25px 20px;
+}
+
+.forgot-box h3{
+    font-size:22px;
+}
+
+.forgot-box p{
+    font-size:14px;
+}
+
+.forgot-box input{
+    padding:12px;
+    font-size:14px;
+}
+
+.forgot-box button{
+    padding:12px;
+    font-size:15px;
+}
+
+.close-forgott{
+    width:30px !important;
+    height:30px;
+    font-size:20px !important;
+    top:8px;
+    right:10px;
+}
 
 }

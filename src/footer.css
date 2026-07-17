@@ -7,7 +7,8 @@
     color: white;
     padding: 40px 8%;
     gap: 40px;
-    margin-top: 0;
+    position: relative;
+    width: 100%;
 }
 
 .foot-img{

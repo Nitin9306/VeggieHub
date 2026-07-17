@@ -1,5 +1,5 @@
 import "./dashboard.css";
-import { FaUser, FaShoppingBag, FaHeart,FaSignOutAlt, FaArrowLeft, FaMapMarkerAlt, FaLock, FaEdit,FaPhone,FaBox,FaTruck,FaShippingFast,FaCheckCircle } from "react-icons/fa";
+import { FaUser, FaShoppingBag, FaHeart,FaSignOutAlt,FaTimes, FaArrowLeft, FaMapMarkerAlt, FaLock, FaEdit,FaPhone,FaBox,FaTruck,FaShippingFast,FaCheckCircle } from "react-icons/fa";
 import { useState,useEffect} from "react";
 
 import axios from "axios";
@@ -14,7 +14,7 @@ function Dashboard(){
     const [activetab,setactivetab]=useState("profile");
 
     const [showEdit,setShowEdit] = useState(false);
-
+    const [showprofile,setshowprofile]=useState(false);
     const [name,setName] = useState(user?.name || "");
     const [email,setEmail] = useState(user?.email || "");
     const [phone,setPhone] = useState(user?.phone || "");
@@ -23,7 +23,7 @@ function Dashboard(){
         const fetchOrders = async()=>{
             try{
                 const res = await axios.get(
-                    `http://localhost:5000/api/orders/${user._id}`
+                    `https://veggiehub-1037.onrender.com/api/orders/${user._id}`
                 );
                 setorder(res.data);
                 console.log(res.data);
@@ -67,8 +67,42 @@ function Dashboard(){
 
     <div className="dashboard">
 
+         <div className="mobile-view" onClick={()=>setshowprofile(!showprofile)}><FaUser/></div>
+         <div className="dashboard-mobile-header">
 
-        <div className="profile-card">
+    <div className="profile-img">
+        <FaUser />
+    </div>
+
+    <h2>{user.name}</h2>
+
+    <p>{user.email}</p>
+    <p><FaPhone/> {user.phone}</p>
+    <button 
+            className="mobile-edit"
+            onClick={()=>setShowEdit(true)}
+            >
+
+            <FaEdit/> Edit Profile
+
+            </button>
+            <div 
+                className="mobile-logout"
+               
+                onClick={()=>{
+                    localStorage.removeItem("user");
+                    window.location.href="/login";
+                }}
+             > <FaSignOutAlt className="outeoute"/>
+
+                Logout
+
+                </div>
+
+</div>
+        <div className={`profile-card ${showprofile ? "show-profile" : ""}`}>
+            
+            <div className="profile-close" onClick={()=>setshowprofile(false)}><FaTimes/></div>
 
 
             <div className="profile-img">
@@ -81,6 +115,7 @@ function Dashboard(){
             <p>{user.email}</p>
 
             <p><FaPhone/> {user.phone}</p>
+            
 
 
             <button 
@@ -148,9 +183,19 @@ function Dashboard(){
 
                 {activetab === "orders" && (
                     <div className="orders-sec">
-                        <button className="back-btn" onClick={()=>setactivetab("profile")}>
-                            <FaArrowLeft/>Back to Profile</button>
-                        <h2 className="ore">My Orders</h2>
+                        <div className="order-header">
+
+    <button
+        className="back-btn"
+        onClick={()=>setactivetab("profile")}
+    >
+        <FaArrowLeft/>
+        Back
+    </button>
+
+    <h2>My Orders</h2>
+
+</div>
                         {order.length ===0 ? (
                             <p>No Orders Found</p>
                         ) : (
@@ -159,16 +204,33 @@ function Dashboard(){
                             order.map((item)=> (
                                 <div className="order-car" key={item._id}>
                                     <div className="order-top">
-                                    <img src={item.image} alt={item.productName} className="order-img"/>
-                                    <div className="orderf-details">
-                                    <h3>{item.productName}</h3>
-                                    <p>Quantity: {item.quantity}</p>
-                                    <p>Total: {item.total}</p>
-                                    <p>Payment: {item.payment}</p>                             
-                                    <p><strong>Status:</strong><span className="statued">{item.status}</span></p>
-                                 </div>
-                                 </div>
 
+    <img
+        src={item.image}
+        alt={item.productName}
+        className="order-img"
+    />
+
+    <div className="orderf-details">
+
+        <h3>{item.productName}</h3>
+
+        <p><strong>Quantity:</strong> {item.quantity}</p>
+
+        <p><strong>Total:</strong> ₹{item.total}</p>
+
+        <p><strong>Payment:</strong> {item.payment}</p>
+
+        <p>
+            <strong>Status:</strong>
+            <span className="statued">
+                {item.status}
+            </span>
+        </p>
+
+    </div>
+
+</div>
                                      <div className="track-order">
 
   <div className={`track-step ${

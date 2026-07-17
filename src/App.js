@@ -1,5 +1,5 @@
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -18,10 +18,15 @@ import Scrolltop from "./components/Scrolltop";
 
 
 function App() {
+  const location = useLocation();
+
+const hideLayout = [
+  "/login"
+].includes(location.pathname);
 
   const [message ,setmessage]=useState("");
   useEffect(()=> {
-    fetch("http://localhost:5000")
+    fetch("https://veggiehub-1037.onrender.com")
     .then((res) => res.text())
     .then((data)=>
     setmessage(data))
@@ -31,11 +36,11 @@ function App() {
   const [search,setsearch]=useState("");
   return (
     <>
-    <div>
-      <h2>{message}</h2>
-    </div>
     
-      <Navbar search={search} setsearch={setsearch} />
+    
+     
+  <Navbar search={search} setsearch={setsearch} />
+
       <Scrolltop/>
              
       <Routes>
@@ -51,7 +56,7 @@ function App() {
          <Route path="/allproduct" element={<Allproduct/>}/>
          <Route path="/reset-password/:token" element={<Resetpassword/>}></Route>
       </Routes>
-      <Footer/>
+     {!hideLayout && <Footer />}
     </>
   );
 }

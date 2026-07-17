@@ -79,10 +79,7 @@
     margin-top: 10px;
    
 }
-.leg{
 
-    margin-top: 30px !important;
-}
 
 
 @media (max-width:768px){
@@ -100,6 +97,7 @@
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:15px;
+    padding-bottom: 30px;
 }
 
 .category-card{

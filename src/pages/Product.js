@@ -12,6 +12,29 @@ import Review from "../components/Review";
 
 
 function Product() {
+  const addToWishlist = async()=>{
+    try{
+      const user = JSON.parse(localStorage.getItem("user"));
+      if(!user){
+        alert("Please Login First");
+        return;
+      }
+      await axios.post("https://veggiehub-1037.onrender.com/api/wishlist",{
+        userId:user._id,
+        productId:product.id,
+        name:product.name,
+        price:product.price,
+        image:product.image,
+        category:product.category,
+      });
+      setliked(true);
+      alert("Added to Wishlist");
+    } catch (error){
+      console.log(error);
+      console.log(error.response);
+      alert(error.response?.data?.message ||error.message);
+    }
+  };
   const { id } = useParams();
 
   const product = products.find((item) => item.id == id);
@@ -124,9 +147,8 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 
   </div>
   
- <div className="wishlist-btned"
- onClick={()=>setliked(!liked)} style={{color:liked ? "red" : "#999"}}>
-  <FaHeart  className= {`wishlist-icon ${liked ? "active" : ""}`}/>
+ <div className="wishlist-btned" onClick={addToWishlist} style={{color:liked? "red" :"#999"}}>
+  <FaHeart className={`wishlist-icon ${liked ? "active" : ""}`}/>
  </div>
 
 </div>
@@ -355,8 +377,8 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
         
         return;
       }
-      await 
-      axios.post("http://localhost:5000/api/orders", {
+      try {const res=await 
+      axios.post("https://veggiehub-1037.onrender.com/api/orders", {
         userId:user._id,
         name,
         image:product.image,
@@ -369,7 +391,13 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
         address,
         payment,
       });
-
+console.log("order response:",res.data);
+    }
+    catch(err){
+      console.log("order error",err.response?.data || err.message);
+      alert("order save failed");
+      return;
+    }
       if(payment === "COD"){
         setshowCheckout(false);
         setshowSuccess(true);

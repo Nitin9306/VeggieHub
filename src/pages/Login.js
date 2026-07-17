@@ -45,8 +45,8 @@ function Login() {
         try {
 
             const api = isRegister
-                ? "http://localhost:5000/api/auth/register"
-                : "http://localhost:5000/api/auth/login";
+                ? "https://veggiehub-1037.onrender.com/api/auth/register"
+                : "https://veggiehub-1037.onrender.com/api/auth/login";
 
 
             const userData = isRegister
@@ -240,7 +240,7 @@ function Login() {
                         try{
                             console.log("before api call");
                             const res =await axios.post(
-                                "http://localhost:5000/api/auth/forgot-password",{
+                                "https://veggiehub-1037.onrender.com/api/auth/forgot-password",{
                                     email:forgotmail
                                 }
                             );

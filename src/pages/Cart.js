@@ -152,7 +152,7 @@ localStorage.setItem(
 
                   try{
                     for(const item of cartitem){
-                        await axios.post("http://localhost:5000/api/orders",{
+                        await axios.post("https://veggiehub-1037.onrender.com/api/orders",{
                             userId:user._id,
                             name,
                             email:mail,

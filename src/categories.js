@@ -12,11 +12,7 @@ function categories()
                 <h2>Shop by category</h2>
                 <div className="category-container">
 
-                    <div className="category-card lefr">
-                    <img src={lefr}></img>
-                    <h3 className="leg">leafy</h3>
-                    <p>Fresh green vegetables</p>
-                    </div>
+                   
                     <div className="category-card">
                     <img src={root}></img>
                     <h3>Root</h3>
@@ -27,7 +23,7 @@ function categories()
                     <h3>Seasonal</h3>
                     <p>Best vegetables of season</p>
                     </div>
-                    <div className="category-card lefr">
+                    <div className="category-card lefre">
                     <img src={lefr}></img>
                     <h3 className="leg">Leafy Green</h3>
                     <p>100% natural products</p>

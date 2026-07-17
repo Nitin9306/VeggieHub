@@ -1,5 +1,6 @@
 const orderRoutes = require("./routes/order");
 const authRoutes =require("./routes/auth");
+const wishlistRoutes = require("./routes/wishlist");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -28,6 +29,7 @@ mongoose
     app.use("/api/orders",orderRoutes);
     app.use("/api/reviews",
         require("./routes/reviews"));
+        app.use("/api/wishlist",wishlistRoutes);
 
 
    

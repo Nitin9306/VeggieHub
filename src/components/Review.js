@@ -8,7 +8,7 @@ function Review({productId}){
     const [reviews,setreviews]=useState([]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:5000/api/reviews/${productId}`)
+        axios.get(`https://veggiehub-1037.onrender.com/api/reviews/${productId}`)
         .then(res =>{
            
             setreviews(res.data);
@@ -22,7 +22,7 @@ function Review({productId}){
             return;
         }
         
-        axios.post("http://localhost:5000/api/reviews",{
+        axios.post("https://veggiehub-1037.onrender.com/api/reviews",{
             productId,
             userId:user._id,
             userName:user.name,
