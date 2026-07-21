@@ -15,6 +15,8 @@ function Dashboard(){
     const [wishlist,setwishlist]=useState([]);
     const [showEdit,setShowEdit] = useState(false);
     const [showprofile,setshowprofile]=useState(false);
+    const [showbill,setshowbill]= useState(false);
+    const [seleted,setselected]=useState(null);
     const [name,setName] = useState(user?.name || "");
     const [email,setEmail] = useState(user?.email || "");
     const [phone,setPhone] = useState(user?.phone || "");

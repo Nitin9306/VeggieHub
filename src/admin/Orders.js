@@ -1,5 +1,6 @@
 import React, {useEffect,useState} from "react";
 import axios from "axios";
+import Sidebar from "./Sidebar";
 import "./Orders.css";
 function Orders(){
     const [orders,setorders]=useState([]);
@@ -27,10 +28,11 @@ function Orders(){
     };
     return(
         <div className="admin-orderss"><h1>Manage Orders</h1>
+        <Sidebar/>
         <table>
             <thead>
                 <tr>
-                    <th>Customer</th>
+                    <th>Customer Name</th>
                     <th>Product</th>
                     <th>Total</th>
                     <th>Payment</th>

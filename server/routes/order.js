@@ -5,7 +5,16 @@ router.post("/",async(req,res)=>{
     try
     {
          console.log("Order Data:",req.body);
-        const order = await Order.create(req.body);
+         const now  = new Date();
+         const date = now.getFullYear().toString() + String(now.getMonth()+ 1).padStart(2, "0") +
+         String(now.getDate()).padStart(2, "0");
+         const random = Math.floor(1000+Math.random() * 9000);
+         const orderId = `VH${date}${random}`;
+         const invoiceNo = `INV${date}${random}`;
+        const order = await Order.create({...req.body,
+            orderId,
+            invoiceNo,
+        });
         console.log("Saved order",order);
         res.status(201).json({
             success:true,

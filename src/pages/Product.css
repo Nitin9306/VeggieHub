@@ -771,10 +771,7 @@ h5 {
 {
     font-size: 16px;
 }
-.onlines
-{
-    text-decoration: line-through;
-}
+
 .confirms:disabled
 {
     background-color: #bdbdbd;
@@ -1172,4 +1169,42 @@ transform: scale(1);
 .sm{
     color: #15803D !important;
     font-weight: bold !important;
+}
+.dicont{
+    color: #15803D;
+    margin-top: -5px;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+.loaderr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+.loaderr span{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-top: 5px;
+    animation: bounce .6s infinite alternate;
+}
+.loaderr span:nth-child(2){
+    animation-delay: .2s;
+}
+.loaderr span:nth-child(3){
+    animation-delay: .4s;
+}
+@keyframes bounce{
+    from{
+        transform: translateY(0);
+    }
+    to{
+        transform: translateY(-7px);
+    }
+}
+.confirms:disabled{
+    opacity: 8;
+    cursor: not-allowed;
 }

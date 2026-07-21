@@ -44,6 +44,19 @@ const orderSchema = new mongoose.Schema({
   payment: {
     type: String,
   },
+  orderId:{
+    type:String,
+  },
+  invoiceNo:{
+    type:String,
+  },
+  paymentId:{
+    type:String,
+  },
+  paymentStatus:{
+    type:String,
+    default:"Pending",
+  },
 
   status: {
     type: String,

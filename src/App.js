@@ -20,6 +20,7 @@ import Products from "./admin/Products";
 import Orders from "./admin/Orders";
 import Users from "./admin/Users";
 import Coupons from "./admin/Coupons";
+import NavCoupon from "./pages/NavCoupon";
 
 
 function App() {
@@ -67,6 +68,7 @@ const hideLayout = location.pathname === "/login" || location.pathname.startsWit
          <Route path="/admin/orders" element={<Orders/>}/>
          <Route path="/admin/users" element={<Users/>}/>
          <Route path="/admin/coupons" element={<Coupons/>}/>
+         <Route path="/NavCoupon" element={<NavCoupon/>}></Route>
       </Routes>
      {!hideLayout && <Footer />}
     </>

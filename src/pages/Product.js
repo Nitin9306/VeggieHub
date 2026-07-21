@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 function Product() {
   const [couponcode,setcouponcode]=useState("");
   const [showcope,setshowcope]= useState(false);
+  const [loading,setloading]=useState(false);
   const [discount,setdiscount]=useState(0);
  const [finaltotal,setfinaltotal]=useState(0);
  const {id} = useParams();
@@ -128,6 +129,8 @@ const handlepayment  =async () =>{
         quantity: qty,
         total: finaltotal,
         address,
+        paymentId:response.razorpay_payment_id,
+        paymentStatus:"Paid",
         payment: "ONLINE",
       }
     );
@@ -145,6 +148,8 @@ const handlepayment  =async () =>{
   }
 }
     };
+
+    setloading(false);
     const rzp = new window.Razorpay(options);
     rzp.open();
   } catch(err){
@@ -410,7 +415,7 @@ const applycoupon = async () =>{
             <div className="coupon-left">
               <span>Apply Coupon</span>
               {discount > 0 && (
-                <small>Saved ₹{discount}</small>
+                <small>You Saved ₹{discount}</small>
               )}
             </div>
             <span className="coupon-arrow"> <FaChevronRight className="chev"/></span>
@@ -490,11 +495,13 @@ const applycoupon = async () =>{
    
     <h3>Total: ₹{finaltotal}</h3>
     {discount >0 && (
-      <p style={{color: "green"}}> Discount Applied:₹ {discount}</p>
+      <p className="dicont"> Discount Applied: ₹{discount}</p>
     )}
     <button className="confirms" 
+    disabled ={loading}
     onClick={async ()=>{
       setsubmitted(true);
+      setloading(true);
   
 
       if(
@@ -505,43 +512,54 @@ const applycoupon = async () =>{
         !payment
 
       ){
+        setloading(false);
         
         return;
       }
-      try {const res=await 
-      axios.post("https://veggiehub-1037.onrender.com/api/orders", {
-        userId:user._id,
-        name,
-        image:product.image,
-        email:mail,
-        phone:mobile,
-        productName:product.name,
-        productPrice:product.price,
-        quantity:qty,
-        total:finaltotal,
-        address,
-        payment,
-      });
-console.log("order response:",res.data);
-    }
-    catch(err){
-      console.log("order error",err.response?.data || err.message);
-      toast.error("Order save failed");
-      return;
-    }
       if(payment === "COD"){
-        setshowCheckout(false);
-        setshowSuccess(true);
+        try{
+          await axios.post("https://veggiehub-1037.onrender.com/api/orders",
+            {
+              userId:user._id,
+              name,
+              image:product.image,
+              email:mail,
+              phone:mobile,
+              productName:product.name,
+              productPrice:product.price,
+              quantity:qty,
+              total:finaltotal,
+              address,
+              payment:"COD",
+              paymentStatus:"Pending",
+            }
+          );
+          setloading(false);
+          setshowCheckout(false);
+          setshowSuccess(true);
+        } catch(err){
+          setloading(false);
+          toast.error("Order save failed");
+        }
+        return;
       }
-      if(payment ==="ONLINE"){
-       handlepayment();
-       return;
+      if(payment === "ONLINE"){
+        await handlepayment();
+        return;
       }
+     
+   
+    
     
 
     }
   }
-  >Confirm Order</button>
+  > {loading ? <div className="loaderr">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  : "Confirm Order"}</button>
   </div>
 
  </div>

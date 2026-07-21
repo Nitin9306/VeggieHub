@@ -4,6 +4,7 @@ import "./products.css";
 import Potato from "../pages/images/potato.png";
 import tomato from "../pages/images/tomato-15523.png";
 import bhindi from "../pages/images/bhindi.png";
+import Sidebar from "./Sidebar";
 
  const images = {
     "/products/bhindi.png": bhindi,
@@ -123,6 +124,7 @@ function Products() {
 
   return (
     <div className="admin-products">
+      <Sidebar/>
 
       <h1>Manage Products</h1>
 

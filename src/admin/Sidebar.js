@@ -1,5 +1,6 @@
 import "./sidebar.css";
 import { Link } from "react-router-dom";
+import logoe from "../pages/images/logos.png";
 import {
   FaTachometerAlt,
   FaBoxOpen,
@@ -13,7 +14,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
 
-      <h2 className="logo">🥬 VeggieHub</h2>
+      <h2 className="logot"><img src={logoe}></img></h2>
 
       <Link to="/admin">
         <FaTachometerAlt /> Dashboard

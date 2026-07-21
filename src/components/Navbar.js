@@ -3,7 +3,7 @@ import { Link,NavLink } from "react-router-dom";
 import logo from "../pages/images/logos.png";
 import products from "../productsData";
 import { FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes,FaHome, 
-         FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart, } from "react-icons/fa";
+         FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart, FaTicketAlt,FaTags } from "react-icons/fa";
 import { useState,useEffect } from "react";
 
 function Navbar({search,setsearch}) {
@@ -100,7 +100,9 @@ function Navbar({search,setsearch}) {
 
       <div className="nav-links">
         
-
+         <Link to="/NavCoupon" className="nav-link">
+         <FaTags/>
+         </Link>
         <Link to="/cart" className="nav-link cart">
           <FaShoppingCart />
           
@@ -108,7 +110,7 @@ function Navbar({search,setsearch}) {
         </Link>
         <Link to={user ? "/dashboard" :"/login"} className="nav-link">
           <FaUser />
-          <span>{user ? user.name : "Account"}</span>
+          {/* <span>{user ? user.name : "Account"}</span> */}
         </Link>
       </div>
 
