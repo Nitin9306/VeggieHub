@@ -1,0 +1,154 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.admin-products{
+    padding: 30px;
+    background-color: #f5f6fa;
+    min-height: 100vh;
+}
+.admin-products h1{
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #222;
+}
+.admin-products button{
+    border: none;
+    cursor: pointer;
+}
+.admin-products>button{
+    background: #15803D;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    transition: .3s;
+}
+.admin-products>button:hover{
+    background-color: #15803D;
+}
+.admin-products form,
+.form-boxed{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+}
+.form-boxed h2{
+
+    margin-bottom: 15px;
+}
+.form-boxed input,
+.form-boxed textarea,
+.form-boxed select{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+.form-boxed textarea{
+    resize: none;
+    height: 90px;
+}
+.form-boxed input:focus,
+.form-boxed textarea:focus{
+    border-color: #15803D;
+}
+.save-btnj{
+    background: #15803D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+table{
+
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-box{
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+}
+thead{
+    background: #15803D;
+    color: white;
+}
+th,td{
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+td img{
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+tbody tr:hover{
+    background-color: #f8f8f8;
+}
+.edit-btny{
+    background-color: #15803D;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+}
+.edit-btny:hover{
+    background:#0c5225;
+}
+.deletee-btn{
+    background: #dc2626;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    margin-left: 15px;
+}
+@media(max-width:768px){
+    .admin-products{
+        padding: 15px;
+    }
+    .table-box{
+        overflow-x: auto;
+    }
+    table{
+        min-width: 700px;
+    }
+    .admin-products h1{
+        font-size: 24px;
+    }
+    .admin-products>button{
+        width: 100%;
+    }
+}
+.in-stock{
+    background-color: #15803D;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+.out-stock{
+    background-color: #dc2626;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}

@@ -1050,3 +1050,126 @@ h5 {
 .section-content{
     padding-top: 18px;
 }
+
+.coupon-strip{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:5px 12px;
+border:1px solid #eee;
+border-radius:12px;
+margin:18px 0;
+cursor:pointer;
+background:#fff;
+}
+
+.coupon-left{
+display:flex;
+flex-direction:column;
+gap:3px;
+font-weight:600;
+}
+
+.coupon-left small{
+color:#15803d;
+}
+
+.coupon-arrow{
+font-size:28px;
+color:#15803d;
+}
+
+.coupon-sheet-overlay{
+position:fixed;
+inset: 0;
+background:rgba(0,0,0,.45);
+display:flex;
+justify-content: center;
+backdrop-filter: blur(4px);
+align-items: center;
+z-index:9999;
+}
+
+.coupon-sheet{
+width:420px;
+max-width: 92%;
+background:#fff;
+padding:22px;
+border-radius:18px;
+animation:slideUp .25s ease;
+}
+
+.sheet-bar{
+width:55px;
+height:5px;
+background:#ddd;
+border-radius:20px;
+margin:auto;
+margin-bottom:18px;
+}
+
+.sheet-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:18px;
+}
+
+.sheet-head button{
+background:none;
+border:none;
+font-size:22px;
+cursor:pointer;
+}
+
+.coupon-sheet input{
+width:100%;
+padding:13px;
+border:1px solid #ddd;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.sheet-apply{
+width:100%;
+padding:14px;
+background:#15803d;
+color:#fff;
+border:none;
+border-radius:10px;
+font-size:17px;
+font-weight:600;
+}
+
+.sheet-success{
+margin-top:18px;
+text-align:center;
+color:#15803d;
+font-weight:600;
+}
+
+@keyframes slideUp{
+
+from{
+opacity: 0;
+transform: scale(.9);
+}
+
+to{
+opacity: 1;
+transform: scale(1);
+}
+
+}
+.chev{
+    font-size: 17px !important;
+    transition: .3s;
+}
+.to{
+    font-weight: bold;
+    
+}
+.sm{
+    color: #15803D !important;
+    font-weight: bold !important;
+}

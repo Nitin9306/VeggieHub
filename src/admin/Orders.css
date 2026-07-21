@@ -1,0 +1,72 @@
+.admin-orderss{
+    padding: 30px;
+    background-color: #f5f7fb;
+    min-height: 100vh;
+}
+.admin-orderss h1{
+    font-size: 30px;
+    margin-bottom: 25px;
+    color: #15803d;
+
+    font-weight: 700;
+}
+.admin-orderss table{
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+}
+.admin-orderss thead{
+    background-color: #15803d;
+    color: #fff;
+}
+.admin-orderss th{
+    padding: 16px;
+    text-align: center;
+    font-size: 16px;
+}
+.admin-orderss td{
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+.admin-orderss tbody tr:hover{
+    background: #f8fff8;
+}
+.admin-orderss select{
+    width: 160px;
+    padding: 8px 12px;
+    border: 1px solid #15803d;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #fff;
+}
+.admin-orderss select:focus{
+    border-color: #22c55e;
+}
+.status{
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.status.pending{
+    background-color: #fff3cd;
+    color: #b8860b;
+}
+.status.shipped{
+    background-color: #ede9fe;
+    color: #7c3aed;
+}
+.status.delivered{
+    background-color: #dcfce7;
+    color: #15803d;
+}
+.status.cancelled{
+    background-color: #fee2e2;
+    color: #dc2626;
+}

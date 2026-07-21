@@ -5,6 +5,9 @@ const wishlistRoutes = require("./routes/wishlist");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const couponRoutes = require("./routes/coupon");
+const adminRoutes = require("./routes/admin");
+const productRoutes =require("./routes/product");
 require("dotenv").config();
 
 
@@ -37,6 +40,9 @@ mongoose
     app.use("/api/reviews",
         require("./routes/reviews"));
         app.use("/api/wishlist",wishlistRoutes);
+        app.use("/api/admin",adminRoutes);
+        app.use("/api/products",productRoutes);
+        app.use("/api/coupons",couponRoutes);
 
 
    

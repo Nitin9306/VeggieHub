@@ -15,14 +15,19 @@ import Wishlist from "./pages/Wishlist";
 import Allproduct from "./pages/Allproducts";
 import Resetpassword from "./pages/resetpassword";
 import Scrolltop from "./components/Scrolltop";
+import AdminDashboard from "./admin/AdminDashboard";
+import Products from "./admin/Products";
+import Orders from "./admin/Orders";
+import Users from "./admin/Users";
+import Coupons from "./admin/Coupons";
 
 
 function App() {
+ 
   const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
 
-const hideLayout = [
-  "/login"
-].includes(location.pathname);
+const hideLayout = location.pathname === "/login" || location.pathname.startsWith("/admin");
 
   const [message ,setmessage]=useState("");
   useEffect(()=> {
@@ -38,8 +43,10 @@ const hideLayout = [
     <>
     
     
-     
-  <Navbar search={search} setsearch={setsearch} />
+   {!hideLayout && ( 
+    <Navbar search={search} setsearch={setsearch} />
+    )}  
+ 
 
       <Scrolltop/>
              
@@ -55,6 +62,11 @@ const hideLayout = [
          <Route path="/dashboard" element={<Dashboard/>}/>
          <Route path="/allproduct" element={<Allproduct/>}/>
          <Route path="/reset-password/:token" element={<Resetpassword/>}></Route>
+         <Route path="/admin" element={<AdminDashboard/>}/>
+         <Route path="/admin/products" element={<Products/>}/>
+         <Route path="/admin/orders" element={<Orders/>}/>
+         <Route path="/admin/users" element={<Users/>}/>
+         <Route path="/admin/coupons" element={<Coupons/>}/>
       </Routes>
      {!hideLayout && <Footer />}
     </>

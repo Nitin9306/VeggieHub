@@ -5,7 +5,7 @@ import { FaChevronDown, FaChevronUp , FaStar } from "react-icons/fa";
 import { useState,useEffect } from "react";
 import products from "../productsData";
 import { FaTimes,FaShoppingCart,FaBolt, FaLock, FaBiking, FaClock ,FaBoxOpen,
-  FaWeightHanging,FaLeaf,FaWarehouse,FaUndoAlt,FaExclamation,FaCircle,FaPlus,FaMinus} from "react-icons/fa";
+  FaWeightHanging,FaLeaf,FaWarehouse,FaUndoAlt,FaExclamation,FaCircle,FaPlus,FaMinus, FaChevronRight} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios, { Axios } from "axios";
 import Review from "../components/Review";
@@ -13,6 +13,13 @@ import { toast } from "react-toastify";
 
 
 function Product() {
+  const [couponcode,setcouponcode]=useState("");
+  const [showcope,setshowcope]= useState(false);
+  const [discount,setdiscount]=useState(0);
+ const [finaltotal,setfinaltotal]=useState(0);
+ const {id} = useParams();
+
+ 
   const addToWishlist = async()=>{
     try{
       const user = JSON.parse(localStorage.getItem("user"));
@@ -36,7 +43,7 @@ function Product() {
       alert(error.response?.data?.message ||error.message);
     }
   };
-  const { id } = useParams();
+
 
   const product = products.find((item) => item.id == id);
   const [opendiv,setopendiv]=useState("");
@@ -45,6 +52,12 @@ function Product() {
   const [showCheckout,setshowCheckout]=useState(false);
   const [showSuccess,setshowSuccess]=useState(false);
   const [qty,setqty]=useState(1);
+  useEffect(()=>{
+    if(product){
+      setfinaltotal(product.price*qty - discount);
+    }
+  },[product,qty,discount]);
+
   const [name,setname]=useState("");
   const [mail,setmail]=useState("");
   const [mobile,setmobile]=useState("");
@@ -90,7 +103,7 @@ const handlepayment  =async () =>{
     axios.post(
       "https://veggiehub-1037.onrender.com/api/payment/order",
       {
-        amount:product.price * qty,
+        amount:finaltotal,
       }
     );
     const options = {
@@ -113,7 +126,7 @@ const handlepayment  =async () =>{
         productName: product.name,
         productPrice: product.price,
         quantity: qty,
-        total: product.price * qty,
+        total: finaltotal,
         address,
         payment: "ONLINE",
       }
@@ -134,6 +147,28 @@ const handlepayment  =async () =>{
     };
     const rzp = new window.Razorpay(options);
     rzp.open();
+  } catch(err){
+    console.log(err);
+  }
+};
+
+const applycoupon = async () =>{
+  try{
+    const res = await axios.get("https://veggiehub-1037.onrender.com/api/coupons");
+    console.log("Response",res.data);
+    const found = res.data.coupons.find((c)=> c.code.toUpperCase() === couponcode.toUpperCase() && c.active);
+    if(!found){
+      toast.error("Invalid Coupon");
+      return;
+    }
+    if(new Date(found.expiry)<new Date()){
+      toast.error("Coupon Expired");
+      return;
+    }
+    const dis = (product.price * qty * found.discount)/100;
+    setdiscount(dis);
+    setfinaltotal(product.price*qty -dis);
+    toast.success("Coupon Applied");
   } catch(err){
     console.log(err);
   }
@@ -361,7 +396,7 @@ const handlepayment  =async () =>{
   </p>
 
   <h3 className="popup-price">
-    ₹ {product.price*qty}
+    ₹ {finaltotal}
   </h3>
 
 </div>
@@ -371,10 +406,23 @@ const handlepayment  =async () =>{
             <button onClick={()=> setqty(qty + 1)}>+</button>
 
           </div>
-          <h3>Total :₹ {product.price*qty}</h3>
-          <hr/>
-          <p className="popup=delivery"> delivery in 20-30 mins</p>
-          <p className="popup-secure"> 100% Secure Checkout</p>
+          <div className="coupon-strip" onClick={()=>setshowcope(true)}>
+            <div className="coupon-left">
+              <span>Apply Coupon</span>
+              {discount > 0 && (
+                <small>Saved ₹{discount}</small>
+              )}
+            </div>
+            <span className="coupon-arrow"> <FaChevronRight className="chev"/></span>
+          </div>
+          <div className="price-summary">
+            <div className="price-low total-row">
+              <span className="to">Total</span>
+              <span className="sm"> ₹{finaltotal}</span>
+            </div>
+          </div>
+
+         
           <button  className="place-order" onClick={()=>{
             if(!user){
               toast.error("Please Login First to Place Order");
@@ -386,6 +434,31 @@ const handlepayment  =async () =>{
 
         </div>
      </div>
+     )}
+
+     {showcope && (
+      <div className="coupon-sheet-overlay">
+        <div className="coupon-sheet">
+          <div className="sheet-bar"></div>
+          <div className="sheet-head">
+            <h3>Apply Coupon</h3>
+            <button onClick={()=> setshowcope(false)}><FaTimes/></button>
+          </div>
+          <input type="text" placeholder="Enter Coupon Code" value={couponcode}
+          onChange={(e)=>setcouponcode(e.target.value)}/>
+          <button className="sheet-apply"
+           onClick={()=>{
+            applycoupon();
+            setshowcope(false);
+          }}>Apply Coupon</button>
+
+          {discount>0 && (
+            <div className="sheet-success">
+              Coupon Applied<p>You Saved ₹{discount}</p>
+            </div>
+          )}
+        </div>
+      </div>
      )}
 
 {showCheckout && (
@@ -401,6 +474,7 @@ const handlepayment  =async () =>{
     {submitted && mobile.length !==10 && (<p className="errors">Please enter 10 digit Mobile number</p>)}
     <textarea placeholder="Enter Delivery Address*" value={address} onChange={(e) =>setaddress(e.target.value)} />
       {submitted && !address.trim() && (<p className="errors">Please enter full delivery address</p>)}
+    
     <h4>Payment Method</h4>
          <div className="payment-option">
           <input  type="radio" name="payment" value="COD" onChange={(e)=>setpayment(e.target.value)}/>
@@ -414,7 +488,10 @@ const handlepayment  =async () =>{
          </div>
 
    
-    <h3>Total: ₹{product.price*qty}</h3>
+    <h3>Total: ₹{finaltotal}</h3>
+    {discount >0 && (
+      <p style={{color: "green"}}> Discount Applied:₹ {discount}</p>
+    )}
     <button className="confirms" 
     onClick={async ()=>{
       setsubmitted(true);
@@ -441,7 +518,7 @@ const handlepayment  =async () =>{
         productName:product.name,
         productPrice:product.price,
         quantity:qty,
-        total:product.price*qty,
+        total:finaltotal,
         address,
         payment,
       });
@@ -479,7 +556,7 @@ console.log("order response:",res.data);
     <h2>Order Placed SuccessFully!</h2>
     <p>Thank you for shopping with VeggieHub</p>
     <p>Total Amount: ₹
-    {product.price*qty}
+    {finaltotal}
     </p>
     <button onClick={()=>{setshowSuccess(false); navigate("/");}}>Continue Shopping</button>
 

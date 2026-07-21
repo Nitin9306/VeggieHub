@@ -236,7 +236,7 @@ const addtocart = (product) => {
           <ProductCard key={item.id}
           item ={item}
           addtoCart={addtocart}
-          addToWishList ={addToWishList}
+          addToWishlist ={addToWishList}
           page="home" />
          ))}
         

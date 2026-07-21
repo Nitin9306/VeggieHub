@@ -24,7 +24,7 @@ function Dashboard(){
         const fetchOrders = async()=>{
             try{
                 const res = await axios.get(
-                    `https://veggiehub-1037.onrender.com/api/orders/${user._id}`
+                    `http://localhost:5000/api/orders/${user._id}`
                 );
                 setorder(res.data);
                 console.log(res.data);
@@ -40,7 +40,7 @@ function Dashboard(){
 
     const fetchWishlist = async () =>{
         try{
-            const res = await axios.get(`https://veggiehub-1037.onrender.com/api/wishlist/${user._id}`);
+            const res = await axios.get(`http://localhost:5000/api/wishlist/${user._id}`);
             setwishlist(res.data);
         }
         catch (err){
@@ -50,7 +50,7 @@ function Dashboard(){
 
     const removewish  = async (id)=>{
         try{
-            await axios.delete(`https://veggiehub-1037.onrender.com/api/Wishlist/${id}`);
+            await axios.delete(`http://localhost:5000/api/Wishlist/${id}`);
             setwishlist(wishlist.filter((item)=>
                 item._id !== id)
             );
@@ -267,8 +267,19 @@ function Dashboard(){
 
         <p>
             <strong>Status:</strong>
-            <span className="statued">
+            <span className={`statued ${item.status === "Pending" ? "pending" : item.status ===
+                "Confirmed" ? "confirmed"
+                : item.status === "Shipped"
+                ? "shipped"
+                : item.status === "Out for Delivery"
+                ? "outfordelivery"
+                : item.status ===
+                "Delivered"
+                ? "delivered"
+                : "cancelled"
+            }`}>
                 {item.status}
+                
             </span>
         </p>
 

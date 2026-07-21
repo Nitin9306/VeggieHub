@@ -24,6 +24,39 @@ router.post("/",async(req,res)=>{
 
 });
 
+router.get("/",async (req,res) =>{
+    try{
+        const orders = await Order.find().sort({createdAt: -1});
+        res.json({
+            success:true,
+            orders,
+        });
+    } catch (err){
+        res.status(500).json({
+            success:false,
+            message:err.message,
+        });
+    }
+});
+
+router.put("/:id", async (req,res) =>{
+    try{
+        const order  = await Order.findByIdAndUpdate(req.params.id,{status: req.body.status,},
+            {
+                new:true,
+            }
+        );
+        res.json({
+            success:true,
+            message:"Order Status updated", order,
+        });
+    } catch(err){
+        res.status(500).json({
+            success:false,
+            message:err.message,
+        });
+    }
+});
 router.get("/:userId",async (req,res)=>{
     try{
         const orders =await Order.find({

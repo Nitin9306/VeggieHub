@@ -103,7 +103,7 @@ function Navbar({search,setsearch}) {
 
         <Link to="/cart" className="nav-link cart">
           <FaShoppingCart />
-          <span>Cart</span>
+          
           <span className="cart-count">{cartcount}</span>
         </Link>
         <Link to={user ? "/dashboard" :"/login"} className="nav-link">
