@@ -1,18 +1,49 @@
 import "./Navbar.css";
-import { Link,NavLink } from "react-router-dom";
+import { Link,NavLink,useNavigate } from "react-router-dom";
 import logo from "../pages/images/logos.png";
+import CartDrawer from "./CartDrawer";
 import products from "../productsData";
 import { FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes,FaHome, 
-         FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart, FaTicketAlt,FaTags } from "react-icons/fa";
+         FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart, FaTicketAlt,FaTags,FaChevronDown,FaSignOutAlt,FaShieldAlt
+        ,FaArrowUp,FaMapMarkedAlt,FaBox, 
+        FaMapMarkerAlt} from "react-icons/fa";
 import { useState,useEffect } from "react";
 
 function Navbar({search,setsearch}) {
  const [user,setuser]=useState(null);
- useEffect (()=>{
-  const saveduser= localStorage.getItem("user");
-  if(saveduser){
-    setuser(JSON.parse(saveduser));
-  }
+ const navigate = useNavigate();
+ const [profileicon,setprofileicon]=useState(false);
+ const [cartopen,setcartopen]=useState(false);
+ const openCart = () =>{
+  setcartopen(true);
+ }
+
+ 
+ const handlelogout = () =>{
+  localStorage.removeItem("user");
+  setuser(null);
+  setprofileicon(false);
+  window.dispatchEvent(new Event ("userLogout"));
+  navigate("/login");
+ };
+
+ useEffect (() =>{
+  const loaduser = () =>{
+    const saveduser = localStorage.getItem("user");
+    if(saveduser){
+      setuser(JSON.parse(saveduser));
+
+    }else{
+      setuser(null);
+    }
+  };
+  loaduser();
+  window.addEventListener("userLogin",loaduser);
+  window.addEventListener("userLogout",loaduser);
+  return () =>{
+    window.removeEventListener("userLogin",loaduser);
+    window.removeEventListener("userLogout",loaduser);
+  };
  },[]);
   const [menuopen,setmenuopen]=useState(false);
   const [showsearch,setshowsearch]=useState(false);
@@ -22,6 +53,30 @@ function Navbar({search,setsearch}) {
 
   const filteredProducts=products.filter((item) =>
   item.name.toLowerCase().includes(search.toLowerCase()));
+  useEffect(()=>{
+    const openCarthandler=()=>{
+      setcartopen(true);
+    };
+    window.addEventListener("openCartDrawer",openCarthandler);
+    return () => {
+      window.removeEventListener("openCartDrawer",openCarthandler);
+    }
+  },[]);
+
+  useEffect(()=>{
+    const handlesideclick = (e)=>{
+      if(
+        profileicon && ! 
+        e.target.closest(".profile-wrap")
+      ){
+        setprofileicon(false);
+      }
+    };
+    document.addEventListener("click",handlesideclick);
+    return() =>{
+      document.removeEventListener("click",handlesideclick);
+    };
+  },[profileicon]);
   return (
     <>
     <nav className="navbar">
@@ -86,14 +141,14 @@ function Navbar({search,setsearch}) {
           Home</NavLink></li>
           <li><NavLink className="home" to="/allproduct">Shop</NavLink></li>
 
-          <li><NavLink className="home" to="/about">
-          About</NavLink></li>
+          {/* <li><NavLink className="home" to="/about">
+          About</NavLink></li> */}
+ 
+         <li><NavLink className="home" to="/service">
+           Categories</NavLink></li>  
 
-          <li><NavLink className="home" to="/service">
-           Categories</NavLink></li>
-
-          <li><NavLink className="home" to="/contact">
-          Contact</NavLink></li>
+          {/* <li><NavLink className="home" to="/contact">
+          Contact</NavLink></li> */}
           
         </ul>
       </div>
@@ -103,15 +158,66 @@ function Navbar({search,setsearch}) {
          <Link to="/NavCoupon" className="nav-link">
          <FaTags/>
          </Link>
-        <Link to="/cart" className="nav-link cart">
+        <div className="nav-link cart" onClick={()=>setcartopen(true)}>
           <FaShoppingCart />
-          
           <span className="cart-count">{cartcount}</span>
-        </Link>
-        <Link to={user ? "/dashboard" :"/login"} className="nav-link">
-          <FaUser />
-          {/* <span>{user ? user.name : "Account"}</span> */}
-        </Link>
+        </div>
+        
+
+        <div className="account-section">
+          {!user ? (
+            <Link to="/login" className="nav-link sign">
+              <FaUser className="used"/>
+              <span>Sign up</span>
+            </Link>
+          ) : (
+            <div className="profile-wrap" onClick={(e)=> e.stopPropagation()}>
+              <button className="profile-btnn" onClick={() => setprofileicon(!profileicon)}>
+                <div className="prifile-circle">
+                  {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                </div>
+                
+                <FaChevronDown className={`profile-arrow ${profileicon ? "rotate" : ""}`}/>
+              </button>
+              {profileicon && (
+                <div className="profile-dropdown">
+                  <div className="profile-header">
+                    <div className="profile-big-circle">
+                      {user.name ? user.name.charAt(0).toUpperCase():"U"}
+                    </div>
+                    <div>
+                      <h3>{user.name || "User"}</h3>
+                      <p>{user.email || ""}</p>
+                    </div>
+                  </div>
+                  <div className="profile-menu">
+                    <Link to="/order" onClick={()=>setprofileicon(false)}>
+                    <FaBox/>
+                    <span>My orders</span></Link>
+
+                    <Link to="/address" onClick={()=>setprofileicon(false)}>
+                    <FaMapMarkerAlt/>
+                    <span>Addresses</span></Link>
+
+                    <Link to="/allproduct" onClick={()=>setprofileicon(false)}>
+                    <FaArrowUp/>
+                    <span>Products</span></Link>
+
+                    <Link to="/NavCoupon" onClick={()=>setprofileicon(false)}>
+                    <FaTags/>
+                    <span>Deals</span></Link>
+                  </div>
+                  <div className="profile-loout">
+                    <button onClick={handlelogout}>
+                      <FaSignOutAlt/>
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
 
@@ -223,20 +329,21 @@ function Navbar({search,setsearch}) {
         <span>Wishlist</span>
         </NavLink>
 
-        <NavLink to="/cart"
-        className="bottom-cart">
+       <div className="bottom-cart" onClick={()=> setcartopen(true)}>
           <FaShoppingCart />
           <span>Cart</span>
           {cartcount >0 &&
           <span
            className="cart-count">{cartcount}</span>}
-        </NavLink>
+        </div>
 
         <NavLink to={user ? "/dashboard" : "/login"}>
         <FaUser />
         <span>Account</span></NavLink>
       </div>
 
+<CartDrawer  isOpen={cartopen}
+onClose={()=>setcartopen(false)}/>
     </>
   );
 }

@@ -11,7 +11,7 @@ import VeggieHub from "../veggieHub";
 import Footer from "../footer";
 import products from "../productsData";
 import ProductCard from "../components/ProductCard";
-import { FaShoppingCart, FaChevronLeft, FaChevronRight, FaLeaf, FaTruck, FaShieldAlt , FaHeart} from "react-icons/fa";
+import { FaShoppingCart, FaChevronLeft, FaChevronRight, FaLeaf, FaTruck,FaArrowRight, FaShieldAlt , FaHeart} from "react-icons/fa";
 import { useRef ,useState} from "react";
 
 function Home({search}) {
@@ -113,6 +113,8 @@ const addtocart = (product) => {
  const fruits = products.filter (
   (item)=> item.category === "fruits"
  );
+
+ const popular = products.slice(0,10);
   return (
     <>
 
@@ -164,7 +166,7 @@ const addtocart = (product) => {
         <img src={hero}></img>
       </div>
 
-      <div className="veg v1"><img src= {seb}></img></div>
+   
       <div className="veg v1"></div>
       <div className="veg v3"></div>
       <div className="veg v4"></div>
@@ -172,18 +174,38 @@ const addtocart = (product) => {
 
     </div>
      
-     <div className="leaf l1"><img src={leaf}></img></div>
-      <div className="leaf l2"><img src={leaf}></img></div>
+    
 
   </div>
  
+  <Categories />
 
-
-      <div className="fresh">
-        <h2>Fresh Vegetables</h2>
+  <div className="popular-sections">
+    <div className="popular-header">
+      <div>
+        <h2>Popular Products</h2>
+        <p>Fresh products for you</p>
       </div>
+      <Link to="/allproduct" className="view-all">View All <FaArrowRight/></Link>
+    </div>
+    <div className="popular-grid">
+      {popular.map((item) => (
+        <ProductCard
+        key={item.id}
+        item={item}
+        addtoCart={addtocart}
+        addToWishlist={addToWishList}
+        page = "home"
+        />
+      ))}
+    </div>
+  </div>
 
-      <div className="carousel">
+      {/* <div className="fresh">
+        <h2>Fresh Vegetables</h2>
+      </div> */}
+
+      {/* <div className="carousel">
         <div className="fade"></div>
 
         <button onClick={scrollVegLeft} className="arrow">
@@ -208,7 +230,7 @@ const addtocart = (product) => {
           <FaChevronRight />
         </button>
 
-      </div>
+      </div> */}
 
 
 
@@ -218,13 +240,13 @@ const addtocart = (product) => {
       
 
       
-      <Categories />
-
-      <div className="fresh">
+    
+{/* 
+      <div className="fresh gy">
         <h2>Fresh Fruits</h2>
-      </div>
+      </div> */}
 
-        <div className="carousel">
+        {/* <div className="carousel">
         <div className="fade"></div>
 
         <button onClick={scrollFruitLeft} className="arrow">
@@ -247,7 +269,7 @@ const addtocart = (product) => {
           <FaChevronRight />
         </button>
 
-      </div>
+      </div> */}
 
       <div className="banner">
 
@@ -272,7 +294,7 @@ const addtocart = (product) => {
     </h4>
 
     <button className="shop-btn" onClick={()=> navigate("/allproduct")}>
-      Shop Now →
+      Shop Now  <FaArrowRight className="error"/>
     </button>
 
   </div>

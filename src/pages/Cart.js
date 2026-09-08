@@ -15,7 +15,9 @@ function Cart()
     const [mobile,setmobile]=useState(user?.phone || "");
     const [address,setaddress]=useState("");
     const [payment,setpayment]=useState("");
+    const [loading,setloading] =useState(false);
     const [showSuccess,setshowSuccess]=useState(false);
+    const [cancelpay,setcancelpay]=useState(false);
     const navigate =useNavigate();
         const [cartitem ,setcartitem]=useState(
         
@@ -68,11 +70,76 @@ localStorage.setItem(
     const totalprice = cartitem.reduce(
         (total,item)=> total+item.price*item.qty,0
     );
+
+    const handlepayment  = async () =>{
+        try{
+            const {data} = await axios.post("https://veggiehub-1037.onrender.com/api/payment/order",
+                {
+                    amount:totalprice,
+                }
+            );
+            const options = {
+                key:"rzp_test_TEYsTguo7KsPG3",
+                amount:data.amount,
+                currency:data.currency,
+                name:"VeggieHub",
+                description:"Cart Payment",
+                order_id:data.id,
+                handler: async function (response){
+                    try{
+                        for (const item of cartitem){
+                            await axios.post("https://veggiehub-1037.onrender.com/api/orders",
+                                {
+                                    userId:user._id,
+                                    name,
+                                    email:mail,
+                                    phone:mobile,
+                                    image:item.image,
+                                    productName:item.name,
+                                    productPrice:item.price,
+                                    quantity:item.qty,
+                                    total:item.price*item.qty,
+                                    address,
+                                    payment:"ONLINE",
+                                    paymentId:response.razorpay_payment_id,
+                                    paymentStatus:"Pending",
+                                }
+                            );
+                        }
+                        setshowCheckout(false);
+                        setshowSuccess(true);
+                        setloading(false);
+                        toast.success("Payment Successful");
+                    } catch (err){
+                        console.log(err);
+                        
+                        toast.error("Order Save Failed");
+                    }
+                },
+                modal:{
+                    ondismiss: function (){
+                     setloading(false);
+                     setcancelpay(false);
+                    
+                     toast.info("Payment Cancelled");
+                     setTimeout(()=>{
+                        navigate("/");
+                     },300);
+                    },
+                },
+              
+            };
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch(err){
+            console.log(err);
+        }
+    };
     return(
     
         <div className="cart-cont">
             <h1 className="cart-title">My cart</h1>
-            <h2>Total items: {cartitem.length}</h2>
+            <h2 className="totle">Total items: {cartitem.length}</h2>
             {cartitem.length ===0 ? (
                 <h2 className="empty">Cart is Empty</h2>
             ) : (
@@ -85,10 +152,10 @@ localStorage.setItem(
                         width="100" />
                         <div className="cart-info">
                         <h3>{item.name}</h3>
-                        <p>₹ {item.price}/kg</p>
+                        <p>₹{item.price} kg</p>
                         
                         <p>Qty : {item.qty}</p>
-                        <h2>Subtotal : ₹{item.price*item.qty}</h2> 
+                        <h2 className="tot">Subtotal : ₹{item.price*item.qty}</h2> 
                         <div className="qty-box">
                         <button className="qty-btn" onClick={()=>dec(item.id)}>-</button>
                         <p>{item.qty}</p>
@@ -100,7 +167,7 @@ localStorage.setItem(
                    
                 ))}
                 <div className="cart-totals">
-                    <h2>Total Amount : {totalprice}₹</h2>
+                    <h2>Total Amount:  ₹{totalprice}</h2>
                     <button className="check-btn" onClick={()=>setshowCheckout(true)}>Place Order</button>
                 </div>
                </> 
@@ -120,7 +187,7 @@ localStorage.setItem(
                 {submitted && mobile.length !==10 && (<p className="errors">Please enter 10 digit Mobile number</p>)}
                 <textarea placeholder="Enter Delivery Address*" value={address} onChange={(e) =>setaddress(e.target.value)} />
                   {submitted && !address.trim() && (<p className="errors">Please enter full delivery address</p>)}
-                <h4>Payment Method</h4>
+                <h4 className="payment-over">Payment Method</h4>
                      <div className="payment-option">
                       <input  type="radio" name="payment" value="COD" onChange={(e)=>setpayment(e.target.value)}/>
                      
@@ -135,8 +202,11 @@ localStorage.setItem(
                
                 <h3>Total: ₹{totalprice}</h3>
                 <button className="confirms" 
+               
                 onClick={async ()=>{
+                    console.log("confirm button");
                   setsubmitted(true);
+                  setloading(true);
               
             
                   if(
@@ -147,12 +217,38 @@ localStorage.setItem(
                     !payment
             
                   ){
-                    
+                    setloading(false);
                     return;
                   }
+                  if(payment === "ONLINE"){
+                        await handlepayment();
+                        return;
+                    }
+                    console.log("button clicked",{
+                        name,
+                        mail,
+                        mobile,
+                        address,
+                        payment,
+                        cartitem
+                    });
+                    if(payment === "COD"){
+
 
                   try{
                     for(const item of cartitem){
+                        console.log("order sending:",{
+                            userId:user._id,
+                            name,
+                            email:mail,
+                            phone:mobile,
+                            image:item.image,
+                            productName:item.name,
+                            productPrice:item.price,
+                            quantity:item.qty,
+                            total:item.price*item.qty,address,payment,
+                            paymentStatus:"Pending",
+                        });
                         await axios.post("https://veggiehub-1037.onrender.com/api/orders",{
                             userId:user._id,
                             name,
@@ -163,22 +259,33 @@ localStorage.setItem(
                             productPrice:item.price,
                             quantity:item.qty,
                             total:item.price*item.qty,address,payment,
+                            paymentStatus:"Pending",
                         });
                     }
                     
                     setshowCheckout(false);
                     setshowSuccess(true);
                   } catch (err){
-                    console.log(err);
+                    
+                    console.log("order eror",err);
                    toast.warning("Order Failed");
                   }
                   
-                 
+                }
                 
             
                 }
-              }
-              >Confirm Order</button>
+              }>
+            {loading ? (
+                <div className="loaderr">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            ) : (
+                "Confirm Order"
+            )}
+              </button>
               </div>
             
              </div>
@@ -218,6 +325,8 @@ localStorage.setItem(
         </div>
     </div>
  )}
+
+
 
         </div>
        

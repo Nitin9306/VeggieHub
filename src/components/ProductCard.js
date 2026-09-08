@@ -1,30 +1,81 @@
 import { Link } from "react-router-dom";
-import { FaHeart,FaShoppingCart } from "react-icons/fa";
-function ProductCard({item,addtoCart,addToWishlist,page}){
-    return(
-<>
-<div className="card">
-    <div className="wishlist-btn" onClick={()=> addToWishlist(item)}>
-        <FaHeart className="wishlist-icon"/>
-    </div>
+import { FaHeart, FaPlus, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-    <img src={item.image} alt={item.name} />
-    <h3>{item.name}</h3>
-    <h2>₹{item.price} kg <span className="extra-price">₹{item.price*2}</span></h2>
+function ProductCard({ item, addtoCart, addToWishlist }) {
 
-    <div className="btn-box">
-        {page !== "home" && ( 
-        <button className="cart-btn" onClick={()=>addtoCart(item)}>
-            <FaShoppingCart />Add Cart
-        </button>
-         )}
+    const navigate = useNavigate();
 
-        <Link to={`/product/${item.id}`}>
-        <button className="buy-btnx">Buy Now</button>
-        </Link>
-    </div>
-</div>
-</>
-    )
+    const handleaddtocart = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        addtoCart(item);
+
+        window.dispatchEvent(
+            new Event("openCartDrawer")
+        );
+    };
+
+    return (
+        <div
+            className="card"
+            onClick={() => navigate(`/product/${item.id}`)}
+        >
+
+            <div className="discount-badgeh">
+                10% OFF
+            </div>
+
+
+
+        
+            <div className="product-image-box">
+                <img
+                    src={item.image}
+                    alt={item.name}
+                />
+            </div>
+
+
+         
+            <div className="product-card-info">
+
+                <h3>{item.name}</h3>
+
+                <div className="rating">
+                    <FaStar className="star-icn" />
+                    <span>4.5</span>
+                    <small>(12)</small>
+                </div>
+
+
+                <div className="price-row">
+
+                    <div className="priceer">
+                        ₹{item.price}
+                        <span> kg</span>
+
+                        <del>
+                            ₹{item.price * 2}
+                        </del>
+                    </div>
+
+
+                    <button
+                        type="button"
+                        className="plus-btnnx"
+                        onClick={handleaddtocart}
+                    >
+                        <FaPlus />
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    );
 }
+
 export default ProductCard;

@@ -60,9 +60,9 @@ function NavCoupon(){
             {
                 coupons.map((item)=>(
                     <div className="coupon-card" key={item.id}>
-                        <div className="discount">{item.discount}</div>
+                        <div className="discountt">{item.discount}</div>
                         <h3>{item.title}</h3>
-                        <div className="coupon-code"><FaTicketAlt/> {item.code}</div>
+                        <div className="coupon-code"> {item.code}</div>
                         <p>{item.detail}</p>
                         <small>Expiry: {item.expiry}</small>
 

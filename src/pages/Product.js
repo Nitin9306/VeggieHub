@@ -4,7 +4,7 @@ import { FaExclamationCircle, FaHeart, FaTruck } from "react-icons/fa";
 import { FaChevronDown, FaChevronUp , FaStar } from "react-icons/fa";
 import { useState,useEffect } from "react";
 import products from "../productsData";
-import { FaTimes,FaShoppingCart,FaBolt, FaLock, FaBiking, FaClock ,FaBoxOpen,
+import { FaTimes,FaShoppingCart, FaLock, FaBiking, FaClock ,FaBoxOpen,
   FaWeightHanging,FaLeaf,FaWarehouse,FaUndoAlt,FaExclamation,FaCircle,FaPlus,FaMinus, FaChevronRight} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios, { Axios } from "axios";
@@ -13,11 +13,7 @@ import { toast } from "react-toastify";
 
 
 function Product() {
-  const [couponcode,setcouponcode]=useState("");
-  const [showcope,setshowcope]= useState(false);
-  const [loading,setloading]=useState(false);
-  const [discount,setdiscount]=useState(0);
- const [finaltotal,setfinaltotal]=useState(0);
+ 
  const {id} = useParams();
 
  
@@ -47,34 +43,24 @@ function Product() {
 
 
   const product = products.find((item) => item.id == id);
+  const [isadd,setisadd]=useState(false);
+  useEffect(()=>{
+    if(!product) return;
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const exists = cart.some((item) =>
+  item.id === product.id);
+  setisadd(exists);
+},[product]);
   const [opendiv,setopendiv]=useState("");
   const [liked, setliked] = useState(false);
-  const [showPopup,setShowPopup]=useState(false);
-  const [showCheckout,setshowCheckout]=useState(false);
-  const [showSuccess,setshowSuccess]=useState(false);
+ 
   const [qty,setqty]=useState(1);
-  useEffect(()=>{
-    if(product){
-      setfinaltotal(product.price*qty - discount);
-    }
-  },[product,qty,discount]);
+  
 
-  const [name,setname]=useState("");
-  const [mail,setmail]=useState("");
-  const [mobile,setmobile]=useState("");
-  const [address,setaddress]=useState("");
-  const[payment,setpayment]=useState("");
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-  useEffect(()=>{
-    if(user){
-      setname(user.name || "");
-      setmail(user.email || "");
-      setmobile(user.phone || "");
-    }
-  }, []);
-  const[submitted,setsubmitted]=useState(false);
-  const [showbuy,setshowbuy] =useState(false);
+
+
 
    if (!product) {
 
@@ -89,95 +75,22 @@ function Product() {
       exists.qty += qty;
     } else{
       cart.push({
-        ...product,qty,
+        ...product,
+        qty: qty,
       });
     }
     localStorage.setItem("cart",JSON.stringify(cart));
+    setisadd(true);
+    window.dispatchEvent(new Event("openCartDrawer"));
   };
 
 const relatedproducts = products.filter((item)=> item.id !==product.id)
 .slice(0,4);
 
-const handlepayment  =async () =>{
-  try{
-    const {data} = await
-    axios.post(
-      "https://veggiehub-1037.onrender.com/api/payment/order",
-      {
-        amount:finaltotal,
-      }
-    );
-    const options = {
-      key:"rzp_test_TEYsTguo7KsPG3",
-      amount:data.amount,
-      currency:data.currency,
-      name:"VeggieHub",
-      description:"Order Payment",
-      order_id:data.id,
-     handler: async function (response) {
-  try {
-    await axios.post(
-      "https://veggiehub-1037.onrender.com/api/orders",
-      {
-        userId: user._id,
-        name,
-        image: product.image,
-        email: mail,
-        phone: mobile,
-        productName: product.name,
-        productPrice: product.price,
-        quantity: qty,
-        total: finaltotal,
-        address,
-        paymentId:response.razorpay_payment_id,
-        paymentStatus:"Paid",
-        payment: "ONLINE",
-      }
-    );
 
-    setshowCheckout(false);
-    setshowSuccess(true);
 
-    toast.success("🎉 Payment Successful!");
 
-    console.log(response);
 
-  } catch (err) {
-    console.log(err);
-    toast.error("Order save failed");
-  }
-}
-    };
-
-    setloading(false);
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  } catch(err){
-    console.log(err);
-  }
-};
-
-const applycoupon = async () =>{
-  try{
-    const res = await axios.get("https://veggiehub-1037.onrender.com/api/coupons");
-    console.log("Response",res.data);
-    const found = res.data.coupons.find((c)=> c.code.toUpperCase() === couponcode.toUpperCase() && c.active);
-    if(!found){
-      toast.error("Invalid Coupon");
-      return;
-    }
-    if(new Date(found.expiry)<new Date()){
-      toast.error("Coupon Expired");
-      return;
-    }
-    const dis = (product.price * qty * found.discount)/100;
-    setdiscount(dis);
-    setfinaltotal(product.price*qty -dis);
-    toast.success("Coupon Applied");
-  } catch(err){
-    console.log(err);
-  }
-};
 
   return (
     <>
@@ -189,8 +102,8 @@ const applycoupon = async () =>{
 
     <img src={product.image} alt={product.name} />
 
-    <span className="offer-tag">
-      20% OFF
+    <span className="offer-tag oger">
+      10% OFF
     </span>
 
   </div>
@@ -219,7 +132,7 @@ const applycoupon = async () =>{
   </span>
 
   <span className="discount">
-    20% OFF
+    10% OFF
   </span>
 
 </div>
@@ -228,12 +141,11 @@ const applycoupon = async () =>{
       <FaBiking className="frees"/>Delivery in 20–30 mins
     </p>
 
-    <p className="stock">
+    <p className="stock in">
       <FaCircle className="frees cire"/> Fresh & In Stock
     </p>
 
     <div className="feature-list">
-  <div className="feature-item"> 100% Fresh Product</div>
   <div className="feature-item"><FaTruck className="frees"/>Free Delivery Above ₹499</div>
   <div className="feature-item"><FaLock className="frees"/>Secure Checkout</div>
   <div className="feature-item"><FaClock className="frees"/>No Return Policy</div>
@@ -247,47 +159,23 @@ const applycoupon = async () =>{
 
 </div>
 
+<div className="qty-cart-rows">
 <div className="quantity-section">
   <p>Quantity: <span>{qty}</span></p>
 
   <div className="product-qty">
     <button onClick={() => setqty(qty > 1 ? qty - 1 : 1)}><FaMinus className="equal"/></button>
-
     <span>{qty}</span>
-
     <button onClick={() => setqty(qty + 1)}><FaPlus className="equal"/></button>
   </div>
 </div>
 
-        <div className="cart-buttons">
-
-  <button
-    className="cart-btn" 
-   onClick={()=> {addtocart(); setShowPopup(true);
-    setTimeout(()=>{
-      setShowPopup(false);
-    },2000);
-
-   }}
-  >
-    <FaShoppingCart className="shoping"/> Add to Cart
-  </button>
-
-  <button
-    className="buy"
-    onClick={() => {
-      if(!user){
-       toast.error("Please Login to first place order");
-        navigate("/login");
-      }
-    setshowbuy(true);
-    }}
-  >
-    <FaBolt/> Buy Now
-  </button>
-  
-
-</div>
+  <div className="cart-buttons">
+    <button className={`cart-btn ${isadd ? "added-cart" : ""}`} onClick={addtocart}> 
+      <FaShoppingCart className="shoping"/>
+   {isadd ? "Added to Cart" : "Add to Cart"}</button>
+  </div>
+  </div>
        <div className="product-infos">
         <div className="section-header" onClick={() => 
           setopendiv(opendiv === "details" ? "" : "details")}>
@@ -374,214 +262,6 @@ const applycoupon = async () =>{
     </div>
 
 
-    {showPopup && (
-      <div className="cart-popup">
-        <div className="pop-txts">
-          <h4>Added to Cart</h4>
-          <p>{product.name} added successfully!</p>
-        </div>
-        <button onClick={()=>navigate("/cart")}>Go to Cart</button>
-      </div>
-    )}
-    {showbuy && (
-     <div className="popup-overlay">
-        <div className="popup">
-          <div className="popup-product">
-
-  <img
-    src={product.image}
-    alt={product.name}
-    className="popup-img"
-  />
-
-  <h2>{product.name}</h2>
-
-  <p className="popup-rating">
-    ⭐ {product.rating}
-  </p>
-
-  <h3 className="popup-price">
-    ₹ {finaltotal}
-  </h3>
-
-</div>
-          <div  className="quantity-box">
-            <button onClick={()=> setqty(qty > 1 ? qty-1:1)}>-</button>
-            <span>{qty}</span>
-            <button onClick={()=> setqty(qty + 1)}>+</button>
-
-          </div>
-          <div className="coupon-strip" onClick={()=>setshowcope(true)}>
-            <div className="coupon-left">
-              <span>Apply Coupon</span>
-              {discount > 0 && (
-                <small>You Saved ₹{discount}</small>
-              )}
-            </div>
-            <span className="coupon-arrow"> <FaChevronRight className="chev"/></span>
-          </div>
-          <div className="price-summary">
-            <div className="price-low total-row">
-              <span className="to">Total</span>
-              <span className="sm"> ₹{finaltotal}</span>
-            </div>
-          </div>
-
-         
-          <button  className="place-order" onClick={()=>{
-            if(!user){
-              toast.error("Please Login First to Place Order");
-              navigate("/login");
-              return;
-            }
-            setshowbuy(false); setshowCheckout(true);}}>Proceed to Checkout</button>
-          <button className="close-btn" onClick={()=>setshowbuy(false)}><FaTimes/></button>
-
-        </div>
-     </div>
-     )}
-
-     {showcope && (
-      <div className="coupon-sheet-overlay">
-        <div className="coupon-sheet">
-          <div className="sheet-bar"></div>
-          <div className="sheet-head">
-            <h3>Apply Coupon</h3>
-            <button onClick={()=> setshowcope(false)}><FaTimes/></button>
-          </div>
-          <input type="text" placeholder="Enter Coupon Code" value={couponcode}
-          onChange={(e)=>setcouponcode(e.target.value)}/>
-          <button className="sheet-apply"
-           onClick={()=>{
-            applycoupon();
-            setshowcope(false);
-          }}>Apply Coupon</button>
-
-          {discount>0 && (
-            <div className="sheet-success">
-              Coupon Applied<p>You Saved ₹{discount}</p>
-            </div>
-          )}
-        </div>
-      </div>
-     )}
-
-{showCheckout && (
- <div className="checkout-overlay">
-  <div className="checkout-box">
-   <button className="close-btnedd" onClick={()=> setshowCheckout(false)}> <FaTimes /></button>
-    <h2>Checkout</h2>
-    <input type="text" readOnly placeholder="Enter Full Name*" value={name} onChange={(e)=>setname(e.target.value)}/>
-    {submitted && !name.trim() && (<p className="errors">Please enter full name</p>)}
-    <input type="email" readOnly placeholder="Enter Your mail address*" value={mail} onChange={(e)=>setmail(e.target.value)} />
-    {submitted && !mail.trim() && (<p className="errors">Please enter full mail address</p>)}
-    <input type="tel" readOnly maxLength="10" placeholder="Enter Your Mobile number*" value={mobile} onChange={(e)=>setmobile(e.target.value)}/>
-    {submitted && mobile.length !==10 && (<p className="errors">Please enter 10 digit Mobile number</p>)}
-    <textarea placeholder="Enter Delivery Address*" value={address} onChange={(e) =>setaddress(e.target.value)} />
-      {submitted && !address.trim() && (<p className="errors">Please enter full delivery address</p>)}
-    
-    <h4>Payment Method</h4>
-         <div className="payment-option">
-          <input  type="radio" name="payment" value="COD" onChange={(e)=>setpayment(e.target.value)}/>
-         
-       <span>Cash on Delivery</span>
-         </div>
-      
-         <div className="payment-option">
-          <input  type="radio" name="payment" value="ONLINE" onChange={(e)=>setpayment(e.target.value)}/>
-       <span className="onlines">Online Payment</span>
-         </div>
-
-   
-    <h3>Total: ₹{finaltotal}</h3>
-    {discount >0 && (
-      <p className="dicont"> Discount Applied: ₹{discount}</p>
-    )}
-    <button className="confirms" 
-    disabled ={loading}
-    onClick={async ()=>{
-      setsubmitted(true);
-      setloading(true);
-  
-
-      if(
-        !name.trim() ||
-        !mail.trim() ||
-        mobile.length !==10 ||
-        !address.trim()  ||
-        !payment
-
-      ){
-        setloading(false);
-        
-        return;
-      }
-      if(payment === "COD"){
-        try{
-          await axios.post("https://veggiehub-1037.onrender.com/api/orders",
-            {
-              userId:user._id,
-              name,
-              image:product.image,
-              email:mail,
-              phone:mobile,
-              productName:product.name,
-              productPrice:product.price,
-              quantity:qty,
-              total:finaltotal,
-              address,
-              payment:"COD",
-              paymentStatus:"Pending",
-            }
-          );
-          setloading(false);
-          setshowCheckout(false);
-          setshowSuccess(true);
-        } catch(err){
-          setloading(false);
-          toast.error("Order save failed");
-        }
-        return;
-      }
-      if(payment === "ONLINE"){
-        await handlepayment();
-        return;
-      }
-     
-   
-    
-    
-
-    }
-  }
-  > {loading ? <div className="loaderr">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-  : "Confirm Order"}</button>
-  </div>
-
- </div>
-
-)}
-
-{showSuccess && (
-
-<div className="sucess-overlay">
-  <div className="sucess-box">
-    <div className="tick">✔</div>
-    <h2>Order Placed SuccessFully!</h2>
-    <p>Thank you for shopping with VeggieHub</p>
-    <p>Total Amount: ₹
-    {finaltotal}
-    </p>
-    <button onClick={()=>{setshowSuccess(false); navigate("/");}}>Continue Shopping</button>
-
-  </div>
-
-</div>
-)}
 
 
 <div className="related-products">

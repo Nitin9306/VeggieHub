@@ -1,0 +1,554 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
+}
+
+body{
+  background:#f6f8f6;
+}
+
+.tracking-page-new{
+  max-width:95%;
+  margin:100px auto 50px;
+  padding:20px;
+  min-height: 600px;
+  max-width: 1200px;
+}
+
+
+
+.order-header-new{
+  background:#fff;
+  border-radius:16px;
+  padding:22px 25px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  box-shadow:0 4px 20px rgba(0,0,0,0.07);
+
+  margin-bottom:20px;
+}
+
+.order-header-new h2{
+  font-size:23px;
+  color:#222;
+  margin-bottom:6px;
+}
+
+.order-header-new p{
+  color:#777;
+  font-size:14px;
+}
+
+.status-badge-new{
+  background:#e8f8ed;
+  color:#15803d;
+
+  padding:9px 18px;
+
+  border-radius:25px;
+
+  font-size:14px;
+  font-weight:600;
+}
+
+
+
+.tracking-map-wrapper{
+  position:relative;
+
+  background:#fff;
+
+  border-radius:18px;
+
+  overflow:hidden;
+
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+
+  margin-bottom:22px;
+}
+
+.tracking-map-new{
+  width:100%;
+  height:350px;
+}
+
+.map-waiting{
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  background:#fff;
+
+  padding:14px 22px;
+
+  border-radius:12px;
+
+  box-shadow:0 5px 20px rgba(0,0,0,0.15);
+
+  display:flex;
+  align-items:center;
+
+  gap:10px;
+
+  z-index:10;
+}
+
+.map-waiting svg{
+  color:#16a34a;
+  font-size:20px;
+}
+
+.map-waiting p{
+  color:#444;
+  font-size:14px;
+  white-space:nowrap;
+}
+
+.tracking-section{
+  background:#fff;
+
+  border-radius:18px;
+
+  padding:25px;
+
+  margin-bottom:22px;
+
+  box-shadow:0 4px 20px rgba(0,0,0,0.07);
+}
+
+.tracking-section h3{
+  color:#222;
+
+  font-size:21px;
+
+  margin-bottom:25px;
+}
+
+.progress-list-new{
+  width:100%;
+}
+
+.progress-row-new{
+  display:flex;
+
+  position:relative;
+
+  min-height:70px;
+}
+
+
+.progress-left-new{
+  width:55px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+}
+
+
+.progress-circle-new{
+  width:38px;
+  height:38px;
+
+  border-radius:50%;
+
+  background:#e5e7eb;
+
+  color:#9ca3af;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  font-size:16px;
+
+  z-index:2;
+}
+
+.progress-circle-new.active{
+  background:#16a34a;
+  color:white;
+}
+
+
+.progress-line-new{
+  width:3px;
+
+  flex:1;
+
+  background:#e5e7eb;
+
+  margin:4px 0;
+}
+
+.progress-line-new.active-line{
+  background:#16a34a;
+}
+
+
+.progress-text-new{
+  padding-top:6px;
+
+  margin-left:8px;
+}
+
+.progress-text-new h4{
+  font-size:16px;
+
+  color:#999;
+
+  font-weight:500;
+}
+
+.progress-text-new.active-text h4{
+  color:#222;
+
+  font-weight:600;
+}
+
+.progress-text-new p{
+  font-size:13px;
+
+  color:#888;
+
+  margin-top:4px;
+}
+
+
+.section-title-icon{
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+}
+
+.section-title-icon svg{
+  color:#16a34a;
+}
+
+.address-display{
+  background:#f6fff8;
+
+  border:1px solid #d7f5df;
+
+  padding:18px;
+
+  border-radius:12px;
+}
+
+.address-display h4{
+  color:#15803d;
+
+  margin-bottom:7px;
+
+  font-size:16px;
+}
+
+.address-display p{
+  color:#666;
+
+  line-height:1.6;
+
+  font-size:14px;
+}
+
+.items-section h3{
+  margin-bottom:20px;
+}
+
+.tracking-items{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:15px;
+}
+
+
+
+.tracking-item{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:14px 0;
+
+  border-bottom:1px solid #eee;
+}
+
+.tracking-item:last-child{
+  border-bottom:none;
+}
+
+
+
+.tracking-item-left{
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+}
+
+
+.tracking-item img{
+  width:65px;
+  height:65px;
+
+  object-fit:cover;
+
+  border-radius:12px;
+
+  background:#f3f4f6;
+}
+
+
+.tracking-item h4{
+  color:#222;
+
+  font-size:16px;
+
+  margin-bottom:5px;
+}
+
+.tracking-item p{
+  color:#777;
+
+  font-size:14px;
+}
+
+.tracking-item strong{
+  font-size:16px;
+
+  color:#15803d;
+}
+
+
+
+.bill-summary{
+  margin-top:25px;
+
+  padding-top:20px;
+
+  border-top:1px solid #eee;
+}
+
+.bill-summary div{
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-bottom:15px;
+
+  color:#666;
+
+  font-size:15px;
+}
+
+.bill-summary strong{
+  color:#333;
+}
+
+.bill-summary hr{
+  border:none;
+
+  border-top:1px solid #ddd;
+
+  margin:18px 0;
+}
+
+
+.final-total{
+  align-items:center;
+}
+
+.final-total h3{
+  margin:0;
+
+  color:#15803d;
+
+  font-size:21px;
+}
+
+
+.tracking-loading{
+  min-height:70vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  font-size:20px;
+
+  color:#15803d;
+
+  font-weight:600;
+}
+
+
+.tracking-error{
+  min-height:70vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  color:#dc2626;
+
+  font-size:20px;
+}
+
+
+@media(max-width:768px){
+
+  .tracking-page-new{
+    margin-top:75px;
+
+    padding:12px;
+  }
+
+
+  .order-header-new{
+    padding:18px;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:15px;
+  }
+
+  .order-header-new h2{
+    font-size:18px;
+  }
+
+  .status-badge-new{
+    padding:7px 14px;
+  }
+
+
+  .tracking-map-new{
+    height:280px;
+  }
+
+  .map-waiting{
+    padding:10px 14px;
+
+    width:90%;
+
+    justify-content:center;
+  }
+
+  .map-waiting p{
+    white-space:normal;
+
+    font-size:12px;
+  }
+
+
+
+  .tracking-section{
+    padding:18px;
+  }
+
+  .tracking-section h3{
+    font-size:18px;
+  }
+
+
+
+  .progress-row-new{
+    min-height:65px;
+  }
+
+  .progress-left-new{
+    width:48px;
+  }
+
+  .progress-circle-new{
+    width:34px;
+    height:34px;
+
+    font-size:14px;
+  }
+
+  .tracking-item img{
+    width:55px;
+    height:55px;
+  }
+
+  .tracking-item h4{
+    font-size:14px;
+  }
+
+  .tracking-item strong{
+    font-size:14px;
+  }
+
+
+
+  .address-display{
+    padding:14px;
+  }
+
+}
+
+
+@media(max-width:480px){
+
+  .tracking-page-new{
+    padding:10px;
+
+    margin-top:70px;
+  }
+
+  .tracking-map-new{
+    height:230px;
+  }
+
+
+  .tracking-section{
+    border-radius:14px;
+  }
+
+
+  .tracking-item-left{
+    gap:10px;
+  }
+
+
+  .tracking-item img{
+    width:50px;
+    height:50px;
+  }
+
+
+  .bill-summary div{
+    font-size:14px;
+  }
+
+
+  .final-total h3{
+    font-size:18px;
+  }
+
+}

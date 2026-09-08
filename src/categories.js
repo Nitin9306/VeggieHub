@@ -4,38 +4,88 @@ import root from "./pages/images/root.png";
 import seson from "./pages/images/seson.png";
 import fruite from "./pages/images/fruits.png";
 import lefr from "./pages/images/leafed.png";
+import beverage from "./pages/images/beverage.png";
+import bread from "./pages/images/bread.png";
 import { Link } from "react-router-dom";
-function categories()
+
+const categorie = [
+    {
+       
+        name:"Fruits",
+        image: fruite,
+        
+    },
+    {
+       
+        name:"Vegetables",
+        image: seson,
+      
+    },
+    {
+        
+        name:"Beverages",
+        image: beverage,
+        
+    },
+     {
+        
+        name:"Bakery",
+        image: bread,
+        
+    },
+     {
+        
+        name:"Beverages",
+        image: beverage,
+        
+    },
+     {
+        
+        name:"Beverages",
+        image: beverage,
+        
+    },
+     {
+        
+        name:"Beverages",
+        image: beverage,
+        
+    },
+    {
+         
+        name:"Frozen Foods",
+        
+        image:fruite,
+       
+    },
+    
+    
+];
+ function categories()
 {
     return (
-             <section className="categories">
-                <h2>Shop by category</h2>
-                <div className="category-container">
-
-                   
-                    <div className="category-card">
-                    <img src={root}></img>
-                    <h3>Root</h3>
-                    <p>Potato,carrot & more.</p>
-                    </div>
-                    <div className="category-card">
-                    <img src={seson}></img>
-                    <h3>Seasonal</h3>
-                    <p>Best vegetables of season</p>
-                    </div>
-                    <div className="category-card lefre">
-                    <img src={lefr}></img>
-                    <h3 className="leg">Leafy Green</h3>
-                    <p>100% natural products</p>
-                    </div>
-                    <div className="category-card">
-                    <img src={fruite}></img>
-                    <h3>Fruits</h3>
-                    <p>100% natural Fruits</p>
+            <div className="home-cate">
+                <section className="categories-sec">
+                    <div className="section-heading">
+                        <h2>Browse Categories</h2>
+                        <p>Find exactly what you need using.</p>
                     </div>
 
-                </div>
-             </section>
+                    <div className="categoriesed">
+                        {categorie.map ((category,index) =>(
+                            <div className="category" key={index}>
+                                <div className="category-image">
+                                    <img src={category.image} alt={category.name}></img>
+                                </div>
+
+                                <div className="category-names">
+                                    {category.name}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </div>
     );
 }
 export default categories;

@@ -1,119 +1,240 @@
 import "./allproducts.css";
-import {FaSearch,FaHeart} from "react-icons/fa";
+import {FaHeart, FaStar,FaPlus } from "react-icons/fa";
 import products from "../productsData";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { useState,useEffect} from "react";
-function Allproducts(){
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import ProductCard from "../components/ProductCard";
+function Allproducts() {
 
-    const location =useLocation();
-    const quaryparams =new URLSearchParams(location.search);
-    const urlCategory = quaryparams.get("category");
+    const location = useLocation();
+    const queryparams = new URLSearchParams(location.search);
+    const urlCategory = queryparams.get("category");
+
+    const navigate = useNavigate();
+
+   
+    const [search, setsearch] = useState("");
+    const [category, setcategory] = useState(urlCategory || "All");
+    const [animate,setanimate]=useState(false);
+
+    const categoriess = [
+        {
+            value: "All",
+            label: "All Categories"
+        },
+        {
+            value: "fruits-vegetables",
+            label: "Fruits & Vegetables"
+        },
+        {
+            value: "organic",
+            label: "Organic"
+        },
+        {
+            value: "personal-care",
+            label: "Personal Care"
+        },
+        {
+            value: "pantry",
+            label: "Pantry Staples"
+        },
+        {
+            value: "bakery",
+            label: "Bakery"
+        },
+        {
+            value: "beverages",
+            label: "Beverages"
+        }
+    ];
+
+    const selectedCategory = categoriess.find((item)=> item.value === category);
+    const categorytitle = selectedCategory ? selectedCategory.label: "All Products";
 
 
-    const [showpopup,setshowpopup]=useState(false);
-    const [select,setselect]=useState(null);
-    const [search,setsearch]=useState("");
-    const [category ,setcategory] =useState(urlCategory || "All");
+    useEffect(() => {
 
-    useEffect(()=> {
-        if(urlCategory){
+        if (urlCategory) {
             setcategory(urlCategory);
         }
-    },[urlCategory]);
 
-    const addtoCart =(products) =>{
-        const cart = 
-        JSON.parse(localStorage.getItem("cart")) || [];
+    }, [urlCategory]);
 
-        const exists = cart.find((item) => 
-            item.id === products.id);
 
+   const addtoCart  = (product,e)=>{
+    if(e){
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const exists = cart.find((item)=> item.id === product.id);
     if(exists){
-        exists.qty +=1;
+        exists.qty += 1;
+    }else{
+        cart.push({
+            ...product,
+            qty:1
+        });
     }
-    else{
-        cart.push({...products,qty:1,});
-    }
-
     localStorage.setItem("cart",JSON.stringify(cart));
-    setselect(products);
-    setshowpopup(true);
-    setTimeout(()=>{
-        setshowpopup(false);
-    },2000);
-    
-    };
-    return(
-           <>
-           <div className="all-product">
-            <div className="product-heading">
-                <h1>Our Fresh Products</h1>
-                <p>Discover fresh vegetables,juicy fruits and organic groceries delivered straight to your doorstep.</p>
-            </div>
-
-            <div className="search-boxed">
-                <FaSearch  className="serach-iconed"/>
-                <input type="text" value={search}
-                onChange={(e) => setsearch(e.target.value)} placeholder="Search fresh Products..."></input>
-            </div>
-
-            <div className="filter-buttons">
-                <button className={category==="All" ? "active" : ""} onClick={()=>setcategory("All")}>All</button>
-                <button className={category==="vegetables" ? "active":""} onClick={()=>setcategory("vegetables")}>Vegetables</button>
-                <button className={category==="fruits" ? "active" : ""} onClick={()=>setcategory("fruits")}>Fruits</button>
-                <button className={category==="organic" ? "active" :""} onClick={() =>setcategory("organic")}>Organic</button>
-
-            </div>
+    window.dispatchEvent(new Event("cartUpdated"));
+    window.dispatchEvent(new Event("openCartDrawer"));
+   };
 
 
 
-            <div className="products-grid">
-                {products.filter((item)=> {const matchcategory = 
-                category === "All" || 
-                item.category === category; 
-                const matchsearch = 
-                item.name.toLowerCase().includes(search.toLowerCase());
-                return matchcategory && matchsearch;
-})
-               .map((item)=> (
-                    <div className="products-carde" key={item.id}>
-                        <span className="discounte">{item.discount} OFF</span>
-                        <img src={item.image} alt={item.name}/>
-                        <div className="ratingg">{item.rating || 4.1}
-                            <span>({item.review || 120})</span>
+
+
+    const filteredProducts = products.filter((item) => {
+
+        let matchcategory = false;
+
+
+        if (category === "All") {
+
+            matchcategory = true;
+
+        }
+
+        else if (category === "fruits-vegetables") {
+
+            matchcategory =
+                item.category === "fruits" ||
+                item.category === "vegetables";
+
+        }
+
+        else {
+
+            matchcategory =
+                item.category === category;
+
+        }
+
+
+        const matchsearch =
+            item.name
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+
+        return matchcategory && matchsearch;
+
+    });
+
+
+    return (
+        <>
+
+            <div className="all-product">
+
+
+                <div className="productss-lay">
+
+
+                
+
+                    <aside className="category-sidebar">
+
+                        <h3>Categories</h3>
+
+
+                        <div className="categoru-liste">
+
+                            {categoriess.map((item) => (
+
+                                <button
+                                    key={item.value}
+                                    className={
+                                        category === item.value
+                                            ? "categoru-active"
+                                            : ""
+                                    }
+                                    onClick={() =>{
+                                        setcategory(item.value);
+                                       setanimate(false);
+                                       setTimeout(() => {
+                                        setanimate(true);
+                                       }, 50);
+                                    }}
+                                >
+                                    {item.label}
+                                </button>
+
+
+                            ))}
+
+                
+
                         </div>
-                        <h3>{item.name}</h3>
-                        <div className="priced">
-                            <h2>₹{item.price}</h2>
-                            <span>₹{item.oldprice || item.price +20}</span>
+                    
+
+                    </aside>
+
+
+
+                
+
+                    <div className="products-rights">
+
+
+
+                        <div className="products-topp">
+
+                            <div>
+
+                                <h2>
+                                    {categorytitle}
+                                </h2>
+
+                                <p>
+                                    {filteredProducts.length} products found
+                                </p>
+
+                            </div>
+
                         </div>
 
-                        <button className="cart-btnw" onClick={()=>addtoCart(item)}>Add to Cart</button>
-                        <Link to={`/product/${item.id}`}>
-                        <button className="buy-btnm">Buy Now</button></Link>
+
+
+                  
+
+                        <div className={`products-grid ${animate ? "products-animate" : ""}`}>
+
+                            {filteredProducts.map((item) => (
+                                <ProductCard key={item.id}
+                                item={item}
+                                addtoCart={addtoCart}
+                               />
+                            ))}
+                        
+
+                            {filteredProducts.length === 0 && (
+
+                                <div className="no-products">
+
+                                    <h3 className="product-founds">
+                                        No Products Found
+                                    </h3>
+
+                                    <p className="another">
+                                        Try another category or search.
+                                    </p>
+
+                                </div>
+
+                            )}
+
+                        </div>
+
                     </div>
-                ))}
+
+                </div>
+
             </div>
 
-
- { showpopup && (
-        <div className="cart-popup">
-          <div className="pop-txts">
-          <h4><FaHeart/> Added to Cart</h4>
-          <p>{select?.name} Added successfully!</p> 
-          </div>
-         <Link to="/Cart">
-         <button>View Cart</button></Link>
-        </div>
-      )
-
-      }
-            
-           </div>
-
-
-           </>
-    )
+        </>
+    );
 }
+
 export default Allproducts;

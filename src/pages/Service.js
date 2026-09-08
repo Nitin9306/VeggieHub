@@ -108,8 +108,8 @@ function Service() {
         <h2>Need Assistance?</h2>
         <div className="contacted-info">
         <p><FaPhoneAlt className="contac-icon" /> 91+ 9306593030 | 9306793030</p>
-        <p><FaEnvelope className="contac-icon"/> support@veggiehub.com</p>
-        <p> <FaClock  className="contac-icon"/>Monday - Sunday |8:00 AM - 10:00 PM</p>
+        <p><FaEnvelope className="contac-icon"/> veggiehub.support@gmail.com</p>
+        <p> <FaClock  className="contac-icon"/>Monday - Sunday | 8:00 AM - 10:00 PM</p>
       </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const couponRoutes = require("./routes/coupon");
 const adminRoutes = require("./routes/admin");
 const productRoutes =require("./routes/product");
+const addressRoutes = require("./routes/address");
 require("dotenv").config();
 
 
@@ -27,7 +28,7 @@ app.get("/", (req,res)=>{
     res.send("Backend is running");
 });
 
-
+console.log("Mongo ui",process.env.MONGO_URI);
 mongoose
 .connect(process.env.MONGO_URI)
 .then(()=>{
@@ -43,6 +44,7 @@ mongoose
         app.use("/api/admin",adminRoutes);
         app.use("/api/products",productRoutes);
         app.use("/api/coupons",couponRoutes);
+        app.use("/api/addresses",addressRoutes);
 
 
    

@@ -3,7 +3,8 @@
     color: #15803D;
     text-align: center;
     margin-top: 40px;
-    font-family: "Poppins", sans-serif;
+     font-family: "Poppins", sans-serif;
+     font-weight: 500;
 }
 
 .delivery
@@ -26,21 +27,24 @@
 {
     color:#15803D;
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
+     font-family: "Poppins", sans-serif;
 
 
 }
 .delivery p
 {
     text-align: center;
-    padding: 13px 0px;
+    padding: 10px 0px;
     color: grey;
+     font-family: "Poppins", sans-serif;
 }
 .delivery h5
 {
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 500;
     color: grey;
+     font-family: "Poppins", sans-serif;
 }
 .delivery h5
 {
@@ -50,11 +54,12 @@
 .truck-delivery
 {
     color: #15803D;
-    font-size: 60px;
+    font-size: 40px;
     text-align: center;
    justify-content: center;
    display: flex;
    padding: 12px 0px;
+    font-family: "Poppins", sans-serif;
 }
 .geeta
 {
@@ -95,25 +100,27 @@
 
 @media (max-width: 768px) {
     .why h1 {
-        font-size: 30px;
+        font-size: 18px;
+        
     }
 
     .main-box {
        display: grid;
        grid-template-columns: repeat(2,1fr);
        gap: 12px;
-       padding: 0 10px;
-      padding-bottom: 50px;
+       padding: 0 5px;
+      padding-bottom: 40px;
+      
     }
 
     .delivery {
          width: 100%;
        max-width: 100%;
-       padding: 15px 10px;
+       padding: 12px 10px;
     }
 
     .delivery h3 {
-        font-size: 16px;
+        font-size: 14px;
         margin-top: 8px;
         
     }
@@ -124,35 +131,17 @@
         padding: 5px 0;
     }
 .delivery h5{
-    font-size: 12px;
+    font-size: 11px;
     margin-top: -13px;
+    font-weight: 400;
 }
     .truck-delivery {
-        font-size: 35px;
+        font-size: 28px;
         padding: 8px 0;
     }
 
     .geeta,
     .geetaa {
         padding: 15px 10px;
-    }
-}
-
-
-@media (max-width: 480px) {
-    .why h1 {
-        font-size: 26px;
-    }
-
-    .delivery {
-        max-width: 100%;
-    }
-
-    .delivery h3 {
-        font-size: 20px;
-    }
-
-    .truck-delivery {
-        font-size: 45px;
     }
 }

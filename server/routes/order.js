@@ -1,8 +1,13 @@
 const express = require("express");
 const Order =require("../models/Order");
 const router  = express.Router();
+
+
+
 router.post("/",async(req,res)=>{
-    try
+    console.log("POST/api/ordersHIT");
+    console.log(req.body);
+    try 
     {
          console.log("Order Data:",req.body);
          const now  = new Date();
@@ -14,12 +19,19 @@ router.post("/",async(req,res)=>{
         const order = await Order.create({...req.body,
             orderId,
             invoiceNo,
+            status:"Order Confirmed",
+            trackingStep:1,
+            estimatedDelivery:30,
+            deliveryBoy:"",
+            deliveryBoyPhone:"",
         });
         console.log("Saved order",order);
         res.status(201).json({
             success:true,
             message:"Order Placed Successfully",
             order,
+            orderId:order.orderId,
+            invoiceNo:order.invoiceNo,
         });
     }
     catch (err){
@@ -30,6 +42,45 @@ router.post("/",async(req,res)=>{
         });
     }
 
+
+});
+
+router.get("/tracking/:orderId", async (req, res) => {
+
+    console.log("===== TRACKING ROUTE HIT =====");
+
+    console.log("Order ID:", req.params.orderId);
+
+    try {
+
+        const order = await Order.findOne({
+            orderId: req.params.orderId
+        });
+
+        if (!order) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Order not found"
+            });
+
+        }
+
+        res.status(200).json({
+            success: true,
+            order: order
+        });
+
+    } catch (err) {
+
+        console.log("Tracking Error:", err);
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
 
 });
 
@@ -47,6 +98,22 @@ router.get("/",async (req,res) =>{
         });
     }
 });
+
+router.get("/:userId",async (req,res)=>{
+    try{
+        const orders =await Order.find({
+            userId: req.params.userId
+        }).sort({createdAt:-1});
+        res.json(orders);
+    }
+    catch(err){
+        res.status(500).json({
+            success:false,
+            mesage:err.message
+        });
+    }
+});
+
 
 router.put("/:id", async (req,res) =>{
     try{
@@ -66,18 +133,5 @@ router.put("/:id", async (req,res) =>{
         });
     }
 });
-router.get("/:userId",async (req,res)=>{
-    try{
-        const orders =await Order.find({
-            userId: req.params.userId
-        }).sort({createdAt:-1});
-        res.json(orders);
-    }
-    catch(err){
-        res.status(500).json({
-            success:false,
-            mesage:err.message
-        });
-    }
-});
+
 module.exports = router;

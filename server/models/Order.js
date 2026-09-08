@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
+
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -30,6 +31,31 @@ const orderSchema = new mongoose.Schema({
     type: Number,
   },
 
+  image: {
+    type: String,
+  },
+
+  items: [
+    {
+      name: {
+        type: String,
+      },
+
+      price: {
+        type: Number,
+      },
+
+      qty: {
+        type: Number,
+      },
+
+      image: {
+        type: String,
+      },
+    },
+  ],
+
+
   total: {
     type: Number,
   },
@@ -37,28 +63,16 @@ const orderSchema = new mongoose.Schema({
   address: {
     type: String,
   },
-  image:{
-    type:String,
-  },
 
   payment: {
     type: String,
   },
-  orderId:{
-    type:String,
-  },
-  invoiceNo:{
-    type:String,
-  },
-  paymentId:{
-    type:String,
-  },
-  paymentStatus:{
-    type:String,
-    default:"Pending",
+
+  invoiceNo: {
+    type: String,
   },
 
-  status: {
+  paymentStatus: {
     type: String,
     default: "Pending",
   },
@@ -67,6 +81,37 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  orderId: {
+    type: String,
+    unique: true,
+  },
+
+  status: {
+    type: String,
+    default: "Order Confirmed",
+  },
+
+  trackingStep: {
+    type: Number,
+    default: 1,
+  },
+
+  estimatedDelivery: {
+    type: Number,
+    default: 30,
+  },
+
+  deliveryBoy: {
+    type: String,
+    default: "",
+  },
+
+  deliveryBoyPhone: {
+    type: String,
+    default: "",
+  },
+
 });
 
 module.exports = mongoose.model("Order", orderSchema);

@@ -7,7 +7,7 @@ function footer(){
         <>
         <div className="footer">
                
-                    <div className="foot-img veggie">
+                    <div className="foot-img">
                         <Link to="/"><img src={logo}></img></Link>
                          <div className="shope">
                               <p>Your one stop shop for farm fresh vegetables and fruits. We deliver freshness at your doorstep.</p>
@@ -49,9 +49,9 @@ function footer(){
                 <div className="links">
                     <ul className="quick number">
                         <h2>Contact Us</h2>
-                        <li> <FaPhone  className="support ph"/>91+9306593030</li>
-                         <li> <FaEnvelope className="support" />support@veggiehub.com</li>
-                          <li> <FaMapMarkedAlt  className="support"/>yamuna nagar Haryana india (135001)</li>
+                        <li className="num"> <FaPhone  className="support m ph"/>91+9306593030</li>
+                         <li> <FaEnvelope className="support m" />support@veggiehub.com</li>
+                          <li className="ade"> <FaMapMarkedAlt  className="support m"/>yamuna nagar Haryana india (135001)</li>
                            
                     </ul>
                 </div>
@@ -59,9 +59,9 @@ function footer(){
         </div>
         <div className="foot-line"></div>
         <div className="the-end">
-            <div>
-                <h4>&copy; 2026 VeggieHub All rights Reserved. </h4>
-            </div>
+           
+                <h4>&copy; 2026 VeggieHub All rights Reserved.</h4>
+            
             
         </div>
         </>

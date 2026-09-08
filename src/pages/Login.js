@@ -3,6 +3,8 @@ import "./login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import logoe from "./images/logos.png";
+import bglogin from "./images/login.png";
 
 function Login() {
 
@@ -15,29 +17,29 @@ function Login() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showwel,setshowwel]=useState(false);
 
     const navigate = useNavigate();
 
 
     const handleSubmit = async () => {
-
-        if (!email || !phone || !password) {
-           toast.warning("Please fill all fields");
-            return;
-        }
+if(!isRegister){
+    if(!email.trim() || !password.trim()){
+        toast.warning("Please enter email and passowrd");
+        return;
+    }
+}
 
 
         if (isRegister) {
 
-            if (!name) {
+            if (!name.trim()) {
                 toast.warning("Please enter your name");
                 return;
             }
 
 
-            if (password !== confirmPassword) {
-            toast.warning("Password not matched");
+            if(!email.trim() || !phone.trim() || !password.trim()){
+                toast.warning("Please fill all fields");
                 return;
             }
         }
@@ -58,9 +60,8 @@ function Login() {
                     password:password.trim()
                 }
                 : {
-                    name,
+                   
                     email,
-                    phone,
                     password:password.trim()
                 };
 
@@ -84,10 +85,10 @@ function Login() {
            else{
             localStorage.setItem("user",JSON.stringify(res.data.user));
             window.dispatchEvent(new Event("userLogin"));
-            setshowwel(true);
+            toast.success("Login Successfully");
             setTimeout(()=>{
                 navigate("/dashboard");
-            },2500);
+            },1000);
            }
 
 
@@ -108,165 +109,176 @@ function Login() {
     return (
 
   <>
-        {
-            showwel && 
-            <div className="welcome-overld">
-                <div className="welcome-boxer">
-                    <div className="success-cir">
-                        <div className="success-checker">✔</div>
-                    </div>
-                    <h2>Login Successful!</h2>
-                    <p>Welcome back to <span>veggieHub</span></p>
-                    <div className="loading-bar">
-                        <div className="loading-fill"></div>
-                    </div>
-                    <small>Redirecting to your dashboard...</small>
-                </div>
-            </div>
+      
+      
+ 
+    <div className="login-cont">
 
-        }
-        <div className="login-cont">
+     
+      <div className="login-left">
+      <img src={bglogin}/>
+        <div className="left-overlay">
+          <h1>Welcome back to VeggieHub</h1>
 
-            <div className="login-box">
+          <p>
+            Fresh groceries and organic produce,
+            <br />
+            delivered to your doorstep.
+          </p>
+        </div>
+      </div>
 
-                <h1>
-                    {
-                    isRegister
-                    ? "Create Account"
-                    : "Welcome Back"
-                    }
-                </h1>
+     
+      <div className="login-right">
 
+        <div className="login-box">
 
-                <p>
-                    {
-                    isRegister
-                    ? "Create your VeggieHub account"
-                    : "Login to continue shopping"
-                    }
-                </p>
+          <div className="brand-name">
+           <img src={logoe}></img>
+          </div>
 
+          <h1>
+            {isRegister
+              ? "Sign up for an account"
+              : "Sign in to your account"}
+          </h1>
 
-                {
-                isRegister &&
+          <p className="account-text">
+            {isRegister
+              ? "Already have an account? "
+              : "Don't have an account? "}
 
-                <input
+            <span onClick={() => setIsRegister(!isRegister)}>
+              {isRegister ? "Sign in" : "Create one"}
+            </span>
+          </p>
+
+        
+          {isRegister && (
+            <div className="input-group">
+              <label>Name</label>
+              <input
                 type="text"
-                placeholder="Full Name"
+                placeholder="Your name"
                 value={name}
-                onChange={(e)=>setName(e.target.value)}
-                />
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+          )}
 
-                }
+   
+          <div className="input-group">
+            <label>Email Address</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
+      
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-                <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                />
-
-
-                <input
+     
+          {isRegister && (
+            <div className="input-group">
+              <label>Mobile Number</label>
+              <input
                 type="tel"
-                placeholder="Mobile Number"
+                placeholder=" ex- 1234567890"
                 value={phone}
-                onChange={(e)=>setPhone(e.target.value)}
-                />
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+          )}
 
+      
+          {/* {!isRegister && (
+            <p
+              className="forgot-password"
+              onClick={() => setforgot(true)}
+            >
+              Forgot Password?
+            </p>
+          )} */}
 
-                <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                />
+          <button
+            className="auth-button"
+            onClick={handleSubmit}
+          >
+            {isRegister ? "Sign Up" : "Sign In"}
+          </button>
 
+        
 
-                {
-                isRegister &&
+        
+          {forgot && (
+            <div className="forgot-overlay">
+              <div className="forgot-box">
 
-                <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e)=>setConfirmPassword(e.target.value)}
-                />
+                <h3>Reset Password</h3>
 
-                }
-
-
-                {
-                !isRegister &&
-                <p className="forgot-password" onClick={()=> setforgot(true)}>
-                    Forgot Password?
-                </p>
-                }
-
-
-                <button onClick={handleSubmit}>
-                    {
-                    isRegister
-                    ? "Register"
-                    : "Login"
-                    }
+                <button
+                  className="close-forgott"
+                  onClick={() => setforgot(false)}
+                >
+                  ✖
                 </button>
 
+                <input
+                  type="email"
+                  placeholder="Enter your mail"
+                  value={forgotmail}
+                  onChange={(e) => setforgotmail(e.target.value)}
+                />
 
-                <p
-                className="switch-account"
-                onClick={()=>setIsRegister(!isRegister)}
-                >
-
-                {
-                isRegister
-                ? "Already have an account? Login"
-                : "New to VeggieHub? Create Account"
-                }
-
-                </p>
-
-                {forgot && 
-                <div className="forgot-overlay">
-                 <div className="forgot-box">
-                    <h3>Reset Password</h3>
-                    <button className="close-forgott" onClick={()=>setforgot(false)}>✖</button>
-                    <input type="email" placeholder="Enter your mail"
-                    value={forgotmail}
-                    onChange={(e)=>setforgotmail(e.target.value)}/>
-                    <button onClick={async()=>{
-                        console.log("forgot button clicked");
-                        console.log("sending email:",forgotmail);
-                        try{
-                            console.log("before api call");
-                            const res =await axios.post(
-                                "https://veggiehub-1037.onrender.com/api/auth/forgot-password",{
-                                    email:forgotmail
-                                }
-                            );
-                            console.log("API RESPONSE:",res.data);
-                            alert(res.data.message);
-                            setforgotmail("");
-                            setforgot(false);
+                <button
+                  onClick={async () => {
+                    try {
+                      const res = await axios.post(
+                        "https://veggiehub-1037.onrender.com/api/auth/forgot-password",
+                        {
+                          email: forgotmail
                         }
-                      catch(err){
-                        console.log("forgot error:",err);
-                        console.log("error response:",err.response?.data);
-                        alert(err.response?.data?.message || "somthing went wrong");
-                      }
-                    }}>Send Reset Link</button>
-                 </div>
-                 </div>
-                }
+                      );
 
+                      alert(res.data.message);
 
+                      setforgotmail("");
+                      setforgot(false);
+
+                    } catch (err) {
+                      alert(
+                        err.response?.data?.message ||
+                        "Something went wrong"
+                      );
+                    }
+                  }}
+                >
+                  Send Reset Link
+                </button>
+
+              </div>
             </div>
+          )}
 
         </div>
-        </>
+      </div>
 
-    );
+    </div>
+  </>
+);
+
+  
 
 }
 

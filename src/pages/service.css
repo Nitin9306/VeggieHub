@@ -1,13 +1,14 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: "Poppins",sans-serif;
+    font-family: 'Poppins',sans-serif;
 }
 
 .categories-page{
     width: 90%;
     max-width: 1200px;
     margin: 85px auto;
+    font-family: 'Poppins',sans-serif;
 }
 .heading{
     text-align: center;
@@ -15,14 +16,16 @@
 }
 .heading h1
 {
-    font-size: 42px;
+    font-size: 30px;
     color: #15803D;
     margin-bottom: 12px;
+    font-family: 'Poppins',sans-serif;
 }
 .heading p
 {
-    font-size: 17px;
+    font-size: 13px;
     color: #666;
+    font-family: 'Poppins',sans-serif;
 }
 .categories-grid{
     display: flex;
@@ -46,15 +49,15 @@
 }
 .carded img
 {
-    width: 210px;
-    height: 210px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
 }
 .leafed img{
-    width: 300px;
-    height: 160px;
+    width: 250px;
+    height: 120px;
    position: relative;
-   margin-left: -20px;
+   margin-left: 4px;
    top: 10px;
 }
 .down{
@@ -69,22 +72,26 @@
 {
     color: #15803D;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 20px;
+    font-family: 'Poppins',sans-serif;
 }
 .card-content p{
     color: #666;
     margin-bottom: 18px;
+    font-family: 'Poppins',sans-serif;
+    font-size: 13px;
 }
 .card-content button
 {
     border: none;
     background: #15803D;
     color: #fff;
-    padding: 10px 25px;
+    padding: 8px 25px;
     border-radius: 30px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 13px;
     transition: 0.3s;
+    font-family: 'Poppins',sans-serif;
 }
 .card-content button:hover
 {
@@ -100,8 +107,9 @@
 }
 .bannered h2
 {
-    font-size: 36px;
+    font-size: 30px;
     margin-bottom: 18px;
+    font-family: 'Poppins',sans-serif;
 }
 .bannered p
 {
@@ -109,22 +117,25 @@
     max-width: 750px;
     margin: auto;
     line-height: 1.6;
+    font-size: 15px;
+    font-family: 'Poppins',sans-serif;
 }
 .bannered button
 {
     border: none;
     background-color: white;
     color: #15803D;
-    padding: 12px 30px;
+    padding: 8px 25px;
     border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
     font-size: 16px;
     margin-top: 20px;
+    font-family: 'Poppins',sans-serif;
 }
 .bannered button:hover{
-    transform: scale(1.05);
+    transform: scale(1.04);
 }
 
 .promise{
@@ -138,7 +149,8 @@
     text-align: center;
     color: #15803D;
     margin-bottom: 35px;
-    font-size: 30px;
+    font-size: 28px;
+    font-family: 'Poppins',sans-serif;
 }
 .promise-box{
     display: grid;
@@ -148,7 +160,7 @@
 .item
 {
     background-color: #d5f5d5;
-    padding: 25px;
+    padding: 20px;
     border-radius: 15px;
     text-align: center;
     transition: 0.3s;
@@ -160,12 +172,15 @@
 {
     margin-bottom: 12px;
     color:#15803D;
+    font-family: 'Poppins',sans-serif;
 
 }
 .item p
 {
     color: #666;
     line-height: 1.4;
+    font-family: 'Poppins',sans-serif;
+    font-size: 13px;
 }
 .contacted
 {
@@ -176,7 +191,8 @@
 {
     color: #15803D;
     margin-bottom: 20px;
-    font-size: 32px;
+    font-size: 28px;
+    font-family: 'Poppins',sans-serif;
 }
 .contacted p{
     color: #666;
@@ -211,7 +227,7 @@
 
 
 .promise-icon{
-    font-size: 45px;
+    font-size: 40px;
     color: #15803D;
     margin-bottom: 15px;
     transition: .3s;
@@ -228,9 +244,10 @@
     justify-content: center;
     align-items: center;
     gap: 12px;
-    font-size: 17px;
+    font-size: 13px;
     color: #555;
     margin: 15px 0;
+    font-family: 'Poppins',sans-serif;
 }
 .contac-icon{
     color: #15803D;

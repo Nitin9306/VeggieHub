@@ -1,8 +1,8 @@
-*{
+/* *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 body{
@@ -46,24 +46,36 @@ body{
 .profile-card h2{
     margin-top:20px;
     color:#15803D;
+     font-family: "Poppins", sans-serif;
+     font-weight: 400;
 }
 
 .profile-card p{
-    margin-top:10px;
+    margin-top:5px;
     color:#666;
+     font-family: "Poppins", sans-serif;
+   
+     
+}
+.maler{
+   
+    width: 100%;
+    object-fit: cover;
+  
 }
 
 .edit-btn{
     margin-top:20px;
     width:100%;
-    padding:12px;
+    padding:10px;
     border:none;
     border-radius:30px;
     background:#15803D;
     color:#fff;
     cursor:pointer;
-    font-size:16px;
+    font-size:15px;
     transition:.3s;
+     font-family: "Poppins", sans-serif;
 }
 
 .edit-btn:hover{
@@ -86,6 +98,7 @@ body{
 
 .welcome-box h1{
     font-size:30px;
+     font-family: "Poppins", sans-serif;
 }
 
 .welcome-box p{
@@ -130,9 +143,10 @@ body{
 
 .menu-card h3{
     color:#15803D;
-    font-size:16px;
+    font-size:18px;
     font-weight:600;
     margin-bottom:6px;
+     font-family: "Poppins", sans-serif;
   
    
   
@@ -141,6 +155,8 @@ body{
 .menu-card p{
    color:#777;
     font-size:13px;
+    margin-top: -6px;
+    font-family: "Poppins", sans-serif;
 }
 
 .logout{
@@ -249,9 +265,11 @@ body{
 }
 
 .orders-sec h2{
-    font-size:28px;
+    font-size:20px;
     color:#15803d;
     margin-bottom:20px;
+     font-family: "Poppins", sans-serif;
+     font-weight: 400;
 }
 
 .order-car{
@@ -268,6 +286,7 @@ body{
    display:flex;
     align-items:center;
     gap:18px;
+    transition: .3s;
    
 }
 .order-car:hover{
@@ -285,39 +304,53 @@ body{
 
 .orderf-details{
     flex:1;
+    
 }
 
 .orderf-details h3{
     font-size:24px;
     color:#222;
     margin-bottom:12px;
+     font-family: "Poppins", sans-serif;
 }
 .logout-b{
-    padding: 12px 11px !important;
-    background-color: #ef4444;
-    border-radius: 30px;
+     width:80%;
+    padding:10px;
     margin-top: 10px;
-    color: white;
-    cursor: pointer;
+    border:none;
+    border-radius:30px;
+    background:#ef4444;
+    margin-left: 25px;
+    color:#fff; 
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+     font-family: "Poppins", sans-serif;
 }
 .oute{
     padding: 2px 12px;
     font-size: 30px;
 }
 .orderf-details p{
-    font-size:16px;
-    color:#555;
+    font-size:17px;
+    color:black;
     margin:8px 0;
+     font-family: "Poppins", sans-serif;
+     font-size: 13px;
+     font-weight: 600;
 }
 
 .orderf-details strong{
-    color:#111;
+    color:#333;
+     font-family: "Poppins", sans-serif;
+     font-weight: 500;
+     font-size: 13px;
 }
 
 .statued{
    
     margin-left:5px;
-    
+     font-family: "Poppins", sans-serif;
    display: inline-block;
     padding:5px 12px;
     border-radius:20px;
@@ -328,26 +361,32 @@ body{
 .delivered{
     background: #d4edda;
     color: #155724;
+     font-family: "Poppins", sans-serif;
 }
 .pending{
     background: #fff3cd;
     color: #856404;
+     font-family: "Poppins", sans-serif;
 }
 .confirmed{
     background: #d1ecf1;
     color: #0c5460;
+     font-family: "Poppins", sans-serif;
 }
 .shipped{
     background: #cce5ff;
     color: #004085;
+     font-family: "Poppins", sans-serif;
 }
 .outfordelivery{
     background: #ffe5b4;
     color: #d35400;
+     font-family: "Poppins", sans-serif;
 }
 .cancelled{
     background: #f8d7da;
     color: #721c24;
+     font-family: "Poppins", sans-serif;
 }
 
 @media(max-width:768px){
@@ -379,13 +418,14 @@ body{
     display:flex;
     align-items:center;
     gap:8px;
-    padding:10px 18px;
+    padding:6px 18px;
     border:none;
     border-radius:30px;
     background:#15803D;
     color:#fff;
     cursor:pointer;
-    font-size:14px;
+    font-size:13px;
+     font-family: "Poppins", sans-serif;
 }
 
 .back-btn:hover{
@@ -396,7 +436,9 @@ body{
     text-align:center;
     margin:15px 0 25px;
     color:#15803D;
-    font-size:24px;
+    font-size:20px;
+    font-weight: 400;
+     font-family: "Poppins", sans-serif;
 }
 .track-order{
     display: flex;
@@ -436,12 +478,14 @@ body{
     display: block;
     font-size: 14px;
     margin-top: 5px;
+     font-family: "Poppins", sans-serif;
 }
 .order-grid{
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 20px;
     margin-top: 20px;
+    transition: .3s;
 }
 @media (max-width:768px){
     .order-grid{
@@ -504,11 +548,13 @@ body{
 .address-crd h3{
     font-size:20px;
     margin-bottom:12px;
+    font-family: "Poppins", sans-serif;
 }
 .address-crd p{
     font-size:15px;
     color:#555;
     margin:8px 0;
+    font-family: "Poppins", sans-serif;
 }
 @media(max-width:768px){
     .password-crd,
@@ -917,22 +963,29 @@ height:110px;
     transform: translateY(-5px);
 }
 .wishl-img{
-    width: 100%;
-    height: 180px;
+    width: 80%;
+    height: 150px;
     object-fit: contain;
     border-radius: 10px;
     padding: 10px;
 }
+.nip{
+    font-family: "Poppins", sans-serif;
+    color: #333;
+    font-size: 13px;
+}
 .wishlist-care h3{
-    margin: 15px 0 8px;
+    margin: 8px 0 8px;
     font-size: 18px;
     color: #222;
+    font-family: "Poppins", sans-serif;
 }
 .wishlist-care p{
     color: #15803D;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
+    font-family: "Poppins", sans-serif;
 }
 @media(max-width:768px){
 
@@ -960,12 +1013,17 @@ height:110px;
 .remove-bt{
     flex: 1;
     border: none;
-    padding: 10px;
+    padding: 8px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     transition: .3s;
+    font-family: "Poppins", sans-serif;
+}
+.pro-wish{
+    font-family: "Poppins", sans-serif;
+    color: #333;
 }
 .wish-bt{
     background-color: #15803D;
@@ -977,4 +1035,4 @@ height:110px;
 }
 .remove-bt:hover{
     background-color: #c62828;
-}
+} */

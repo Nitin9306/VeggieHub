@@ -79,9 +79,9 @@ function AdminDashboard() {
         <table className="recent-table">
           <thead>
             <tr>
-              <th>Customer</th>
+              <th>Customer name</th>
               <th>Product</th>
-              <th>Total</th>
+              <th>Total amount</th>
               <th>Status</th>
             </tr>
           </thead>

@@ -65,7 +65,17 @@ function Review({productId}){
                         <div className="review-avatar">{item.userName.charAt(0).toUpperCase()}</div>
 
                         <div>
-                            <div className="review-name"><h4>{item.userName}</h4>
+                            <div className="review-name">
+                                <h4>{item.userName}</h4>
+<div className="review-date">{new Date(item.createdAt).toLocaleDateString("en-GB",
+                            {
+                                day:"numeric",
+                                month:"short",
+                                year:"numeric"
+                            }
+                        )}
+
+                        </div>
                             </div>
                             <div className="review-rating">
                                 
@@ -79,9 +89,7 @@ function Review({productId}){
                         
                         
                         <p className="review-com">{item.Comment}</p>
-                        <div className="review-date">{new Date(item.createdAt).toLocaleDateString()}
-
-                        </div>
+                        
                         </div>
                 ))}
         </div>

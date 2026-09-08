@@ -2,11 +2,13 @@
     background:#f6f8f6;
     min-height:100vh;
     margin-top: 50px;
+    font-family: 'Poppins',sans-serif;
 }
-
-
-
-
+.coupon-hero p{
+    font-family: 'Poppins',sans-serif;
+    margin-top: 5px;
+    font-size: 13px;
+}
 
 .coupon-hero{
 
@@ -18,24 +20,19 @@
 
 }
 
-
 .coupon-hero svg{
 
     font-size:45px;
 
 }
 
-
 .coupon-hero h1{
 
-    font-size:38px;
-    margin:15px 0;
+    font-size:30px;
+    margin:-5px 0;
+    font-family: 'Poppins',sans-serif;
 
 }
-
-
-
-
 
 .coupon-category{
 
@@ -51,10 +48,12 @@
 
     border:none;
     background:white;
+    color: #333;
     padding:12px 22px;
     border-radius:30px;
     box-shadow:0 4px 12px #ddd;
     white-space:nowrap;
+    font-family: 'Poppins',sans-serif;
 
 }
 
@@ -74,6 +73,7 @@
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:25px;
+    font-family: 'Poppins',sans-serif;
 
 }
 
@@ -91,14 +91,18 @@
 .coupon-card h3{
     padding-bottom: 2px;
     color: #333;
-    margin-top: 15px;
+    margin-top: 8px;
+    font-size: 17px;
+    font-family: 'Poppins',sans-serif;
 }
 .coupon-card p{
     padding-bottom: 2px;
     color: grey;
+    font-family: 'Poppins',sans-serif;
 }
 .coupon-card small{
     color: grey;
+    font-family: 'Poppins',sans-serif;
    
 }
 
@@ -109,24 +113,26 @@
 }
 
 
-.discount{
+.discountt{
 
-    font-size:32px;
+    font-size:25px;
     font-weight:bold;
     color:#15803d;
+    font-family: 'Poppins',sans-serif;
 
 }
 
 
 .coupon-code{
 
-    margin:20px 0;
-    padding:12px;
+    margin:18px 0;
+    padding:10px;
     text-align:center;
     border:2px dashed #15803d;
     border-radius:12px;
     font-weight:bold;
     color:#15803d;
+    font-family: 'Poppins',sans-serif;
 
 }
 
@@ -135,14 +141,15 @@
 .coupon-card button{
 
     width:100%;
-    padding:12px;
+    padding:10px;
     border:none;
     background:#15803d;
     color:white;
     border-radius:10px;
-    font-size:16px;
+    font-size:15px;
     cursor:pointer;
    margin-top: 13px;
+   font-family: 'Poppins',sans-serif;
 
 }
 
@@ -159,11 +166,14 @@
 }
 .how-use p{
     padding-bottom: 6px;
+    font-family: 'Poppins',sans-serif;
+    font-size: 13px;
 }
 
 .coupon-container h2{
     color:#15803d;
     padding-bottom: 30px;
+    font-family: 'Poppins',sans-serif;
 }
 .ho{
     margin-top: 19px;

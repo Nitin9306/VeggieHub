@@ -62,6 +62,7 @@ const products = [
      {
         id : 4,
         name : "broccoli",
+        pack : "1 Pack",
         price : 49,
         discount: "10%",
         oldprice:56,
@@ -74,6 +75,7 @@ const products = [
     {
         id : 5,
         name : "brinjal",
+        pack : "1 Pack",
         price : 49,
         image : brinjal,
         discount: "10%",
@@ -86,6 +88,7 @@ const products = [
     {
         id : 6,
         name : "Bottle",
+        pack : "1 Pack",
         price : 49,
         image : bottle,
         discount: "10%",
@@ -98,6 +101,7 @@ const products = [
     {
         id : 7,
         name : "Cabbage",
+        pack : "1 Pack",
         price : 49,
         image : cabbage,
         discount: "10%",
@@ -110,6 +114,7 @@ const products = [
     {
         id : 8,
         name : "Palak",
+        pack : "1 Pack",
         price : 49,
         image : palak,
         discount: "10%",
@@ -122,6 +127,7 @@ const products = [
      {
         id : 9,
         name : "Green Chili",
+        pack : "1 Pack",
         price : 49,
         discount: "10%",
         oldprice:56,
@@ -135,6 +141,7 @@ const products = [
      {
         id : 10,
         name : "apple",
+        pack : "1 Pack",
         price : 109,
         discount: "10%",
         oldprice:56,
@@ -147,6 +154,7 @@ const products = [
      {
         id : 11,
         name : "banana",
+        pack : "1 Pack",
         price : 49,
         image : banana,
         discount: "10%",
@@ -159,6 +167,7 @@ const products = [
      {
         id : 12,
         name : "Grapes",
+        pack : "1 Pack",
         price : 89,
         image : graps,
         discount: "10%",
@@ -171,6 +180,7 @@ const products = [
      {
         id : 13,
         name : "Mango",
+        pack : "1 Pack",
         price : 109,
         discount: "10%",
         oldprice:56,
@@ -183,6 +193,7 @@ const products = [
      {
         id : 14,
         name : "Orange",
+        pack : "1 Pack",
         price : 69,
         image : orange,
         discount: "10%",
@@ -195,6 +206,7 @@ const products = [
      {
         id : 15,
         name : "Papaya",
+        pack : "1 Pack",
         price : 69,
         image : papaya,
         discount: "10%",
@@ -207,6 +219,7 @@ const products = [
     {
         id : 16,
         name : "Guava",
+        pack : "1 Pack",
         price : 69,
         image : guava,
         discount: "10%",

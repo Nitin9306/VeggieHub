@@ -4,13 +4,19 @@
 }
 .products {
     display: flex;
-    gap: 40px;
-    padding: 20px;
+    gap: 15px;
+    padding: 30px;
+    width: 90%;
     max-width: 1200px;
     justify-content: center;
-    align-items: flex-start;
-    margin-top: 70px;
+    margin: 70px auto;
      font-family: 'Poppins', sans-serif;
+}
+.quantity-section{
+    margin-top: -25px;
+    padding: 0 15px;
+    flex:  0 0 auto;
+   
 }
 .quantity-section p{
   
@@ -24,14 +30,15 @@
 
 .images img {
     width: 100%;
-    max-width: 500px;
-    height: 400px;
+    max-width: 260px;
+    height: 260px;
     object-fit: contain;
     display: block;
     margin: auto;
 }
 .cire{
-    color: green;
+    color: #15803D;
+    
 }
 
 .aside-section {
@@ -51,7 +58,7 @@
 
 .image-card img{
     width: 100%;
-    height: 380px;
+    height: 330px;
     object-fit: contain;
 }
 
@@ -61,10 +68,11 @@
     left: 18px;
     background:#15803D;
     color: white;
-    padding: 8px 14px;
+    padding: 3px 10px;
     border-radius: 30px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 500;
+     font-family: "Poppins", sans-serif;
 }
 
 .product-header{
@@ -72,45 +80,59 @@
     justify-content:space-between;
     align-items:flex-start;
     margin-bottom:20px;
+      font-family: "Poppins", sans-serif;
 }
 
 .shoping
 {
-    margin-bottom: -3px;
+    top: 2px;
+    right: 10px;
+    position: relative;
+    font-size: 17px;
 }
-
+.qty-cart-rows{
+    display: flex;
+    align-items: flex-end;
+    justify-content:space-between;
+    gap: -2px;
+    width: 100%;
+}
 
 .price{
     color:#15803D;
-    font-size:36px;
+    font-size:25px;
     margin:15px 0;
+      font-family: "Poppins", sans-serif;
 }
+
 
 .delivery,
 .stock{
     color:#555;
-    margin-top:8px;
+    margin-top:15px;
+    margin-bottom: -5px;
+    font-size: 15px;
+    font-family: "Poppins", sans-serif;
 }
 .del{
-    padding: 8px 30px !important;
+    padding: 5px 30px !important;
 }
 
 
 .cart-buttons{
-    display:flex;
-    gap:25px;
-    margin:30px 0;
+    
+    margin:15px 0;
+    flex: 1;
 }
 
-.cart-btn
-{
-  
-    transition:.3s;
-}
+
 
 .cart-btn{
     background:#15803D;
     color:white;
+     font-family: "Poppins", sans-serif;
+     transition: all .3s ease;
+     width: 100%;
     
 }
 
@@ -122,6 +144,7 @@
 }
 .buy{
     transition:.3s;
+     font-family: "Poppins", sans-serif;
 }
 .buy:hover{
     transform: translateY(-3px);
@@ -134,17 +157,17 @@
 
 .aside-section h4 {
     padding: 5px 15px;
-    font-size: 26px;
+    font-size: 15px;
+      font-family: "Poppins", sans-serif;
 }
 
-.aside-section p {
-    padding: 1px 16px;
-}
 
 .aside-section h2 {
-    padding: 30px 15px;
+  margin: 20px 0;
     font-size: 18px;
-    color: grey;
+    color: #333;
+      font-family: "Poppins", sans-serif;
+      margin-bottom: 10px;
 }
 
 .aside-section h3 {
@@ -156,14 +179,15 @@
 .names {
     margin-top: -20px;
     margin-left: 20px;
+      font-family: "Poppins", sans-serif;
 }
 
 
 .aside-section button {
     color: white;
-    padding: 12px;
-    border-radius: 50px;
-    font-size: 18px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
     width: 100%;
     border: none;
     background-color: #15803D;
@@ -180,18 +204,13 @@
     margin-top: 15px;
 }
 
-.cart-btn:hover,
-.buy-btn:hover{
+.cart-btn:hover
+{
     transform:translateY(-3px);
     box-shadow:0 8px 20px rgba(21,128,61,.3);
 }
-.image-card img{
-    transition:.4s;
-}
 
-.image-card:hover img{
-    transform:scale(1.05);
-}
+
 .brands.show
 {
     max-height: 200px;
@@ -291,16 +310,17 @@ h5 {
     display:flex;
     align-items:center;
     justify-content:flex-start;
-    gap:15px;
-    margin:15px 0 25px;
+    gap:12px;
+    margin:15px 0 20px;
+    background-color: #15803D;
+    border-radius: 10px;
+   
 }
 
 .product-qty button{
-    width:40px !important;
-    height:40px;
+    width:38px !important;
+    height:38px;
     border:none;
-    border-radius:50%;
-    background:#15803D;
     color:#fff;
     cursor:pointer;
     flex:none;
@@ -309,16 +329,17 @@ h5 {
 .equal{
    
      position: relative;
-     margin-right: 10px;
-     font-size: 16px;
+     margin-bottom: 2px;
+     font-size: 14px;
 }
 .pack
 {
-    color:grey;
-   margin-bottom: 10px;
-   font-size: 20px;
+    color:#333;
+   margin-bottom: 8px;
+   font-size: 15px;
    font-weight: 700;
    margin-top: -10px;
+     font-family: "Poppins", sans-serif;
 }
 .price-box{
     display: flex;
@@ -331,7 +352,8 @@ h5 {
 .old-price{
     color: #999;
     text-decoration: line-through;
-    font-size: 22px;
+    font-size: 20px;
+      font-family: "Poppins", sans-serif;
 }
 
 .discount{
@@ -341,6 +363,7 @@ h5 {
     border-radius: 20px;
     font-size: 14px;
     font-weight: 600;
+      font-family: "Poppins", sans-serif;
 }
 .feature-list{
     display: flex;
@@ -353,20 +376,24 @@ h5 {
     background: #f8fdf9;
     border: 1px solid #d8f0df;
     border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 15px;
+    padding: 10px 12px;
+    font-size: 13px;
     color: #333;
     transition: .3s;
+      font-family: "Poppins", sans-serif;
 }
 .related-products{
     max-width:1200px;
-    margin:60px auto;
+    margin:-90px auto;
     padding:20px;
+    margin-bottom: 10px;
 }
 
 .related-products h2{
     margin-bottom:25px;
     color:#15803D;
+    font-weight: 500;
+     font-family: "Poppins", sans-serif;
 }
 
 .related-grid{
@@ -390,13 +417,15 @@ h5 {
 }
 
 .related-card img{
-    width:100%;
-    height:180px;
+    width:90%;
+    height:160px;
     object-fit:contain;
 }
 
 .related-card h4{
-    margin:15px 0 10px;
+    margin:10px 0 10px;
+    font-size: 15px;
+     font-family: "Poppins", sans-serif;
 }
 .popup-img{
     width:120px;
@@ -436,16 +465,21 @@ h5 {
 .related-card p{
     color:#15803D;
     font-weight:bold;
+     font-family: "Poppins", sans-serif;
+     font-size: 15px;
 }
 .feature-item:hover{
     background: #eaf8ee;
     transform: translateX(5px);
 }
 .product-qty span{
-    font-size:20px;
+    font-size:17px;
     font-weight:700;
     min-width:25px;
     text-align:center;
+     font-family: "Poppins", sans-serif;
+     color: white;
+    
 }
 .showallproduct {
     text-align: center;
@@ -453,8 +487,9 @@ h5 {
 .info-icons
 {
     padding: 40px 0px;
+}.in{
+    margin-left: 13px;
 }
-
 .policy h5
 {
     font-size: 16px;
@@ -557,7 +592,7 @@ h5 {
 .frees{
     margin: -4px 7px;
     font-size: 20px;
-   margin-left: -3px;
+   margin-left: -2px;
 
 }
 
@@ -593,7 +628,7 @@ h5 {
 
 .checkout-box
 {
-    width: 430px;
+    width: 400px;
     background: white;
     height: auto;
     position: relative;
@@ -605,20 +640,23 @@ h5 {
 .checkout-box h2
 {
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 18px;
     margin-top: 10px;
+    font-size: 22px;
+    font-family: "Poppins", sans-serif;
 }
 .checkout-box input,
 .checkout-box textarea{
        
     width: 100%;
-    padding: 12px;
-    margin-bottom: 12px;
+    padding: 10px;
+    margin-bottom: 11px;
     border-radius: 8px;
     box-sizing: border-box;
-    font: 14px;
+    font: 13px;
     border: 1px solid black;
     outline: none;
+    font-family: "Poppins", sans-serif;
 }
 .checkout-box input:focus
 {
@@ -633,26 +671,30 @@ h5 {
 }
 .checkout-box textarea
 {
-    height: 90px;
+    height: 80px;
     resize: none;
+    font-family: "Poppins", sans-serif;
 }
 
 .checkout-box h3
 {
     margin: 15px 0;
     color: #15803D;
+    font-family: "Poppins", sans-serif;
 }
 .checkout-box button
 {
  width: 100%;
- padding: 12px;
+ padding: 11px;
  border-radius: 8px;
  background: #15803D;
  color: white;
- font-size: 16px;
+ font-size: 14px;
  cursor: pointer;
+ text-align: center;
  transition: 0.3s;
  border: none;
+ font-family: "Poppins", sans-serif;
 }
 
 .checkout-box button:hover
@@ -759,17 +801,24 @@ h5 {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 12px 0;
+    margin: 5px 0;
 }
 .payment-option input
 {
     width: 18px !important;
-    height: 18px;
+    height: 15px;
     margin: 0;
 }
 .payment-option span
 {
-    font-size: 16px;
+    font-size: 13px;
+     font-family: "Poppins", sans-serif;
+    
+}
+.payment-over{
+   
+     font-family: "Poppins", sans-serif;
+     font-size: 15px;
 }
 
 .confirms:disabled
@@ -782,13 +831,22 @@ h5 {
     background-color: #15803D;
     cursor: pointer;
 }
+.added-cart{
+    background: white !important;
+    color: #15803D !important;
+    border: 1px solid #15803D !important;
+}
+.added-cart .shoping{
+    color: #15803D;
+}
 .errors
 {
     color: red;
-    font-size: 13px;
-    margin-top: -10px;
+    font-size: 11px;
+    margin-top: -13px;
     margin-bottom: 10px;
     padding-left: 2px;
+    font-family: "Poppins", sans-serif;
 }
 .stare
 {
@@ -829,11 +887,26 @@ h5 {
 
     .image-card img,
     .images img{
-        width: 100%;
-        height: 260px;
+        width: 70%;
+        height: 230px;
         object-fit: contain;
     }
-
+.discount{
+    font-size: 14px;
+}
+.delivery{
+    font-size: 12px !important;
+    
+}
+.stock{
+    
+    font-size: 14px !important;
+}
+.related-products h2{
+    
+    font-size: 17px;
+    margin-top: -30px;
+}
     .aside-section{
         padding: 20px;
         border-radius: 16px;
@@ -859,7 +932,9 @@ h5 {
     .aside-section p{
         padding-left: 0;
         padding-right: 0;
+        font-size: 15px;
     }
+ 
 
     .aside-section h3{
         font-size: 28px;
@@ -880,9 +955,16 @@ h5 {
         gap: 12px;
     }
 
-    .cart-btn,
-    .buy-btn{
-        width: 100%;
+    .cart-btn
+    {
+        width: 100% !important;
+        padding:13px !important;
+        font-size:15px !important;
+    }
+    .buy{
+      
+        padding: 13px !important;
+        font-size: 15px !important;
     }
 
     .product-qty{
@@ -891,6 +973,14 @@ h5 {
 
     .net{
         overflow-x: auto;
+    }
+    .product-infos h4{
+        
+        font-size: 13px !important;
+    }
+    .cancel-box h4{
+       
+        font-size: 13px !important;
     }
 
     .net table{
@@ -903,6 +993,10 @@ h5 {
     .offer-tag{
         font-size: 12px;
         padding: 6px 12px;
+    }
+    .oger{
+        
+        font-size: 11px;
     }
 
 }
@@ -933,22 +1027,18 @@ h5 {
     }
 
     .price{
-        font-size:26px;
+        font-size:22px;
     }
 
     .old-price{
-        font-size:18px;
+        font-size:17px;
     }
 
     .feature-item{
-        font-size:14px;
+        font-size:12px;
     }
 
-    .cart-btn,
-    .buy-btn{
-        padding:14px;
-        font-size:16px;
-    }
+   
 
 }
 
@@ -956,15 +1046,17 @@ h5 {
     background-color: #fff;
     border: 1px solid #e8e8e8;
     border-radius: 16px;
-    padding: 20px;
+    padding: 15px;
+    margin-top: 5px;
     box-shadow:  0 4px 12px rgba(0, 0, 0, .06);
 }
 .product-infos h4{
-    font-size: 18px;
+    font-size: 15px;
     color: #15803D;
     margin-bottom: 15px;
     padding: 0;
     margin: 0;
+     font-family: "Poppins", sans-serif;
 }
 .detail-box{
     display: flex;
@@ -977,13 +1069,13 @@ h5 {
     border-bottom: none;
 }
 .detail-icon{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     color: #15803D;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 5px;
+    font-size: 3px;
     flex-shrink: 0;
 }
 .detail-box span{
@@ -994,21 +1086,25 @@ h5 {
 .detail-box strong{
     color: #222;
     margin-left: 5px;
+     font-family: "Poppins", sans-serif;
+     font-weight: 500;
 }
 .cancel-box{
-    margin-top: 25px;
+    margin-top: 15px;
     background-color: #fff;
     border: 1px solid #e8e8e8;
     border-radius: 16px;
-    padding: 20px;
+    padding: 15px;
+  
     box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
 }
 .cancel-box h4{
-    font-size: 18px;
+    font-size: 15px;
     color: #15803D;
     margin-bottom: 18px;
     padding: 0;
     margin: 0;
+     font-family: "Poppins", sans-serif;
 }
 .policy-item{
     display: flex;
@@ -1031,17 +1127,19 @@ h5 {
 }
 .policy-item span{
     color: #555;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.7;
+     font-family: "Poppins", sans-serif;
 }
 .section-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    
 }
 .section-header svg{
-    font-size: 18px;
+    font-size: 15px;
     color: #15803D;
 }
 .section-content{

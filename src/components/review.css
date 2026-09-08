@@ -5,10 +5,11 @@
   
 }
 .review-secson h2{
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
     color: #222;
     margin-bottom: 25px;
+     font-family: "Poppins", sans-serif;
 }
 .review-form{
     display: flex;
@@ -29,28 +30,31 @@
     width: 100%;
     min-height: 120px;
     resize: none;
-    padding: 15px;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 12px;
     outline: none;
-    font-size: 16px;
+    font-size: 15px;
     transition: .3s;
+     font-family: "Poppins", sans-serif;
 }
 .review-form textarea:focus{
     border-color: #15803d;
     box-shadow: 0 0 0 3px rgba(10, 173, 10, .15);
 }
 .review-form button{
-    width: 190px;
-    padding: 13px;
+    width: 150px;
+    padding: 10px;
     background-color: #15803d;
     color: #fff;
     border: none;
     border-radius: 10px;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: .3s;
+     font-family: "Poppins", sans-serif;
 }
 .review-form button:hover{
     background: #125a2c;
@@ -79,36 +83,46 @@
     gap: 12px;
 }
 .review-avatar{
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: #15803d;
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 500;
+     font-family: "Poppins", sans-serif;
 }
 .review-name{
-    font-size: 17px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 500;
     color: #222;
-    margin-top: 5px;
+    display: flex;
+    gap: 15px;
+     font-family: "Poppins", sans-serif;
 }
 .review-rating{
-   
+   position: relative;
+   top: -5px;
     font-size: 18px;
+     font-family: "Poppins", sans-serif;
 }
 .review-com{
     color: #555;
-    line-height: 1.7;
-    font-size: 15px;
+    position: relative;
+    font-size: 14px;
+    padding: 0px 43px;
+    margin-top: -10px;
+     font-family: "Poppins", sans-serif;
 }
 .review-date{
     color: #888;
-    font-size: 13px;
-    margin-top: 12px;
+    font-size: 12px;
+    position: relative;
+    top: 3px;
+     font-family: "Poppins", sans-serif;
 }
 @media(max-width:768px){
     .review-secson{
@@ -131,7 +145,7 @@
 }
 .star{
    color: #d9d9d9;
-   font-size: 18px;
+   font-size: 15px;
    margin-top: 2px;
 }
 .active-star{
@@ -140,13 +154,14 @@
 .rating-input{
     display: flex;
     gap: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 .rating-input .star{
-    font-size: 28px;
+    font-size: 23px;
     color: #d9d9d9;
     cursor: pointer;
     transition: 0.3s;
+    margin-top: -22px;
 }
 .rating-input .star:hover{
     transform: scale(1.2);
