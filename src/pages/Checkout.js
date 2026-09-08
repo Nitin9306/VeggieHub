@@ -24,6 +24,7 @@ const changestep = (newstep) => { setstep(newstep);};
         pincode:""
     });
     const cartItems= JSON.parse(localStorage.getItem("cart")) || [];
+    console.log("cart items",cartItems);
     const total = cartItems.reduce((sum,item)=>sum+item.price * item.qty,0);
 
 
@@ -59,30 +60,41 @@ order_id:razorpayOrder.id,
 
 handler: async function(paymentResponse){
 
-
 const res = await axios.post(
-"https://veggiehub-1037.onrender.com/api/orders",
-{
-userId:user._id,
+  "https://veggiehub-1037.onrender.com/api/orders",
+  {
+    userId: user._id,
 
-name:savead.fullName,
+    name: user.name,
 
-email:user.email,
+    email: user.email,
 
-phone:savead.mobile,
+    phone: savead.mobile,
 
-address:`${savead.house}, ${savead.area}, ${savead.city}, ${savead.state}, ${savead.pincode}`,
+    address: `${savead.house}, ${savead.area}, ${savead.city}, ${savead.state}, ${savead.pincode}`,
 
-payment:"ONLINE",
+    productName: cartItems.map(item => item.name).join(", "),
 
-paymentStatus:"PAID",
+    image: cartItems[0]?.image || "",
+   
 
-paymentId:paymentResponse.razorpay_payment_id,
+    quantity: cartItems.reduce(
+      (sum, item) => sum + item.qty,
+      0
+    ),
 
-items:cartItems,
+    productPrice: total,
 
-total
-}
+    payment: "ONLINE",
+
+    paymentStatus: "PAID",
+
+    paymentId: paymentResponse.razorpay_payment_id,
+
+    items: cartItems,
+
+    total: total
+  }
 );
 
 
@@ -128,62 +140,59 @@ alert("Payment Failed");
   }
 
 
-if(payment === "COD"){
+if (payment === "COD") {
 
-    try{
+  try {
 
-        const res = await axios.post(
-            "https://veggiehub-1037.onrender.com/api/orders",
-            {
+    const res = await axios.post(
+      "https://veggiehub-1037.onrender.com/api/orders",
+      {
+        userId: user._id,
 
-                userId: user._id,
+        name: user.name,
 
-                name: user.name,
+        email: user.email,
 
-                email: user.email,
+        phone: savead.mobile,
 
-                phone: user.phone,
+        address: `${savead.house}, ${savead.area}, ${savead.city}, ${savead.state}, ${savead.pincode}`,
 
-                address: `${savead.house}, ${savead.area}, ${savead.city}, ${savead.state}, ${savead.pincode}`,
+        productName: cartItems.map(item => item.name).join(", "),
 
-                items: cartItems,
+        productPrice: total,
 
-                payment: "COD",
+        quantity: cartItems.reduce(
+          (sum, item) => sum + item.qty,
+          0
+        ),
 
-                paymentStatus: "Pending",
+        image: cartItems[0]?.image || "",
+         items:cartItems,
+        payment: "COD",
 
-                total: total
+        paymentStatus: "Pending",
 
-            }
-        );
+        total: total
+      }
+    );
 
+    console.log("ORDER SAVED:", res.data);
 
-        console.log("Order Saved:", res.data);
+    localStorage.removeItem("cart");
 
+    setshowc(true);
 
-        localStorage.removeItem("cart");
+    setTimeout(() => {
+      navigate(`/tracking/${res.data.order.orderId}`);
+    }, 2500);
 
+  } catch (err) {
 
-        setshowc(true);
+    console.log(err);
 
+    alert("Order Save Failed");
 
-        setTimeout(()=>{
-
-            navigate(
-                `/tracking/${res.data.order.orderId}`
-            );
-
-        },2500);
-
-
-    }
-    catch(err){
-
-        console.log(err);
-
-        alert("Order Save Failed");
-
-    }
+  }
 
 }
 

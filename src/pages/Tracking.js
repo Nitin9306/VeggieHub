@@ -169,9 +169,19 @@ console.log("mesage",err.message);
 
       ? order.items
 
-      : [];
+      : [
+        {
+          name:order.productName || "Product",
+          image:order.image || "",
+          qty:order.quantity || 1,
+          price:order.productPrice || order.total,
+          
+        },
+      ];
 
-
+console.log("item", items);
+console.log("image url",items[0]?.image);
+console.log("product name",items[0]?.name);
   const orderDate = new Date(
     order.createdAt
   ).toLocaleDateString(
@@ -231,7 +241,6 @@ console.log("mesage",err.message);
 
     <div className="tracking-page-new">
 
-<h1 style={{fontSize:"5000px"}}>tracking page working</h1>
       <div className="order-header-new">
 
         <div>
@@ -440,6 +449,7 @@ console.log("mesage",err.message);
 
             items.map(
               (item, index) => (
+              
 
                 <div
                   className="tracking-item"
@@ -449,10 +459,10 @@ console.log("mesage",err.message);
 
                   <div className="tracking-item-left">
 
-
                     <img
                       src={item.image}
                       alt={item.name}
+                      onError={(e) => {console.log("image load error",item.image);}}
                     />
 
 
@@ -467,7 +477,7 @@ console.log("mesage",err.message);
 
                       <p>
 
-                        x{item.qty}
+                        {item.qty}
 
                       </p>
 
