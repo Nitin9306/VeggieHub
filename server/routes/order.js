@@ -1,7 +1,7 @@
 const express = require("express");
 const Order =require("../models/Order");
 const router  = express.Router();
-
+const mongoose = require("mongoose");
 
 
 router.post("/",async(req,res)=>{
@@ -53,9 +53,24 @@ router.get("/tracking/:orderId", async (req, res) => {
 
     try {
 
-        const order = await Order.findOne({
+        let order;
+
+   
+        order = await Order.findOne({
             orderId: req.params.orderId
         });
+
+      
+        if (
+            !order &&
+            mongoose.Types.ObjectId.isValid(req.params.orderId)
+        ) {
+
+            order = await Order.findById(
+                req.params.orderId
+            );
+
+        }
 
         if (!order) {
 

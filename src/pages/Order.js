@@ -31,10 +31,12 @@ function Orders() {
       try {
 
         const res = await axios.get(
-          `http://localhost:5000/api/orders/${user._id}`
+          `https://veggiehub-1037.onrender.com/api/orders/${user._id}`
         );
 
         console.log("Orders:", res.data);
+        console.log("first order",res.data[0]);
+        console.log("order id",res.data[0]?.orderId);
 
         setOrders(res.data);
 
@@ -222,7 +224,7 @@ function Orders() {
                       </span>
 
                       <h3>
-                        #{item._id.slice(-8).toUpperCase()}
+                        #{item.orderId}
                       </h3>
 
                       <span className="order-date">
@@ -433,7 +435,7 @@ function Orders() {
                     <button
                       className="track-order-btn"
                       onClick={() =>
-                        navigate(`/tracking/${item._id}`)
+                        navigate(`/tracking/${item._orderId || item._id}`)
                       }
                     >
                       <FaMapMarkerAlt />
