@@ -490,12 +490,11 @@ const formatDateTime = (date) => {
             Home
 
           </h4>
-
-          <p>
-
-            {order.address}
-
-          </p>
+<p>
+  {typeof order.address === "object"
+    ? `${order.address.house || ""}, ${order.address.area || ""}, ${order.address.city || ""}, ${order.address.state || ""}, ${order.address.pincode || ""}`
+    : order.address}
+</p>
 
         </div>
 

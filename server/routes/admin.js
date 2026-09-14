@@ -10,30 +10,35 @@ router.post("/login",(req,res)=>{
         message:"Admin route working"
     });
 });
-
-router.get("/stats", async (req,res)=>{
-    try{
+router.get("/stats", async (req, res) => {
+    try {
         const totalUser = await User.countDocuments();
-        const totalProduct = await Product.countDocuments();
-        const totalOrders  = await Order.countDocuments();
-        const deliveryOrders = await Order.find({
-            status:"Delivered",
-        });
-        let totalRevenue = 0;
-        deliveryOrders.forEach((order)=>{
+        const totalProducts = await Product.countDocuments();
+        const totalOrders = await Order.countDocuments();
 
-            totalRevenue +=order.total;
+        const deliveryOrders = await Order.find({
+            status: "Delivered",
         });
+
+        let totalRevenue = 0;
+
+        deliveryOrders.forEach((order) => {
+            totalRevenue += Number(order.total) || 0;
+        });
+
         res.json({
-            totaluser,
-            totalProduct,
+            totalUser,
+            totalProducts,
             totalOrders,
             totalRevenue,
         });
-    } catch(err){
+
+    } catch (err) {
+        console.log("Stats Error:", err);
+
         res.status(500).json({
-            success:false,
-            message:err.message,
+            success: false,
+            message: err.message,
         });
     }
 });

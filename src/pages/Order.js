@@ -299,10 +299,12 @@ function Orders() {
 
                       {item.image ? (
 
-                        <img
-                          src={item.image}
-                          alt={item.productName}
-                        />
+                       <img src={item.image?.startsWith("/uploads/")
+        ?
+        `http://localhost:5000${item.image}`
+        : item.image
+      }
+      alt={item.name}/>
 
                       ) : (
 
@@ -423,17 +425,12 @@ function Orders() {
                   </div>
 
 
-                  <div className="order-actions">
+                  <div className="order-actionss">
+
+                    
 
                     <button
-                      className="view-order-btn"
-                    >
-                      <FaEye />
-                      View Details
-                    </button>
-
-                    <button
-                      className="track-order-btn"
+                      className="track-order-btn1"
                       onClick={() =>
                         navigate(`/tracking/${item._orderId || item._id}`)
                       }

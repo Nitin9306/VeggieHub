@@ -341,7 +341,7 @@ margin-top: -25px;
 }
 
 
-.order-actions {
+.order-actionss {
   display: flex;
 
   justify-content: flex-end;
@@ -355,7 +355,7 @@ margin-top: -25px;
   border-top: 1px solid #edf0ee;
 }
 
-.order-actions button {
+.order-actionss button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,7 +384,7 @@ margin-top: -25px;
   color: #0b5d2c;
 }
 
-.track-order-btn {
+.track-order-btn1 {
   background: #0b5d2c;
 
   border: 1px solid #0b5d2c;
@@ -392,7 +392,7 @@ margin-top: -25px;
   color: white;
 }
 
-.track-order-btn:hover {
+.track-order-btn1:hover {
   background: #0b5d2c;
 
   border-color: #0b5d2c;

@@ -21,15 +21,18 @@ function AdminDashboard() {
     fetchStats();
     fetchrecent();
   },[]);
-  const fetchStats = async() =>{
-    try{
-      const res = await axios.get("http:localhost:5000/api/admin/stats");
-      setstats(res.data);
-    } catch (err){
-      console.log(err);
-    }
-  };
+const fetchStats = async () => {
+  try {
+    const res = await axios.get(
+      "https://veggiehub-1037.onrender.com/api/admin/stats"
+    );
 
+    console.log("Stats:", res.data);
+    setstats(res.data);
+  } catch (err) {
+    console.log("Stats error:", err);
+  }
+};
   const fetchrecent = async () =>{
     try{
       const res = await axios.get("http://localhost:5000/api/admin/recent-orders");
