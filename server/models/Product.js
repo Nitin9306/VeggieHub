@@ -34,6 +34,10 @@ const productSchema = new mongoose.Schema(
             type:Number,
             default:5,
         },
+        pack:{
+            type:String,
+            default:"1 kg",
+        },
         available:{
             type:Boolean,
             default:true,

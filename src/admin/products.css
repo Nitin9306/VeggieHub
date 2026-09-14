@@ -18,6 +18,14 @@
     border: none;
     cursor: pointer;
 }
+.image-upload-box label{
+ color: #777;
+ font-size: 14px;
+}
+.image-upload-box input{
+    color: #777;
+}
+
 .admin-products>button{
     background: #15803D;
     color: #fff;

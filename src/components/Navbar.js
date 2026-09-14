@@ -3,14 +3,17 @@ import { Link,NavLink,useNavigate } from "react-router-dom";
 import logo from "../pages/images/logos.png";
 import CartDrawer from "./CartDrawer";
 import products from "../productsData";
+import axios from "axios";
 import { FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes,FaHome, 
          FaInfoCircle,FaConciergeBell,FaPhoneAlt,FaHeart, FaTicketAlt,FaTags,FaChevronDown,FaSignOutAlt,FaShieldAlt
         ,FaArrowUp,FaMapMarkedAlt,FaBox, 
         FaMapMarkerAlt} from "react-icons/fa";
 import { useState,useEffect } from "react";
 
+
 function Navbar({search,setsearch}) {
  const [user,setuser]=useState(null);
+ const [backpro,setbackpro]=useState([]);
  const navigate = useNavigate();
  const [profileicon,setprofileicon]=useState(false);
  const [cartopen,setcartopen]=useState(false);
@@ -44,15 +47,48 @@ function Navbar({search,setsearch}) {
     window.removeEventListener("userLogin",loaduser);
     window.removeEventListener("userLogout",loaduser);
   };
+
+  
  },[]);
+
+useEffect(() => {
+  const fetchproducts = async () => {
+    try {
+      const res = await axios.get(
+        "https://veggiehub-1037.onrender.com/api/products"
+      );
+
+      console.log("Backend products:", res.data);
+
+      if (Array.isArray(res.data)) {
+        setbackpro(res.data);
+      } else if (Array.isArray(res.data.products)) {
+        setbackpro(res.data.products);
+      } else {
+        setbackpro([]);
+      }
+
+    } catch (error) {
+      console.log("Failed to fetch products:", error);
+    }
+  };
+
+  fetchproducts();
+}, []);
+
+
   const [menuopen,setmenuopen]=useState(false);
   const [showsearch,setshowsearch]=useState(false);
   const cartcount = 
   JSON.parse(localStorage.getItem("cart"))?.length ||0;
 
 
-  const filteredProducts=products.filter((item) =>
-  item.name.toLowerCase().includes(search.toLowerCase()));
+  const allProducts = [...products, ...backpro];
+  
+
+const filteredProducts = allProducts.filter((item) =>
+  item.name?.toLowerCase().includes(search.toLowerCase())
+);
   useEffect(()=>{
     const openCarthandler=()=>{
       setcartopen(true);
@@ -120,8 +156,8 @@ function Navbar({search,setsearch}) {
           {filteredProducts.length > 0 ? (
             filteredProducts.map((item) =>(
               <Link
-               key={item.id}
-               to={`/product/${item.id}`}
+               key={item._id || item.id}
+               to={`/product/${item._id || item.id}`}
                onClick={()=> setsearch("")}>
                 <p>{item.name}</p>
                </Link>
@@ -141,14 +177,10 @@ function Navbar({search,setsearch}) {
           Home</NavLink></li>
           <li><NavLink className="home" to="/allproduct">Shop</NavLink></li>
 
-          {/* <li><NavLink className="home" to="/about">
-          About</NavLink></li> */}
  
          <li><NavLink className="home" to="/service">
            Categories</NavLink></li>  
 
-          {/* <li><NavLink className="home" to="/contact">
-          Contact</NavLink></li> */}
           
         </ul>
       </div>
@@ -256,8 +288,8 @@ function Navbar({search,setsearch}) {
           {filteredProducts.length > 0 ? (
             filteredProducts.map((item) => (
               <Link
-                key={item.id}
-                to={`/product/${item.id}`}
+                key={item._id || item.id}
+                to={`/product/${item._id || item.id}`}
                 onClick={() => {
                   setsearch("");
                   setshowsearch(false);

@@ -1,11 +1,13 @@
 import "./allproducts.css";
 import {FaHeart, FaStar,FaPlus } from "react-icons/fa";
-import products from "../productsData";
+import staticProducts from "../productsData";
+import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 function Allproducts() {
 
+     const [products,setproducts]=useState([]);
     const location = useLocation();
     const queryparams = new URLSearchParams(location.search);
     const urlCategory = queryparams.get("category");
@@ -51,6 +53,18 @@ function Allproducts() {
     const selectedCategory = categoriess.find((item)=> item.value === category);
     const categorytitle = selectedCategory ? selectedCategory.label: "All Products";
 
+    useEffect (() =>{
+        const fetchProducts = async () =>{
+            try{
+                const res = await axios.get("http://localhost:5000/api/products");
+                console.log("backend products",res.data.products);
+                setproducts(res.data.products);
+            } catch(err){
+                console.log("product fetch",err);
+            }
+        };
+        fetchProducts();
+    },[]);
 
     useEffect(() => {
 
@@ -82,10 +96,16 @@ function Allproducts() {
    };
 
 
+const allProducts = [...staticProducts,
+    ...products.map((item) =>({
+        ...item,
+        id:item._id,
+    }))
+];
+const availableProducts = allProducts.filter((item) => item.available !== false);
 
 
-
-    const filteredProducts = products.filter((item) => {
+    const filteredProducts = availableProducts.filter((item) => {
 
         let matchcategory = false;
 
@@ -202,7 +222,7 @@ function Allproducts() {
                         <div className={`products-grid ${animate ? "products-animate" : ""}`}>
 
                             {filteredProducts.map((item) => (
-                                <ProductCard key={item.id}
+                                <ProductCard key={item._id || item.id}
                                 item={item}
                                 addtoCart={addtoCart}
                                />

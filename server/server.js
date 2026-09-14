@@ -9,6 +9,7 @@ const couponRoutes = require("./routes/coupon");
 const adminRoutes = require("./routes/admin");
 const productRoutes =require("./routes/product");
 const addressRoutes = require("./routes/address");
+const path = require("path");
 require("dotenv").config();
 
 
@@ -16,6 +17,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 
  const razorpay = new Razorpay({
     key_id:

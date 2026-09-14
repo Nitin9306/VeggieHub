@@ -9,6 +9,7 @@ function Checkout(){
 const navigate = useNavigate();
 const user = JSON.parse(localStorage.getItem("user"));
     const [step,setstep]=useState(1);
+    const [placeorder,setplaceorder]=useState(false);
 const changestep = (newstep) => { setstep(newstep);};
     const [showadd,setshowadd]=useState(false);
     const [payment,setPayment]=useState("");
@@ -69,9 +70,17 @@ const res = await axios.post(
 
     email: user.email,
 
-    phone: savead.mobile,
+    phone :savead.mobile,
+    address:{
+      fullName:user.name,
+      mobile:savead.mobile,
+      house:savead.house,
+      area:savead.area,
+      city:savead.city,
+      state:savead.state,
+      pincode:savead.pincode
 
-    address: `${savead.house}, ${savead.area}, ${savead.city}, ${savead.state}, ${savead.pincode}`,
+    },
 
     productName: cartItems.map(item => item.name).join(", "),
 
@@ -125,7 +134,7 @@ razor.open();
 catch(error){
 
 console.log(error);
-
+setplaceorder(false);
 alert("Payment Failed");
 
 }
@@ -133,6 +142,7 @@ alert("Payment Failed");
 };
 
   const placeOrder = async () => {
+    setplaceorder(true);
 
   if(payment === "ONLINE"){
     handlePayment();
@@ -155,7 +165,15 @@ if (payment === "COD") {
 
         phone: savead.mobile,
 
-        address: `${savead.house}, ${savead.area}, ${savead.city}, ${savead.state}, ${savead.pincode}`,
+      address:{
+        fullName:user.name,
+        mobile:savead.mobile,
+        house:savead.house,
+        area:savead.area,
+        city:savead.city,
+        state:savead.state,
+        pincode:savead.pincode
+      },
 
         productName: cartItems.map(item => item.name).join(", "),
 
@@ -189,7 +207,7 @@ if (payment === "COD") {
   } catch (err) {
 
     console.log(err);
-
+setplaceorder(false);
     alert("Order Save Failed");
 
   }
@@ -223,17 +241,30 @@ if (payment === "COD") {
       <button
         type="button"
         className={step === 2 ? "active-step" : ""}
-        onClick={() => changestep(2)}
+       onClick={() => {
+        if(!savead) {
+          alert("Please add delivery address first");
+          setstep(1);
+          return;
+        }
+        changestep(2);
+       }}
       ><FaCreditCard className="mapeled"/>
         Payment
         <FaChevronRight className="righted"/>
       </button>
 
-      <button
-        type="button"
-        className={step === 3 ? "active-step" : ""}
-        onClick={() => changestep(3)}
-      ><FaCheck className="mapeled"/>
+      <button type="button"
+      className={step ===3 ? "active-step" : ""}
+      onClick={() =>{
+        if(!payment){
+          alert("Please select a payment method first");
+          setstep(2);
+          return;
+        }
+        changestep(3);
+      }}>
+        <FaCheck className="mapeled"/>
         Review
       </button>
     </div>
@@ -249,22 +280,31 @@ if (payment === "COD") {
                 <div className="address-card">
                     
                     <p>{JSON.parse(localStorage.getItem("user"))?.name}</p>
-                    {savead ? (
-                        <>
-                        
-                        <p>{savead.mobile}</p>
-                        <p className="saved-addresss">{savead.house},
-                        {savead.area},
-                        {savead.city},
-                        {savead.state},
-                        {savead.pincode}</p>
-                        </>
-                    ) : (
-                        <p>Address not added yet</p>
-                    )}
-                    <button className="change-btn" onClick={()=>setshowadd(true)}>
-                        Add New Address <FaPlus className="plus-icon"/>
-                    </button>
+                   {savead ? (
+    <>
+        <p>{savead.mobile}</p>
+
+        <p className="saved-addresss">
+            {savead.house},
+            {savead.area},
+            {savead.city},
+            {savead.state},
+            {savead.pincode}
+        </p>
+    </>
+) : (
+    <>
+        <p>Address not added yet</p>
+
+        <button
+            className="change-btn"
+            onClick={() => setshowadd(true)}
+        >
+            Add New Address
+            <FaPlus className="plus-icon"/>
+        </button>
+    </>
+)}
                 </div>
                 <button className="continue-btn" disabled={!savead} onClick={()=>changestep(2)}>Continue to Payment <FaChevronRight className="conti-btn"/></button>
             </div>
@@ -339,7 +379,12 @@ if (payment === "COD") {
 
 <div className="review-lefts">
   <div className="image-sect">
-    <img src={item.image} alt={item.name} />
+   <img src={item.image?.startsWith("/uploads/")
+        ?
+        `http://localhost:5000${item.image}`
+        : item.image
+      }
+      alt={item.name}/>
 
     <div className="review-info">
       <h4>{item.name}</h4>
@@ -355,8 +400,12 @@ if (payment === "COD") {
       <button
         className="place-order-btn"
         onClick={placeOrder}
+        disabled={placeorder}
       >
-        Place Order - ₹{total}
+        {
+          placeorder ? "Placing Order..." : `Place Order - ₹${total} `
+        }
+       
       </button>
 
     </div>
@@ -402,7 +451,11 @@ if (payment === "COD") {
         </button>
    </div>
 
-
+<input type="text" placeholder="Mobile number" value={address.mobile}
+maxLength="10"
+onChange={(e) => setaddress({
+  ...address,mobile:e.target.value.replace(/\D/g,"")
+})}/>
       <input
         type="text"
         placeholder="House / Flat No."
@@ -452,12 +505,28 @@ if (payment === "COD") {
 
         <button
           className="save-btn"
-          onClick={() => {
-            setsavead(address);
-            localStorage.setItem("deliveryAddress",JSON.stringify(address)
-        );
-            setshowadd(false);
-          }} required
+        onClick={()=>{
+          if(!address.mobile || 
+            address.mobile.length !==10
+          ) {
+            alert("Please enter a Valid 10 digit mobile number.");
+            return;
+          }
+          if(
+            !address.house ||
+            !address.area ||
+            !address.city ||
+            !address.state ||
+            !address.pincode
+          )
+          {
+            alert("Please fill all address details");
+            return;
+          }
+          setaddress(address);
+          localStorage.setItem("deliveryAddress",JSON.stringify(address));
+          setshowadd(false);
+        }}
         >
           Save Address
         </button>

@@ -19,14 +19,15 @@ function Products() {
   const [newproduct,setnewproduct]=useState ({
     name:"",
     price:"",
-    image:"",
     category:"",
     description:"",
     stock:"",
     discount:"",
     rating:"",
+    pack:"1 kg",
     available:true
   });
+  const [imageFile,setImageFile]=useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -40,30 +41,131 @@ function Products() {
       console.log(err);
     }
   };
+const saveproduct = async () => {
 
-  const saveproduct = async() =>{
-    try{
-      await axios.post("http://localhost:5000/api/products",newproduct);
-      alert("Product Added Successfully");
-      setshowform(false);
-      setnewproduct({
-         name:"",
-    price:"",
-    image:"",
-    category:"",
-    description:"",
-    stock:"",
-    discount:"",
-    rating:"",
-    available:true
-      });
-      fetchProducts();
-    } catch(err){
-      console.log(err.response?.data);
-      console.log(err);
-      alert(err.response?.data?.message ||"failed to add product");
+    try {
+
+        const formData = new FormData();
+
+
+        formData.append(
+            "name",
+            newproduct.name
+        );
+
+
+        formData.append(
+            "price",
+            newproduct.price
+        );
+
+
+        formData.append(
+            "category",
+            newproduct.category
+        );
+
+
+        formData.append(
+            "description",
+            newproduct.description
+        );
+
+
+        formData.append(
+            "stock",
+            newproduct.stock
+        );
+
+
+        formData.append(
+            "discount",
+            newproduct.discount
+        );
+
+
+        formData.append(
+            "rating",
+            newproduct.rating
+        );
+
+
+        formData.append(
+            "pack",
+            newproduct.pack
+        );
+
+
+        formData.append(
+            "available",
+            newproduct.available
+        );
+
+
+        if (imageFile) {
+
+            formData.append(
+                "image",
+                imageFile
+            );
+
+        }
+
+
+        await axios.post(
+
+            "http://localhost:5000/api/products",
+
+            formData
+
+        );
+
+
+        alert(
+            "Product Added Successfully"
+        );
+
+
+        setshowform(false);
+
+
+        setnewproduct({
+
+            name: "",
+            price: "",
+            category: "",
+            description: "",
+            stock: "",
+            discount: "",
+            rating: "",
+            pack: "1 kg",
+            available: true
+
+        });
+
+
+        setImageFile(null);
+
+
+        fetchProducts();
+
     }
-  };
+
+    catch (err) {
+
+        console.log(err);
+
+        alert(
+
+            err.response?.data?.message ||
+
+            "Failed to add product"
+
+        );
+
+    }
+
+};
 
   const updateproduct = async () =>{
     try{
@@ -99,19 +201,19 @@ function Products() {
     setnewproduct({
       name:product.name,
       price:product.price,
-      image:product.image,
       category:product.category,
       description:product.description,
       stock:product.stock,
       discount:product.discount,
       rating:product.rating,
+      pack:product.pack || "1 kg",
       available:product.available,
     });
   };
 
   const togglestock = async (product) =>{
     try {
-      await axios.put(`http:localhost:5000/api/products/${product._id}`,{
+      await axios.put(`http://localhost:5000/api/products/${product._id}`,{
         ...product,
         available: !product.available,
       });
@@ -140,16 +242,93 @@ function Products() {
             (e)=>setnewproduct({...newproduct,price:e.target.value})
           }/>
 
+<div className="image-upload-box">
 
-          <input placeholder="Image-path" value={newproduct.image} onChange={
-            (e)=>setnewproduct({...newproduct,image:e.target.value})
-          }/>
+    <label>
+        Product Image
+    </label>
+
+
+    <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+
+            setImageFile(
+                e.target.files[0]
+            );
+
+        }}
+    />
+
+
+    {imageFile && (
+
+        <p>
+
+            Selected:
+            {" "}
+            {imageFile.name}
+
+        </p>
+
+    )}
+
+</div>
 
 
 
-          <input placeholder="Category" value={newproduct.category} onChange={
-            (e)=>setnewproduct({...newproduct,category:e.target.value})
-          }/>
+         <select
+
+    value={newproduct.category}
+
+    onChange={(e) =>
+
+        setnewproduct({
+
+            ...newproduct,
+
+            category: e.target.value
+
+        })
+
+    }
+
+>
+
+    <option value="">
+        Select Category
+    </option>
+
+    <option value="vegetables">
+        Vegetables
+    </option>
+
+    <option value="fruits">
+        Fruits
+    </option>
+
+    <option value="organic">
+        Organic
+    </option>
+
+    <option value="personal-care">
+        Personal Care
+    </option>
+
+    <option value="pantry">
+        Pantry Staples
+    </option>
+
+    <option value="bakery">
+        Bakery
+    </option>
+
+    <option value="beverages">
+        Beverages
+    </option>
+
+</select>
 
  <textarea placeholder="Description" value={newproduct.description} onChange={
   (e)=> setnewproduct({...newproduct,description:e.target.value,})
@@ -158,6 +337,74 @@ function Products() {
           <input placeholder="Stock" value={newproduct.stock} onChange={
             (e)=>setnewproduct({...newproduct,stock:e.target.value})
           }/>
+
+          <input
+
+    type="number"
+
+    placeholder="Discount %"
+
+    value={newproduct.discount}
+
+    onChange={(e) =>
+
+        setnewproduct({
+
+            ...newproduct,
+
+            discount: e.target.value
+
+        })
+
+    }
+
+/>
+
+
+<input
+
+    type="number"
+
+    step="0.1"
+
+    placeholder="Rating (Example: 4.5)"
+
+    value={newproduct.rating}
+
+    onChange={(e) =>
+
+        setnewproduct({
+
+            ...newproduct,
+
+            rating: e.target.value
+
+        })
+
+    }
+
+/>
+
+
+<input
+
+    placeholder="Pack / Weight (Example: 1 kg)"
+
+    value={newproduct.pack}
+
+    onChange={(e) =>
+
+        setnewproduct({
+
+            ...newproduct,
+
+            pack: e.target.value
+
+        })
+
+    }
+
+/>
 
           <button className="save-btnj" onClick={isedit ? updateproduct : saveproduct}> {isedit ? "Update Product" : "Save Product"}</button>
         </div>
@@ -183,11 +430,17 @@ function Products() {
               <tr key={product._id}>
 
                 <td>
-                  <img 
-                    src={images[product.image]}
-                    width="60"
-                    alt={product.name}
-                  />
+                <img
+
+    src={`http://localhost:5000${product.image}`}
+
+    width="60"
+
+    height="60"
+
+    alt={product.name}
+
+/>
                 </td>
 
                 <td>{product.name}</td>

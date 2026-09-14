@@ -9,15 +9,27 @@ import offer from "./images/offer.png";
 import Categories from "../categories";
 import VeggieHub from "../veggieHub";
 import Footer from "../footer";
-import products from "../productsData";
+import staticProducts from "../productsData";
 import ProductCard from "../components/ProductCard";
 import { FaShoppingCart, FaChevronLeft, FaChevronRight, FaLeaf, FaTruck,FaArrowRight, FaShieldAlt , FaHeart} from "react-icons/fa";
-import { useRef ,useState} from "react";
+import { useRef ,useState,useEffect} from "react";
+import axios from "axios";
 
 function Home({search}) {
 
-
-  
+const [products,setproducts]=useState([]);
+ useEffect (() =>{
+  const fetchProducts = async () => {
+    try{
+      const res = await axios.get("http://localhost:5000/api/products");
+      console.log("backend product",res.data.products);
+      setproducts(res.data.products);
+    } catch(err){
+      console.log("products api error",err);
+    }
+  };
+  fetchProducts();
+ },[]); 
  
 const [showpopup ,setshowpopup]=useState(false);
 
@@ -101,20 +113,31 @@ const addtocart = (product) => {
  {
         fruitRef.current.scrollLeft += 250;
  };
+const allProducts = [
+  ...staticProducts,
+  ...products.map((item) => ({
+    ...item,
+    id: item._id,
 
+  }))
 
+];
+const availableProducts = allProducts.filter(
+  (item) => item.available !== false
+);
 
- const vegetables= products.filter(
-  (item)=> item.category ===
-  "vegetables"
- );
+const vegetables = availableProducts.filter(
+  (item) =>
+    item.category?.toLowerCase() ===
+    "vegetables"
+);
 
-
- const fruits = products.filter (
-  (item)=> item.category === "fruits"
- );
-
- const popular = products.slice(0,10);
+const fruits = availableProducts.filter(
+  (item) =>
+    item.category?.toLowerCase() ===
+    "fruits"
+);
+const popular = availableProducts.slice(0, 10);
   return (
     <>
 
@@ -191,7 +214,7 @@ const addtocart = (product) => {
     <div className="popular-grid">
       {popular.map((item) => (
         <ProductCard
-        key={item.id}
+        key={item._id || item.id}
         item={item}
         addtoCart={addtocart}
         addToWishlist={addToWishList}
@@ -201,75 +224,7 @@ const addtocart = (product) => {
     </div>
   </div>
 
-      {/* <div className="fresh">
-        <h2>Fresh Vegetables</h2>
-      </div> */}
 
-      {/* <div className="carousel">
-        <div className="fade"></div>
-
-        <button onClick={scrollVegLeft} className="arrow">
-          <FaChevronLeft />
-        </button>
-
-        <div className="product" ref={vegRef}>
-
-          {vegetables.map((item)=> (
-            <ProductCard key ={item.id}
-            item ={item}
-            addtoCart={addtocart}
-            addToWishlist = {addToWishList}
-            page="home" />
-          ))}
-
-         
-
-        </div>
-        <div className="fades"></div>
-        <button onClick={scrollVegRight} className="arrows">
-          <FaChevronRight />
-        </button>
-
-      </div> */}
-
-
-
-
-
-
-      
-
-      
-    
-{/* 
-      <div className="fresh gy">
-        <h2>Fresh Fruits</h2>
-      </div> */}
-
-        {/* <div className="carousel">
-        <div className="fade"></div>
-
-        <button onClick={scrollFruitLeft} className="arrow">
-          <FaChevronLeft />
-        </button>
-
-        <div className="product" ref={fruitRef}>
-         {fruits.map((item)=> (
-          <ProductCard key={item.id}
-          item ={item}
-          addtoCart={addtocart}
-          addToWishlist ={addToWishList}
-          page="home" />
-         ))}
-        
-
-        </div>
-        <div className="fades"></div>
-        <button onClick={scrollFruitRight} className="arrows">
-          <FaChevronRight />
-        </button>
-
-      </div> */}
 
       <div className="banner">
 

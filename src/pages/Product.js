@@ -16,6 +16,68 @@ function Product() {
  
  const {id} = useParams();
 
+
+useEffect(() => {
+
+  const localProduct = products.find(
+    (item) => String(item.id) === String(id)
+  );
+
+  if (localProduct) {
+    setProduct(localProduct);
+    setLoading(false);
+    return;
+  }
+
+  const getProduct = async () => {
+
+    try {
+
+      const res = await axios.get(
+        "https://veggiehub-1037.onrender.com/api/products"
+      );
+
+      const mongoProduct = res.data.products.find(
+        (item) => String(item._id) === String(id)
+      );
+
+      if (mongoProduct) {
+
+        setProduct({
+          ...mongoProduct,
+          id: mongoProduct._id,
+
+          image: mongoProduct.image || ""
+        });
+
+      }
+
+    } catch (error) {
+
+      console.log("PRODUCT FETCH ERROR:", error);
+
+    }
+
+    setLoading(false);
+
+  };
+
+  getProduct();
+
+}, [id]);
+
+useEffect(()=>{
+  setpagelod(true);
+  const timer = setTimeout(()=>{
+    setpagelod(false);
+  },1000);
+  return()=>
+    clearTimeout(timer);
+},[id]);
+
+const [product,setProduct]=useState(null);
+const[loading,setLoading]=useState(true);
+const [pagelod,setpagelod]=useState(true);
  
   const addToWishlist = async()=>{
     try{
@@ -42,7 +104,7 @@ function Product() {
   };
 
 
-  const product = products.find((item) => item.id == id);
+
   const [isadd,setisadd]=useState(false);
   useEffect(()=>{
     if(!product) return;
@@ -61,10 +123,21 @@ function Product() {
   const user = JSON.parse(localStorage.getItem("user"));
 
 
-
-   if (!product) {
-
-    return <h2>Product Not Found</h2>;
+if(pagelod || loading){
+  return(
+    <div className="product-loding-page">
+    <div className="pro-dot">
+      <div className="loder-dot">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    </div>
+  );
+}
+  if(!product){
+    return <h2>Product not found.</h2>;
   }
 
 
@@ -89,7 +162,15 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 
 
 
-
+const getImageUrl = (image) =>{
+  if(!image) return "";
+  if(image.includes("/uploads/"))
+  {
+    const imagePath = image.substring(image.indexOf("/uploads/"));
+    return `http://localhost:5000${imagePath}`;
+  }
+  return image;
+};
 
 
   return (
@@ -100,7 +181,8 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 
   <div className="image-card">
 
-    <img src={product.image} alt={product.name} />
+   <img src={getImageUrl(product.image)}
+   alt={product.name}/>
 
     <span className="offer-tag oger">
       10% OFF
@@ -116,7 +198,7 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
 
   <div className="names">
 
-    <h2>{product.name} 1kg <FaStar className="stare" />
+    <h2>{product.name}<FaStar className="stare" />
       <span>{product.rating}</span></h2>
 
     <p className="pack">{product.pack}</p>
@@ -124,7 +206,7 @@ const relatedproducts = products.filter((item)=> item.id !==product.id)
     <div className="price-box">
 
   <h1 className="price">
-   ₹{product.price*qty} kg
+   ₹{product.price*qty}
   </h1>
 
   <span className="old-price">

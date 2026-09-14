@@ -60,8 +60,35 @@ const orderSchema = new mongoose.Schema({
     type: Number,
   },
 
-  address: {
-    type: String,
+  address:{
+    fullName:{
+      type:String,
+      default:"",
+    },
+    mobile:{
+      type:String,
+      default:"",
+    },
+    house:{
+      type:String,
+      default:"",
+    },
+    area:{
+      type:String,
+      default:"",
+    },
+    city:{
+      type:String,
+      default:"",
+    },
+    state:{
+      type:String,
+      default:"",
+    },
+    pincode:{
+      type:String,
+      default:"",
+    },
   },
 
   payment: {
@@ -95,6 +122,30 @@ const orderSchema = new mongoose.Schema({
   trackingStep: {
     type: Number,
     default: 1,
+  },
+  placedAt:{
+    type:Date,
+    default:Date.now,
+  },
+  confirmedAt:{
+    type:Date,
+    default:null,
+  },
+  assignedAt:{
+    type:Date,
+    default:null,
+  },
+  packedAt:{
+    type:Date,
+    default:null,
+  },
+  outForDeliveryAt:{
+    type:Date,
+    default:null,
+  },
+  deliveredAt:{
+    type:Date,
+    default:null,
   },
 
   estimatedDelivery: {

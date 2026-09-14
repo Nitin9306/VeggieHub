@@ -18,6 +18,7 @@ import {
   FaMotorcycle,
   FaHome,
   FaClock,
+  FaCalendarAlt,
 } from "react-icons/fa";
 
 
@@ -31,48 +32,59 @@ const [error,setError]=useState("");
   const mapRef = useRef(null);
 
 
+useEffect(() => {
 
-  useEffect(() => {
-
-const fetchOrder = async () => {
+  const fetchOrder = async () => {
 
     try {
 
-        console.log("Tracking Order ID:", orderId);
+      console.log("Tracking Order ID:", orderId);
 
-        const res = await axios.get(
-            `https://veggiehub-1037.onrender.com/api/orders/tracking/${orderId}`
-        );
+      const res = await axios.get(
+        `https://veggiehub-1037.onrender.com/api/orders/tracking/${orderId}`
+      );
 
-        console.log("Tracking Response:", res.data);
+      console.log("Tracking Response:", res.data);
 
-        if (res.data.success) {
-            setOrder(res.data.order);
-        }
+      if (res.data.success) {
+
+        setOrder(res.data.order);
+        setError("");
+
+      }
 
     } catch (err) {
-console.log("full error",err);
-console.log("status",err.response?.status);
-console.log("data",err.response?.data);
-console.log("mesage",err.message);
-        setError("Unable to load order details");
+
+      console.log("Tracking Error:", err);
 
     } finally {
 
-        setLoading(false);
+      setLoading(false);
 
     }
 
-};
+  };
 
 
-    if (orderId) {
+  if (orderId) {
+
+    fetchOrder();
+
+    const interval = setInterval(() => {
 
       fetchOrder();
 
-    }
+    }, 5000);
 
-  }, [orderId]);
+    return () => {
+
+      clearInterval(interval);
+
+    };
+
+  }
+
+}, [orderId]);
 
 
   useEffect(() => {
@@ -198,40 +210,83 @@ console.log("product name",items[0]?.name);
   );
 
 
-  const steps = [
+const steps = [
 
+  {
+    name: "Placed",
+    icon: <FaClock />,
+    description: "Order placed successfully",
+    time: order.createdAt,
+  },
+
+  {
+    name: "Confirmed",
+    icon: <FaCheck />,
+    description: "Your order has been confirmed",
+    time: order.confirmedAt,
+  },
+
+  {
+    name: "Assigned",
+    icon: <FaMotorcycle />,
+    description: "Delivery partner has been assigned",
+    time: order.assignedAt,
+  },
+
+  {
+    name: "Packed",
+    icon: <FaBox />,
+    description: "Your order has been packed",
+    time: order.packedAt,
+  },
+
+  {
+    name: "Out for Delivery",
+    icon: <FaTruck />,
+    description: "Your order is on the way",
+    time: order.outForDeliveryAt,
+  },
+
+  {
+    name: "Delivered",
+    icon: <FaHome />,
+    description: "Order delivered successfully",
+    time: order.deliveredAt,
+  },
+
+];
+
+
+const formatDateTime = (date) => {
+
+  if (!date) return null;
+
+  const dateObj = new Date(date);
+
+  const formattedDate = dateObj.toLocaleDateString(
+    "en-IN",
     {
-      name: "Placed",
-      icon: <FaClock />,
-    },
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }
+  );
 
+  const formattedTime = dateObj.toLocaleTimeString(
+    "en-IN",
     {
-      name: "Confirmed",
-      icon: <FaCheck />,
-    },
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }
+  );
 
-    {
-      name: "Assigned",
-      icon: <FaMotorcycle />,
-    },
+  return {
+    date: formattedDate,
+    time: formattedTime,
+  };
 
-    {
-      name: "Packed",
-      icon: <FaBox />,
-    },
-
-    {
-      name: "Out for Delivery",
-      icon: <FaTruck />,
-    },
-
-    {
-      name: "Delivered",
-      icon: <FaHome />,
-    },
-
-  ];
-
+};
 
   const currentStep =
     order.trackingStep || 1;
@@ -247,9 +302,7 @@ console.log("product name",items[0]?.name);
 
           <h2>
 
-            Order #
-
-            {order.orderId}
+            Order id: {order.orderId}
 
           </h2>
 
@@ -358,38 +411,53 @@ console.log("product name",items[0]?.name);
                   </div>
 
 
-                  <div
-                    className={
-                      index < currentStep
+                 <div
+  className={
+    index < currentStep
+      ? "progress-text-new active-text"
+      : "progress-text-new"
+  }
+>
 
-                        ? "progress-text-new active-text"
-
-                        : "progress-text-new"
-                    }
-                  >
-
-                    <h4>
-
-                      {step.name}
-
-                    </h4>
+  <h4>
+    {step.name}
+  </h4>
 
 
-                    {
+  {index < currentStep && (
 
-                      index === 0 && (
+    <>
 
-                        <p>
+      <p className="progress-description">
+        {step.description}
+      </p>
 
-                          Order placed successfully
 
-                        </p>
+      {step.time && (
 
-                      )
+        <div className="progress-date-time">
 
-                    }
+          <span>
+            <FaCalendarAlt/> {
+              formatDateTime(step.time)?.date
+            }
+          </span>
 
-                  </div>
+          <span>
+            <FaClock/> {
+              formatDateTime(step.time)?.time
+            }
+          </span>
+
+        </div>
+
+      )}
+
+    </>
+
+  )}
+
+</div>
 
 
                 </div>
@@ -459,11 +527,15 @@ console.log("product name",items[0]?.name);
 
                   <div className="tracking-item-left">
 
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      onError={(e) => {console.log("image load error",item.image);}}
-                    />
+                                 <img
+    src={
+        item.image?.startsWith("/uploads/")
+            
+            ? `http://localhost:5000${item.image}`
+            : item.image
+    }
+    alt={item.name}
+/>
 
 
                     <div>
@@ -477,7 +549,7 @@ console.log("product name",items[0]?.name);
 
                       <p>
 
-                        {item.qty}
+                       Qty: {item.qty}
 
                       </p>
 

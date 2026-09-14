@@ -74,7 +74,12 @@ const deleteItem = (id) => {
 ) : (
   cartitems.map((item) => (
     <div className="drawer-item" key={item.id}>
-      <img src={item.image} alt={item.name} />
+      <img src={item.image?.startsWith("/uploads/")
+        ?
+        `http://localhost:5000${item.image}`
+        : item.image
+      }
+      alt={item.name}/>
 
       <div className="item-info">
         <h4>{item.name}</h4>

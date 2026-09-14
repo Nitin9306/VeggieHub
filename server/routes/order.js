@@ -19,8 +19,9 @@ router.post("/",async(req,res)=>{
         const order = await Order.create({...req.body,
             orderId,
             invoiceNo,
-            status:"Order Confirmed",
+            status:"Placed",
             trackingStep:1,
+            placedAt: new Date(),
             estimatedDelivery:30,
             deliveryBoy:"",
             deliveryBoyPhone:"",
@@ -129,24 +130,105 @@ router.get("/:userId",async (req,res)=>{
     }
 });
 
+router.put("/:id", async (req, res) => {
 
-router.put("/:id", async (req,res) =>{
-    try{
-        const order  = await Order.findByIdAndUpdate(req.params.id,{status: req.body.status,},
+    try {
+
+        const { status } = req.body;
+
+        const now = new Date();
+
+        let updateData = {
+            status: status,
+        };
+
+
+
+        if (status === "Placed") {
+
+            updateData.trackingStep = 1;
+
+        }
+
+
+        if (status === "Confirmed") {
+
+            updateData.trackingStep = 2;
+            updateData.confirmedAt = now;
+
+        }
+
+
+        if (status === "Assigned") {
+
+            updateData.trackingStep = 3;
+            updateData.assignedAt = now;
+
+        }
+
+
+        if (status === "Packed") {
+
+            updateData.trackingStep = 4;
+            updateData.packedAt = now;
+
+        }
+
+
+        if (status === "Out for Delivery") {
+
+            updateData.trackingStep = 5;
+            updateData.outForDeliveryAt = now;
+
+        }
+
+
+        if (status === "Delivered") {
+
+            updateData.trackingStep = 6;
+            updateData.deliveredAt = now;
+
+        }
+
+
+        const order = await Order.findByIdAndUpdate(
+
+            req.params.id,
+
+            updateData,
+
             {
-                new:true,
+                new: true,
             }
+
         );
+
+
         res.json({
-            success:true,
-            message:"Order Status updated", order,
+
+            success: true,
+
+            message: "Order Status updated",
+
+            order,
+
         });
-    } catch(err){
+
+
+    } catch (err) {
+
+        console.log(err);
+
         res.status(500).json({
-            success:false,
-            message:err.message,
+
+            success: false,
+
+            message: err.message,
+
         });
+
     }
+
 });
 
 module.exports = router;
