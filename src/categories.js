@@ -6,6 +6,10 @@ import fruite from "./pages/images/fruits.png";
 import lefr from "./pages/images/leafed.png";
 import beverage from "./pages/images/beverage.png";
 import bread from "./pages/images/bread.png";
+import personal from "./pages/images/persnl.png";
+import organic from "./pages/images/organic.png";
+import pantry from "./pages/images/pantry_staples-CcPzJo59.png";
+import frozen from "./pages/images/frozen_foods-CJqLnA0J.png";
 import { Link } from "react-router-dom";
 
 const categorie = [
@@ -13,49 +17,56 @@ const categorie = [
        
         name:"Fruits",
         image: fruite,
+        value:"fruits",
         
     },
     {
        
         name:"Vegetables",
         image: seson,
+        value:"vegetables",
       
     },
     {
         
-        name:"Beverages",
-        image: beverage,
+        name:"Organic",
+        image: organic,
+        value:"organic",
         
     },
      {
         
         name:"Bakery",
         image: bread,
+        value:"bakery",
         
     },
      {
         
         name:"Beverages",
         image: beverage,
+        value:"beverages",
         
     },
      {
         
-        name:"Beverages",
-        image: beverage,
+        name:"Personal care",
+        image: personal,
+         value:"personal-care",
         
     },
      {
         
-        name:"Beverages",
-        image: beverage,
+        name:"Pantry Staples",
+        image: pantry,
+         value:"pantry",
         
     },
     {
          
         name:"Frozen Foods",
-        
-        image:fruite,
+        value:"frozen food",
+        image:frozen,
        
     },
     
@@ -73,7 +84,8 @@ const categorie = [
 
                     <div className="categoriesed">
                         {categorie.map ((category,index) =>(
-                            <div className="category" key={index}>
+                            <Link to={`/allproduct?category=${category.value}`}
+                            className="category" key={index}>
                                 <div className="category-image">
                                     <img src={category.image} alt={category.name}></img>
                                 </div>
@@ -81,7 +93,7 @@ const categorie = [
                                 <div className="category-names">
                                     {category.name}
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </section>

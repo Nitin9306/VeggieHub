@@ -47,6 +47,7 @@
     text-align: center;
     cursor: pointer;
     transition: .3s;
+    text-decoration: none;
 }
 .category:hover{
     transform: translateY(-5px);

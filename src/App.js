@@ -9,7 +9,7 @@ import Product from "./pages/Product";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
 import { useState,useEffect } from "react";
-import Dashboard from "./pages/Dashboard";
+// import Dashboard from "./pages/Dashboard";
 import Footer from "./footer";
 import Wishlist from "./pages/Wishlist";
 import Allproduct from "./pages/Allproducts";
@@ -25,10 +25,12 @@ import Tracking from "./pages/Tracking";
 import Checkout from "./pages/Checkout";
 import Order from "./pages/Order";
 import Address from "./pages/address";
+import { ToastProvider } from "./components/ToastContext";
+
 
 
 function App() {
- 
+  
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
 
@@ -45,6 +47,8 @@ const hideLayout = location.pathname === "/login" || location.pathname.startsWit
   }, []);
   const [search,setsearch]=useState("");
   return (
+   
+    <ToastProvider>
     <>
     
     
@@ -64,7 +68,7 @@ const hideLayout = location.pathname === "/login" || location.pathname.startsWit
         <Route path="/login" element={<Login/>} />
          <Route path="/cart" element={<Cart/>} />
          <Route path="/wishlist" element={<Wishlist />} />
-         <Route path="/dashboard" element={<Dashboard/>}/>
+         {/* <Route path="/dashboard" element={<Dashboard/>}/> */}
          <Route path="/allproduct" element={<Allproduct/>}/>
          <Route path="/reset-password/:token" element={<Resetpassword/>}></Route>
          <Route path="/admin" element={<AdminDashboard/>}/>
@@ -77,9 +81,11 @@ const hideLayout = location.pathname === "/login" || location.pathname.startsWit
          <Route path="/tracking/:orderId" element={<Tracking/>}></Route>
          <Route path="/order" element={<Order/>}></Route>
          <Route path="/address" element={<Address/>}></Route>
+         
       </Routes>
      {!hideLayout && <Footer />}
     </>
+   </ToastProvider>
   );
 }
 

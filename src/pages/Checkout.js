@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Checkout.css";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {FaArrowLeft,FaMapMarked ,FaChevronRight,FaCreditCard,FaCheck,FaPlus,FaTimes,FaTruck} from "react-icons/fa";
+import {FaArrowLeft,FaMapMarked ,FaChevronRight, FaGift,FaCreditCard,FaCheck,FaPlus,FaTimes,FaTruck} from "react-icons/fa";
 import {FiMapPin} from "react-icons/fi";
 function Checkout(){
    
@@ -27,6 +27,78 @@ const changestep = (newstep) => { setstep(newstep);};
     const cartItems= JSON.parse(localStorage.getItem("cart")) || [];
     console.log("cart items",cartItems);
     const total = cartItems.reduce((sum,item)=>sum+item.price * item.qty,0);
+   const [coupon, setCoupon] = useState("");
+const [couponApplied, setCouponApplied] = useState(false);
+const [couponError, setCouponError] = useState("");
+const [couponData, setCouponData] = useState(null);
+const [couponLoading, setCouponLoading] = useState(false);
+
+const discount = couponData?.discountAmount || 0;
+
+const finalTotal = couponApplied
+  ? couponData?.finalAmount || total
+  : total;
+
+
+const applyCoupon = async () => {
+
+  if (!coupon.trim()) {
+    setCouponError("Please enter coupon code");
+    return;
+  }
+
+  try {
+
+    setCouponLoading(true);
+    setCouponError("");
+
+    const res = await axios.post(
+      "https://veggiehub-1037.onrender.com/api/coupons/apply",
+      {
+        code: coupon.trim().toUpperCase(),
+        amount: total
+      }
+    );
+
+    if (res.data.success) {
+
+      setCouponData(res.data);
+      setCouponApplied(true);
+
+    }
+
+  } catch (error) {
+
+    console.log("COUPON ERROR:", error);
+    console.log("status",error.response?.status);
+    console.log("data",error.response?.data);
+    console.log("url",error.config?.url);
+    setCouponApplied(false);
+    setCouponData(null);
+
+    setCouponError(
+      error.response?.data?.message ||
+      `Coupon failed (${error.response?.status || "Network error"})`
+      
+    );
+
+  } finally {
+
+    setCouponLoading(false);
+
+  }
+
+};
+
+
+const removeCoupon = () => {
+
+  setCoupon("");
+  setCouponApplied(false);
+  setCouponData(null);
+  setCouponError("");
+
+};
 
 
     const handlePayment = async () => {
@@ -36,7 +108,7 @@ try{
 const response = await axios.post(
 "https://veggiehub-1037.onrender.com/api/payment/order",
 {
-amount: total
+amount: finalTotal
 }
 );
 
@@ -92,7 +164,7 @@ const res = await axios.post(
       0
     ),
 
-    productPrice: total,
+    productPrice: finalTotal,
 
     payment: "ONLINE",
 
@@ -102,7 +174,7 @@ const res = await axios.post(
 
     items: cartItems,
 
-    total: total
+    total: finalTotal
   }
 );
 
@@ -177,7 +249,7 @@ if (payment === "COD") {
 
         productName: cartItems.map(item => item.name).join(", "),
 
-        productPrice: total,
+        productPrice: finalTotal,
 
         quantity: cartItems.reduce(
           (sum, item) => sum + item.qty,
@@ -190,7 +262,7 @@ if (payment === "COD") {
 
         paymentStatus: "Pending",
 
-        total: total
+        total: finalTotal
       }
     );
 
@@ -403,7 +475,7 @@ setplaceorder(false);
         disabled={placeorder}
       >
         {
-          placeorder ? "Placing Order..." : `Place Order - ₹${total} `
+          placeorder ? "Placing Order..." : `Place Order - ₹${finalTotal} `
         }
        
       </button>
@@ -416,23 +488,163 @@ setplaceorder(false);
       </div>
 
       <div className="right-side">
-        <h3>Order Summary</h3>
-       
-         <div className="summary-card">
-        <p className="final-stage">Subtotal: ({cartItems.length} items)</p>
-        <h6 className="total-pricedd">₹{total}</h6>
-        </div>
-        <div className="summary-card  delivery-boxed">
-        <p>Delivery:</p>
-        <span className="free-del">Free</span>
-        </div>
-        <hr className="hor-liner" />
-        <div className="summary-card total-amounted">
-        <h2>Total:</h2>
-        <span>₹{total}</span>
-        </div>
-       
+
+  <h3>Order Summary</h3>
+
+  <div className="coupon-box">
+
+    <div className="coupon-heading">
+      <span className="coupon-icon"><FaGift/></span>
+
+      <div>
+        <h4>Have a Coupon?</h4>
+        <p>Save more on your order</p>
       </div>
+    </div>
+
+    {!couponApplied ? (
+      <div className="coupon-input-row">
+
+        <input
+          type="text"
+          placeholder="Enter coupon code"
+          value={coupon}
+          onChange={(e) => {
+            setCoupon(e.target.value.toUpperCase());
+            setCouponError("");
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              applyCoupon();
+            }
+          }}
+        />
+
+        <button onClick={applyCoupon}
+        disabled={couponLoading}>
+          {couponLoading ? "..." : "Apply"}
+          
+        </button>
+
+      </div>
+    ) : (
+      <div className="coupon-applied">
+
+        <div className="coupon-success">
+
+          <div className="coupon-check">
+            <FaCheck />
+          </div>
+
+          <div>
+            <strong>{couponData?.coupon} Applied</strong>
+            <span>{couponData?.discountPercent}%OFF you Saved ₹{couponData?.discountAmount}</span>
+          </div>
+
+        </div>
+
+        <button
+          className="remove-coupon"
+          onClick={removeCoupon}
+        >
+          Remove
+        </button>
+
+      </div>
+    )}
+
+    {couponError && (
+      <p className="coupon-error">
+        {couponError}
+      </p>
+    )}
+
+  </div>
+
+
+ 
+
+  <div className="summary-card">
+
+    <p className="final-stage">
+      Subtotal ({cartItems.length} items)
+    </p>
+
+    <h6 className="total-pricedd">
+      ₹{total}
+    </h6>
+
+  </div>
+
+
+
+
+  {couponApplied && couponData &&  (
+    <div className="summary-card discount-row">
+
+      <p>
+        Coupon Discount
+        <span className="discount-badge">
+          {couponData.discountPercent} % OFF
+        </span>
+      </p>
+
+      <span>
+        -₹{couponData.discountAmount}
+      </span>
+
+    </div>
+  )}
+
+
+
+  <div className="summary-card delivery-boxed">
+
+    <p>Delivery</p>
+
+    <span className="free-del">
+      Free
+    </span>
+
+  </div>
+
+
+  <hr className="hor-liner" />
+
+
+
+  {couponApplied && couponData && (
+    <div className="total-savings">
+
+      <FaCheck />
+
+      <span>
+        You are saving ₹{couponData.discountAmount} on this order
+      </span>
+
+    </div>
+  )}
+
+
+  <div className="summary-card total-amounted">
+
+    <div>
+      <h2>Total</h2>
+
+      {couponApplied && (
+        <small>
+          Inclusive of all applicable discounts
+        </small>
+      )}
+    </div>
+
+    <span>
+      ₹{finalTotal}
+    </span>
+
+  </div>
+
+</div>
 
     </div>
 

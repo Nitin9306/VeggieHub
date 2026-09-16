@@ -11,11 +11,11 @@ function Allproducts() {
     const location = useLocation();
     const queryparams = new URLSearchParams(location.search);
     const urlCategory = queryparams.get("category");
-
+    const urlSearch = queryparams.get("search") || "";
     const navigate = useNavigate();
 
    
-    const [search, setsearch] = useState("");
+    const [search, setsearch] = useState(urlSearch);
     const [category, setcategory] = useState(urlCategory || "All");
     const [animate,setanimate]=useState(false);
 
@@ -25,8 +25,12 @@ function Allproducts() {
             label: "All Categories"
         },
         {
-            value: "fruits-vegetables",
-            label: "Fruits & Vegetables"
+            value: "fruits",
+            label: "Fruits"
+        },
+         {
+            value: "vegetables",
+            label: "Vegetables"
         },
         {
             value: "organic",
@@ -47,7 +51,11 @@ function Allproducts() {
         {
             value: "beverages",
             label: "Beverages"
-        }
+        },
+        {
+            value: "frozen food",
+            label: "Frozen foods"
+        },
     ];
 
     const selectedCategory = categoriess.find((item)=> item.value === category);
@@ -73,6 +81,10 @@ function Allproducts() {
         }
 
     }, [urlCategory]);
+
+    useEffect(()=>{
+        setsearch(urlSearch);
+    },[urlSearch]);
 
 
    const addtoCart  = (product,e)=>{
@@ -116,13 +128,17 @@ const availableProducts = allProducts.filter((item) => item.available !== false)
 
         }
 
-        else if (category === "fruits-vegetables") {
+       else if (category === "fruits") {
 
-            matchcategory =
-                item.category === "fruits" ||
-                item.category === "vegetables";
+    matchcategory = item.category === "fruits";
 
-        }
+}
+
+else if (category === "vegetables") {
+
+    matchcategory = item.category === "vegetables";
+
+}
 
         else {
 
@@ -204,12 +220,13 @@ const availableProducts = allProducts.filter((item) => item.available !== false)
                             <div>
 
                                 <h2>
-                                    {categorytitle}
+                                    {search ? `Result for "${search}"` : categorytitle}
                                 </h2>
-
-                                <p>
-                                    {filteredProducts.length} products found
-                                </p>
+                               <p>
+    {`${filteredProducts.length} ${
+        filteredProducts.length === 1 ? "item" : "items"
+    } found`}
+</p>
 
                             </div>
 

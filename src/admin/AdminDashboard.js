@@ -2,6 +2,7 @@ import "./admindashboard.css";
 import Sidebar from "./Sidebar";
 import { useState,useEffect } from "react";
 import axios from "axios";
+import products from "../productsData";
 import {
   FaBoxOpen,
   FaShoppingCart,
@@ -27,8 +28,13 @@ const fetchStats = async () => {
       "https://veggiehub-1037.onrender.com/api/admin/stats"
     );
 
-    console.log("Stats:", res.data);
-    setstats(res.data);
+    console.log("Backend Stats:", res.data);
+
+    setstats({
+      ...res.data,
+      totalProducts: products.length + res.data.totalProducts,
+    });
+
   } catch (err) {
     console.log("Stats error:", err);
   }
@@ -92,9 +98,9 @@ const fetchStats = async () => {
           <tbody>
             {recent.map((order)=>(
               <tr key={order._id}>
-                <td>{order.name}</td>
-                <td>{order.productName}</td>
-                <td>{order.total}</td>
+                <td className="nm">{order.name}</td>
+                <td className="prod">{order.productName}</td>
+                <td className="pri">{order.total}</td>
                 <td>
                   <span className={`status ${order.status.toLowerCase()}`}>{order.status}</span>
                 </td>

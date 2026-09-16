@@ -149,8 +149,9 @@ const popular = availableProducts.slice(0, 10);
         100% FRESH & ORGANIC
       </div>
 
-      <h1>Farm Fresh <span>Goodness Delivered!</span>
+      <h1>Farm Fresh 
       </h1>
+      <span>Goodness Delivered!</span>
 
       <p>
         fresh vegetables and fruits delivered directly from farms to your doorstep.
@@ -158,8 +159,8 @@ const popular = availableProducts.slice(0, 10);
 
 
       <div className="btnes">
-      <button className="btn1" onClick={()=> navigate("/allproduct")}>Browse Products</button>
-      <button className="btn2">Explore More</button>
+      <button className="btn1" onClick={()=> navigate("/allproduct")}>Shop Now <FaArrowRight className="ar-right"/></button>
+      <button className="btn2" onClick={()=> navigate("/allproduct")}>Browse Categories</button>
 
       </div>
 
@@ -176,7 +177,7 @@ const popular = availableProducts.slice(0, 10);
         </div>
 
         <div className="stat min">
-          <h2>30 min</h2>
+          <h2>10 min</h2>
           <p>Delivery</p>
         </div>
 

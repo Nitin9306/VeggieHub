@@ -11,7 +11,8 @@
 }
 
 .admin-content h1{
-    margin-bottom:30px;
+    margin-bottom:20px;
+    font-size: 20px;
 }
 
 .cardsd{
@@ -22,25 +23,35 @@
 
 .cardy{
     background:#fff;
-    padding:25px;
+    padding:18px;
     border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
     text-align:center;
 }
 
 .icon{
-    font-size:35px;
-    color:#15803d;
-    margin-bottom:15px;
+    font-size:30px;
+    color:#0b5d2c;
+    
 }
 
 .cardy h2{
-    font-size:30px;
+    font-size:20px;
 }
 
 .cardy p{
     color:#666;
-    margin-top:10px;
+    margin-top:5px;
+}
+.nm{
+    font-weight: 600;
+    font-size: 15px;
+}
+.prod{
+    font-size: 15px;
+}
+.pri{
+    font-weight: 600;
 }
 
 @media(max-width:900px){
@@ -60,8 +71,11 @@ grid-template-columns:1fr;
 }
 }
 .recent-title{
-    margin: 35px 0 15px;
-    color: #15803d;
+    margin: 30px 0 12px;
+    color: #0b5d2c;
+    font-size: 18px;
+    font-family: 'Poppins',sans-serif;
+    font-weight: 500;
 }
 .recent-table{
     width: 100%;
@@ -72,9 +86,10 @@ grid-template-columns:1fr;
     box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
 }
 .recent-table th{
-    background-color: #15803d;
+    background-color: #0b5d2c;
     color: #fff;
-    padding: 15px;
+    padding: 10px;
+    font-weight: 500;
 }
 .recent-table td{
     padding: 15px;

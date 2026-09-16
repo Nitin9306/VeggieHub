@@ -244,13 +244,13 @@ const saveproduct = async () => {
 
 <div className="image-upload-box">
 
-    <label>
+    <label className="lab-img">
         Product Image
     </label>
 
 
     <input
-        type="file"
+        type="file" className="file-inpute"
         accept="image/*"
         onChange={(e) => {
 
@@ -278,7 +278,7 @@ const saveproduct = async () => {
 
 
 
-         <select
+         <select className="des-select"
 
     value={newproduct.category}
 

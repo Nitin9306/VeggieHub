@@ -2,12 +2,14 @@ import axios from "axios";
 import "./login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import logoe from "./images/logos.png";
 import bglogin from "./images/login.png";
+import { useToast } from "../components/ToastContext";
+
+
 
 function Login() {
-
+ const {showToast} = useToast();
     const [isRegister, setIsRegister] = useState(false);
     const [forgot,setforgot]=useState(false);
     const [forgotmail,setforgotmail]=useState("");
@@ -24,7 +26,7 @@ function Login() {
     const handleSubmit = async () => {
 if(!isRegister){
     if(!email.trim() || !password.trim()){
-        toast.warning("Please enter email and passowrd");
+        showToast("Please enter email and passowrd","warning");
         return;
     }
 }
@@ -33,13 +35,13 @@ if(!isRegister){
         if (isRegister) {
 
             if (!name.trim()) {
-                toast.warning("Please enter your name");
+                showToast("Please enter your name","warning");
                 return;
             }
 
 
             if(!email.trim() || !phone.trim() || !password.trim()){
-                toast.warning("Please fill all fields");
+               showToast("Please fill all fields","warning");
                 return;
             }
         }
@@ -71,7 +73,7 @@ if(!isRegister){
 
             if (isRegister) {
 
-                toast.success("Account Created Successfully");
+                showToast("Account Created Successfully");
 
                 setIsRegister(false);
 
@@ -85,9 +87,9 @@ if(!isRegister){
            else{
             localStorage.setItem("user",JSON.stringify(res.data.user));
             window.dispatchEvent(new Event("userLogin"));
-            toast.success("Login Successfully");
+            showToast("Login Successfully");
             setTimeout(()=>{
-                navigate("/dashboard");
+                navigate("/");
             },1000);
            }
 
@@ -96,9 +98,9 @@ if(!isRegister){
 
             console.log(error);
 
-            alert(
+           showToast(
                 error.response?.data?.message ||
-                "Something went wrong"
+                "Something went wrong","error"
             );
 
         }
@@ -202,14 +204,6 @@ if(!isRegister){
           )}
 
       
-          {/* {!isRegister && (
-            <p
-              className="forgot-password"
-              onClick={() => setforgot(true)}
-            >
-              Forgot Password?
-            </p>
-          )} */}
 
           <button
             className="auth-button"
@@ -251,15 +245,15 @@ if(!isRegister){
                         }
                       );
 
-                      alert(res.data.message);
+                     showToast(res.data.message);
 
                       setforgotmail("");
                       setforgot(false);
 
                     } catch (err) {
-                      alert(
+                     showToast(
                         err.response?.data?.message ||
-                        "Something went wrong"
+                        "Something went wrong","error"
                       );
                     }
                   }}

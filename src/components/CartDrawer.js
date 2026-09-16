@@ -60,7 +60,7 @@ const deleteItem = (id) => {
 
       <div className={`cart-drawer ${isOpen ? "open" : ""}`}>
         <div className="drawer-header">
-         <FiShoppingBag className="shoping"/><h2>Your Cart</h2>
+         <FiShoppingBag className="shopings"/><h2>Your Cart</h2>
          <span className="lengths">{cartitems.length} items</span>
           <button onClick={onClose} className="closedd">✕</button>
         </div>

@@ -9,9 +9,11 @@ import { FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes,FaHome,
         ,FaArrowUp,FaMapMarkedAlt,FaBox, 
         FaMapMarkerAlt} from "react-icons/fa";
 import { useState,useEffect } from "react";
+import {useToast} from "./ToastContext";
 
 
 function Navbar({search,setsearch}) {
+  const {showToast} =useToast();
  const [user,setuser]=useState(null);
  const [backpro,setbackpro]=useState([]);
  const navigate = useNavigate();
@@ -27,6 +29,7 @@ function Navbar({search,setsearch}) {
   setuser(null);
   setprofileicon(false);
   window.dispatchEvent(new Event ("userLogout"));
+  showToast("Logout Successfully","success");
   navigate("/login");
  };
 
@@ -51,6 +54,14 @@ function Navbar({search,setsearch}) {
   
  },[]);
 
+ const handlesearch = (e) =>{
+  if(e.key === "Enter" || e.key === "Tab"){
+    const searchValue = e.target.value.trim();
+    if(searchValue){
+      navigate(`/allproduct?search=${encodeURIComponent(searchValue)}`);
+    }
+  }
+ };
 useEffect(() => {
   const fetchproducts = async () => {
     try {
@@ -146,29 +157,12 @@ const filteredProducts = allProducts.filter((item) =>
           type="text"
           value={search}
           onChange={(e)=>setsearch(e.target.value)}
+          onKeyDown={handlesearch}
           placeholder="Search for vegetables, fruits..."
         />
         
         <FaSearch className="search-icon" />
-        {search && (
-        <div className="search-results">
-            
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((item) =>(
-              <Link
-               key={item._id || item.id}
-               to={`/product/${item._id || item.id}`}
-               onClick={()=> setsearch("")}>
-                <p>{item.name}</p>
-               </Link>
-            ))
-          ): (
-            <p className="no-product">No product found</p>
-          )}
         
-
-        </div>
-        )}
       </div>
 
       <div className= "homes">
@@ -283,28 +277,7 @@ const filteredProducts = allProducts.filter((item) =>
       />
 
 
-      {search && (
-        <div className="search-results">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((item) => (
-              <Link
-                key={item._id || item.id}
-                to={`/product/${item._id || item.id}`}
-                onClick={() => {
-                  setsearch("");
-                  setshowsearch(false);
-                }}
-              >
-                <p>{item.name}</p>
-              </Link>
-            ))
-          ) : (
-            <p className="no-product">
-              No product found
-            </p>
-          )}
-        </div>
-      )}
+  
     
   </div>
   </div>

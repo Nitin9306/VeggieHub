@@ -1,7 +1,7 @@
 import logo from "./pages/images/logos.png";
 import "./footer.css";
 import { Link } from "react-router-dom";
-import { FaFacebookF,FaInstagram,FaTwitter,FaYoutube, FaPhone,FaEnvelope,FaMapMarkedAlt} from "react-icons/fa";
+import { FaFacebookF,FaInstagram,FaTwitter,FaYoutube, FaPhone,FaEnvelope,FaMapMarkerAlt} from "react-icons/fa";
 function footer(){
     return(
         <>
@@ -51,7 +51,7 @@ function footer(){
                         <h2>Contact Us</h2>
                         <li className="num"> <FaPhone  className="support m ph"/>91+9306593030</li>
                          <li> <FaEnvelope className="support m" />support@veggiehub.com</li>
-                          <li className="ade"> <FaMapMarkedAlt  className="support m"/>yamuna nagar Haryana india (135001)</li>
+                          <li className="ade"> <FaMapMarkerAlt  className="support m"/>yamuna nagar Haryana india (135001)</li>
                            
                     </ul>
                 </div>

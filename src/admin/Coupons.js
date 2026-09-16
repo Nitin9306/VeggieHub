@@ -23,22 +23,36 @@ function Coupons(){
         }
     };
 
-    const addCoupon = async () =>{
-        try{
-            await axios.post("http://localhost:5000/api/coupons", newcop);
-            alert("Coupon Added Successsfully");
-            setnewcop({
-                code:"",
-                discount:"",
-                expiry:"",
-                active:true,
-            });
-            fetchcoupons();
-        } catch (err){
-            console.log(err);
-            alert("Failed to add Coupon");
-        }
-    };
+  const addCoupon = async () => {
+    try {
+        const res = await axios.post(
+            "http://localhost:5000/api/coupons",
+            newcop
+        );
+
+        console.log("ADD COUPON RESPONSE:", res.data);
+
+        alert("Coupon Added Successfully");
+
+        setnewcop({
+            code: "",
+            discount: "",
+            expiry: "",
+            active: true,
+        });
+
+        fetchcoupons();
+
+    } catch (err) {
+        console.log("ADD COUPON ERROR:", err);
+        console.log("SERVER ERROR:", err.response?.data);
+
+        alert(
+            err.response?.data?.message ||
+            "Failed to add Coupon"
+        );
+    }
+};
 
         const deletecoupon = async  (id) =>{
             try{

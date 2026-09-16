@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "./Sidebar";
+import { FaBox,FaUser,FaMapMarkerAlt,FaShoppingCart,FaCreditCard} from "react-icons/fa";
 import "./Orders.css";
 
 function Orders() {
@@ -67,7 +68,7 @@ function Orders() {
 
                     <tr>
 
-                        <th>Customer Name</th>
+                        <th className="c-name">Customer name</th>
 
                         <th>Product</th>
 
@@ -92,7 +93,7 @@ function Orders() {
 
                             <td>{order.name}</td>
 
-                            <td>
+                            <td className="p-data">
                                 {order.productName ||
                                     order.items?.map(item => item.name).join(", ")
                                 }
@@ -121,7 +122,7 @@ function Orders() {
                             <td className="order-actions">
 
 
-                                <select
+                                <select className="stat-drop"
                                     value={order.status}
                                     onChange={(e) =>
                                         updatestatus(
@@ -163,7 +164,7 @@ function Orders() {
 
 
                                 <button
-                                    className="view-details-btn"
+                                    className="view-details-btn2"
                                     onClick={() =>
                                         setSelectedOrder(order)
                                     }
@@ -206,14 +207,14 @@ function Orders() {
                         </button>
 
 
-                        <h2>📦 Order Details</h2>
+                        <h2><FaBox className="box-order"/> Order Details</h2>
 
 
                
 
                         <div className="detail-section">
 
-                            <h3>👤 Customer Details</h3>
+                            <h3><FaUser className="box-order"/> Customer Details</h3>
 
                             <p>
                                 <b>Name:</b>
@@ -239,7 +240,7 @@ function Orders() {
 
                         <div className="detail-section">
 
-                            <h3>📍 Delivery Address</h3>
+                            <h3><FaMapMarkerAlt className="box-order"/> Delivery Address</h3>
 
                             {selectedOrder.address ? (
 
@@ -281,7 +282,7 @@ function Orders() {
                 
                         <div className="detail-section">
 
-                            <h3>🛒 Ordered Products</h3>
+                            <h3><FaShoppingCart  className="box-order"/> Ordered Products</h3>
 
 
                             {selectedOrder.items &&
@@ -365,7 +366,7 @@ function Orders() {
 
                         <div className="detail-section">
 
-                            <h3>💳 Payment Details</h3>
+                            <h3><FaCreditCard className="box-order"/> Payment Details</h3>
 
                             <p>
 
@@ -393,7 +394,7 @@ function Orders() {
 
                                 Total:
                                 {" "}
-                                ₹ {selectedOrder.total}
+                                ₹{selectedOrder.total}
 
                             </h3>
 
@@ -404,7 +405,7 @@ function Orders() {
 
                         <div className="detail-section">
 
-                            <h3>📦 Current Order Status</h3>
+                            <h3><FaBox className="box-order"/> Current Order Status</h3>
 
                             <p className="current-order-status">
 

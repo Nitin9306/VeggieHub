@@ -9,9 +9,9 @@
     margin-left: 250px;
 }
 .admin-conteted h1{
-    color: #15803d;
-    font-size: 32px;
-    margin-bottom: 25px;
+    color: black;
+    font-size: 20px;
+    margin-bottom: 20px;
     font-weight: 700;
 }
 .user-tabl{
@@ -23,19 +23,19 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
 }
 .user-tabl thead{
-    background-color: #15803d;
+    background-color:#0c5225;
     color: #fff;
 }
 .user-tabl th{
-    padding: 16px;
+    padding: 9px;
     text-align: center;
     font-size: 16px;
 }
 .user-tabl td{
-    padding: 15px;
+    padding: 8px;
     text-align: center;
     border-bottom:  1px solid #eee;
-    font-size: 15px;
+    font-size: 14px;
 }
 .user-tabl tbody tr:hover{
     background-color: #f1fff4;
@@ -68,7 +68,7 @@
     background-color: #ef4444;
     color: #fff;
     border: none;
-    padding: 8px 15px;
+    padding: 6px 14px;
     border-radius: 6px;
     cursor: pointer;
     transition: .3s;
